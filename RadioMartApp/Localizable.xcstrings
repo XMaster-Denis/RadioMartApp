@@ -47,9 +47,6 @@
         }
       }
     },
-    "+" : {
-
-    },
     "=" : {
       "localizations" : {
         "ru" : {
@@ -152,6 +149,7 @@
       }
     },
     "Camera" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -267,7 +265,7 @@
     "Forgot Password" : {
 
     },
-    "Hello, 123!" : {
+    "Hello, %@!" : {
 
     },
     "in.this.project.dont.item-string" : {
@@ -319,6 +317,7 @@
       }
     },
     "My modal title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -627,6 +626,12 @@
     "Reset password" : {
 
     },
+    "run" : {
+
+    },
+    "save" : {
+
+    },
     "save-string" : {
       "localizations" : {
         "en" : {
@@ -668,13 +673,22 @@
     "SignOut" : {
 
     },
+    "string-content.language" : {
+
+    },
+    "string-displayName" : {
+
+    },
+    "string-settings" : {
+
+    },
+    "string-yourCompanyName" : {
+
+    },
     "Summa" : {
 
     },
     "teilen-string" : {
-
-    },
-    "To complete the fields" : {
 
     },
     "totalsum:-string" : {
@@ -699,6 +713,15 @@
           }
         }
       }
+    },
+    "User 1" : {
+
+    },
+    "User 2" : {
+
+    },
+    "User 3" : {
+
     },
     "X" : {
       "localizations" : {

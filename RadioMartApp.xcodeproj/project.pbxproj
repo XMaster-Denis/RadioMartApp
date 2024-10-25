@@ -13,7 +13,7 @@
 		E2089D742B2C576E00948AC5 /* ProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2089D732B2C576E00948AC5 /* ProjectModel.swift */; };
 		E2089D762B2C587E00948AC5 /* CustomerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2089D752B2C587E00948AC5 /* CustomerModel.swift */; };
 		E2089D782B2C5A6600948AC5 /* ItemProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2089D772B2C5A6600948AC5 /* ItemProjectModel.swift */; };
-		E2089D7A2B2C720900948AC5 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2089D792B2C720900948AC5 /* Settings.swift */; };
+		E2089D7A2B2C720900948AC5 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2089D792B2C720900948AC5 /* UserSettings.swift */; };
 		E20A6A152B3EC8730093DE14 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20A6A142B3EC8730093DE14 /* SignInView.swift */; };
 		E2161C952ABD9C9A00DCF561 /* logorm.svg in Resources */ = {isa = PBXBuildFile; fileRef = E2161C942ABD9C9A00DCF561 /* logorm.svg */; };
 		E21E7FB82C5027AB0004F665 /* RMBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21E7FB72C5027AB0004F665 /* RMBadgeView.swift */; };
@@ -26,11 +26,11 @@
 		E23799EA2ACBCF8300E53227 /* ImageSliderProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23799E92ACBCF8300E53227 /* ImageSliderProductView.swift */; };
 		E23799ED2ACC07A000E53227 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23799EC2ACC07A000E53227 /* LaunchScreenView.swift */; };
 		E23799EF2ACC124700E53227 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23799EE2ACC124700E53227 /* CategoryModel.swift */; };
+		E237FB022CCBCE6B00123A39 /* ElectronicsDetector.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E237FB012CCBCE6B00123A39 /* ElectronicsDetector.mlmodel */; };
 		E24075792AAD601C00C893F9 /* SVGLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24075762AAD601C00C893F9 /* SVGLoader.swift */; };
 		E240757A2AAD601C00C893F9 /* SVGView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24075772AAD601C00C893F9 /* SVGView.swift */; };
 		E24278042C6E7E3F00CC6775 /* PDFDocument+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24278032C6E7E3F00CC6775 /* PDFDocument+Extension.swift */; };
 		E245FC6E2AD686FF00697DE5 /* LocaleFormater.swift in Sources */ = {isa = PBXBuildFile; fileRef = E245FC6D2AD686FF00697DE5 /* LocaleFormater.swift */; };
-		E245FC722AD7F30000697DE5 /* MyImageClassifier 1.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = E245FC712AD7F30000697DE5 /* MyImageClassifier 1.mlmodel */; };
 		E245FC742AD7F6A700697DE5 /* AICameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E245FC732AD7F6A700697DE5 /* AICameraView.swift */; };
 		E247CED72ACAF61900F43D52 /* ImageProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E247CED62ACAF61900F43D52 /* ImageProductView.swift */; };
 		E24843572B987B14000B1A55 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24843562B987B14000B1A55 /* RegisterViewModel.swift */; };
@@ -60,6 +60,10 @@
 		E28327A72C738B120031EBDF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E28327A62C738B120031EBDF /* FirebaseFirestore */; };
 		E28327AC2C73C4240031EBDF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E28327AB2C73C4240031EBDF /* GoogleService-Info.plist */; };
 		E286C2F22B724177006EB792 /* FlowPDF in Frameworks */ = {isa = PBXBuildFile; productRef = E286C2F12B724177006EB792 /* FlowPDF */; };
+		E29E44932C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29E44922C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift */; };
+		E2A0EDFC2C8C7386006B08B4 /* SwiftOpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = E2A0EDFB2C8C7386006B08B4 /* SwiftOpenAI */; };
+		E2A0EDFE2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A0EDFD2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift */; };
+		E2A0EE022C906059006B08B4 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A0EE012C906059006B08B4 /* CameraViewController.swift */; };
 		E2B066012B95D325009138E5 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B066002B95D325009138E5 /* AuthService.swift */; };
 		E2B066042B95E736009138E5 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B066032B95E736009138E5 /* SignInViewModel.swift */; };
 		E2B066062B95EECA009138E5 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B066052B95EECA009138E5 /* String+Extension.swift */; };
@@ -71,6 +75,10 @@
 		E2CA9E432B555439001EE932 /* logo_mail.png in Resources */ = {isa = PBXBuildFile; fileRef = E2CA9E422B555439001EE932 /* logo_mail.png */; };
 		E2D0460E2B305A040043E4A9 /* ProjectLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D0460D2B305A040043E4A9 /* ProjectLineView.swift */; };
 		E2D046102B305E910043E4A9 /* ProjectPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D0460F2B305E910043E4A9 /* ProjectPanelView.swift */; };
+		E2D9F9432C8B055A002962CA /* FlowPDF in Frameworks */ = {isa = PBXBuildFile; productRef = E2D9F9422C8B055A002962CA /* FlowPDF */; };
+		E2D9F9452C8B0C68002962CA /* OpenAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D9F9442C8B0C68002962CA /* OpenAI.swift */; };
+		E2D9F9492C8B0EC4002962CA /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = E2D9F9482C8B0EC4002962CA /* Keys.plist */; };
+		E2D9F94B2C8B121E002962CA /* Keys.example.plist in Resources */ = {isa = PBXBuildFile; fileRef = E2D9F94A2C8B121E002962CA /* Keys.example.plist */; };
 		E2E3B2DE2ACA852700C57F21 /* ProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E3B2DD2ACA852700C57F21 /* ProductView.swift */; };
 		E2F280CD2B88A2B1002E2818 /* FieldsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F280CC2B88A2B1002E2818 /* FieldsView.swift */; };
 		E2FEABFB2B2DA6FB0020EF3B /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FEABFA2B2DA6FB0020EF3B /* DataBase.swift */; };
@@ -82,7 +90,7 @@
 		E2089D732B2C576E00948AC5 /* ProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectModel.swift; sourceTree = "<group>"; };
 		E2089D752B2C587E00948AC5 /* CustomerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerModel.swift; sourceTree = "<group>"; };
 		E2089D772B2C5A6600948AC5 /* ItemProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProjectModel.swift; sourceTree = "<group>"; };
-		E2089D792B2C720900948AC5 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		E2089D792B2C720900948AC5 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		E20A6A142B3EC8730093DE14 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		E2161C942ABD9C9A00DCF561 /* logorm.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = logorm.svg; sourceTree = "<group>"; };
 		E21E7FB72C5027AB0004F665 /* RMBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMBadgeView.swift; sourceTree = "<group>"; };
@@ -95,11 +103,11 @@
 		E23799E92ACBCF8300E53227 /* ImageSliderProductView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSliderProductView.swift; sourceTree = "<group>"; };
 		E23799EC2ACC07A000E53227 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		E23799EE2ACC124700E53227 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
+		E237FB012CCBCE6B00123A39 /* ElectronicsDetector.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ElectronicsDetector.mlmodel; sourceTree = "<group>"; };
 		E24075762AAD601C00C893F9 /* SVGLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVGLoader.swift; path = ../SVGLoader.swift; sourceTree = "<group>"; };
 		E24075772AAD601C00C893F9 /* SVGView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SVGView.swift; path = ../SVGView.swift; sourceTree = "<group>"; };
 		E24278032C6E7E3F00CC6775 /* PDFDocument+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PDFDocument+Extension.swift"; sourceTree = "<group>"; };
 		E245FC6D2AD686FF00697DE5 /* LocaleFormater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleFormater.swift; sourceTree = "<group>"; };
-		E245FC712AD7F30000697DE5 /* MyImageClassifier 1.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "MyImageClassifier 1.mlmodel"; sourceTree = "<group>"; };
 		E245FC732AD7F6A700697DE5 /* AICameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICameraView.swift; sourceTree = "<group>"; };
 		E247CED62ACAF61900F43D52 /* ImageProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProductView.swift; sourceTree = "<group>"; };
 		E24843562B987B14000B1A55 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
@@ -128,13 +136,21 @@
 		E27C54DF2B972BB3000A97EF /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		E27C54E12B973C55000A97EF /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		E28327AB2C73C4240031EBDF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E29E44922C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsFireBaseViewModel.swift; sourceTree = "<group>"; };
+		E2A0EDFD2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionObjectRecognitionViewController.swift; sourceTree = "<group>"; };
+		E2A0EE012C906059006B08B4 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		E2B066002B95D325009138E5 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		E2B066032B95E736009138E5 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		E2B066052B95EECA009138E5 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		E2CA9E422B555439001EE932 /* logo_mail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_mail.png; sourceTree = "<group>"; };
 		E2D0460D2B305A040043E4A9 /* ProjectLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectLineView.swift; sourceTree = "<group>"; };
 		E2D0460F2B305E910043E4A9 /* ProjectPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPanelView.swift; sourceTree = "<group>"; };
+		E2D9F9442C8B0C68002962CA /* OpenAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAI.swift; sourceTree = "<group>"; };
+		E2D9F9482C8B0EC4002962CA /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		E2D9F94A2C8B121E002962CA /* Keys.example.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.example.plist; sourceTree = "<group>"; };
 		E2E3B2DD2ACA852700C57F21 /* ProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductView.swift; sourceTree = "<group>"; };
+		E2E9717E2CB929A7004D0165 /* RadioMartApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RadioMartApp.entitlements; sourceTree = "<group>"; };
+		E2E9717F2CB929DF004D0165 /* RadioMartAppRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RadioMartAppRelease.entitlements; sourceTree = "<group>"; };
 		E2F280CC2B88A2B1002E2818 /* FieldsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldsView.swift; sourceTree = "<group>"; };
 		E2FEABFA2B2DA6FB0020EF3B /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -149,10 +165,12 @@
 				E25D0CE12C626D4400A1FCF3 /* FlowPDF in Frameworks */,
 				E2BAA0D02C70834200E6FA22 /* FirebaseInAppMessaging-Beta in Frameworks */,
 				E2B830952ADA505500E27332 /* Kingfisher in Frameworks */,
+				E2D9F9432C8B055A002962CA /* FlowPDF in Frameworks */,
 				E28327A72C738B120031EBDF /* FirebaseFirestore in Frameworks */,
 				E2B830922ADA4FB800E27332 /* Alamofire in Frameworks */,
 				E2BAA0CE2C70834200E6FA22 /* FirebaseAuth in Frameworks */,
 				E203220A2ADA914E00D19665 /* RichText in Frameworks */,
+				E2A0EDFC2C8C7386006B08B4 /* SwiftOpenAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,7 +197,7 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		E20A6A122B3EC5030093DE14 /* AccountView  */ = {
+		E20A6A122B3EC5030093DE14 /* AccountView */ = {
 			isa = PBXGroup;
 			children = (
 				E20A6A142B3EC8730093DE14 /* SignInView.swift */,
@@ -189,7 +207,7 @@
 				E27C54DD2B9729A7000A97EF /* HomeAccountView.swift */,
 				E2F280CC2B88A2B1002E2818 /* FieldsView.swift */,
 			);
-			path = "AccountView ";
+			path = AccountView;
 			sourceTree = "<group>";
 		};
 		E20A6A132B3EC5640093DE14 /* AIView */ = {
@@ -197,6 +215,8 @@
 			children = (
 				E245FC732AD7F6A700697DE5 /* AICameraView.swift */,
 				E24B8C6B2ADD012E00DA96FE /* CameraAI.swift */,
+				E2A0EDFD2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift */,
+				E2A0EE012C906059006B08B4 /* CameraViewController.swift */,
 			);
 			path = AIView;
 			sourceTree = "<group>";
@@ -287,6 +307,8 @@
 		E27066082AAC591200C58C1B /* RadioMartApp */ = {
 			isa = PBXGroup;
 			children = (
+				E2E9717F2CB929DF004D0165 /* RadioMartAppRelease.entitlements */,
+				E2E9717E2CB929A7004D0165 /* RadioMartApp.entitlements */,
 				E20612582B3454D20044E156 /* Extension */,
 				E227CB6C2AAC846900B6DF8F /* SVGReader */,
 				E227CB672AAC787700B6DF8F /* Resourses */,
@@ -297,12 +319,15 @@
 				E27C42FD2ABE9FEA0036E96C /* Views */,
 				E27C43002ABEA0310036E96C /* Services */,
 				E2051A312B49482C00FAC220 /* CustomViews */,
+				E29E44912C74CBD200A5C922 /* ViewModel */,
 				E27C42FF2ABEA01A0036E96C /* Models */,
 				E270660D2AAC591300C58C1B /* Assets.xcassets */,
 				E28327AB2C73C4240031EBDF /* GoogleService-Info.plist */,
 				E26E3D882B3ACB0B00E0AC0D /* Localizable.xcstrings */,
-				E245FC712AD7F30000697DE5 /* MyImageClassifier 1.mlmodel */,
+				E237FB012CCBCE6B00123A39 /* ElectronicsDetector.mlmodel */,
 				E270660F2AAC591300C58C1B /* Preview Content */,
+				E2D9F9482C8B0EC4002962CA /* Keys.plist */,
+				E2D9F94A2C8B121E002962CA /* Keys.example.plist */,
 			);
 			path = RadioMartApp;
 			sourceTree = "<group>";
@@ -323,7 +348,7 @@
 				E23268DD2AD500C200FA9CB7 /* CatalogViews */,
 				E2D0460C2B3059B40043E4A9 /* ProjectsViews */,
 				E20A6A132B3EC5640093DE14 /* AIView */,
-				E20A6A122B3EC5030093DE14 /* AccountView  */,
+				E20A6A122B3EC5030093DE14 /* AccountView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -336,7 +361,7 @@
 				E2089D732B2C576E00948AC5 /* ProjectModel.swift */,
 				E2089D752B2C587E00948AC5 /* CustomerModel.swift */,
 				E2089D772B2C5A6600948AC5 /* ItemProjectModel.swift */,
-				E2089D792B2C720900948AC5 /* Settings.swift */,
+				E2089D792B2C720900948AC5 /* UserSettings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -351,8 +376,17 @@
 				E245FC6D2AD686FF00697DE5 /* LocaleFormater.swift */,
 				E23268DB2AD5008300FA9CB7 /* Routing.swift */,
 				E2B066022B95E71F009138E5 /* Auth */,
+				E2D9F9442C8B0C68002962CA /* OpenAI.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		E29E44912C74CBD200A5C922 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E29E44922C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		E2B066022B95E71F009138E5 /* Auth */ = {
@@ -403,6 +437,8 @@
 				E2BAA0CD2C70834200E6FA22 /* FirebaseAuth */,
 				E2BAA0CF2C70834200E6FA22 /* FirebaseInAppMessaging-Beta */,
 				E28327A62C738B120031EBDF /* FirebaseFirestore */,
+				E2D9F9422C8B055A002962CA /* FlowPDF */,
+				E2A0EDFB2C8C7386006B08B4 /* SwiftOpenAI */,
 			);
 			productName = RadioMartApp;
 			productReference = E27066062AAC591200C58C1B /* RadioMartApp.app */;
@@ -439,8 +475,9 @@
 				E2B830932ADA505500E27332 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				E2B830962ADA50A000E27332 /* XCRemoteSwiftPackageReference "SWXMLHash" */,
 				E20322082ADA914E00D19665 /* XCRemoteSwiftPackageReference "RichText" */,
-				E25D0CDF2C626D4400A1FCF3 /* XCLocalSwiftPackageReference "../GIT/FlowPDF" */,
 				E2BAA0CC2C70834200E6FA22 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				E2D9F9412C8B055A002962CA /* XCLocalSwiftPackageReference "../FlowPDF" */,
+				E2A0EDFA2C8C7386006B08B4 /* XCRemoteSwiftPackageReference "SwiftOpenAI" */,
 			);
 			productRefGroup = E27066072AAC591200C58C1B /* Products */;
 			projectDirPath = "";
@@ -456,12 +493,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2D9F9492C8B0EC4002962CA /* Keys.plist in Resources */,
 				E28327AC2C73C4240031EBDF /* GoogleService-Info.plist in Resources */,
 				E27066112AAC591300C58C1B /* Preview Assets.xcassets in Resources */,
 				E26E3D892B3ACB0B00E0AC0D /* Localizable.xcstrings in Resources */,
 				E226DDE02B552BC70072F535 /* pdf-test.pdf in Resources */,
 				E2CA9E432B555439001EE932 /* logo_mail.png in Resources */,
 				E270660E2AAC591300C58C1B /* Assets.xcassets in Resources */,
+				E2D9F94B2C8B121E002962CA /* Keys.example.plist in Resources */,
 				E2161C952ABD9C9A00DCF561 /* logorm.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -479,28 +518,31 @@
 				E2FEABFB2B2DA6FB0020EF3B /* DataBase.swift in Sources */,
 				E2089D782B2C5A6600948AC5 /* ItemProjectModel.swift in Sources */,
 				E24278042C6E7E3F00CC6775 /* PDFDocument+Extension.swift in Sources */,
+				E237FB022CCBCE6B00123A39 /* ElectronicsDetector.mlmodel in Sources */,
 				E24B8C6C2ADD012E00DA96FE /* CameraAI.swift in Sources */,
 				E23268DC2AD5008300FA9CB7 /* Routing.swift in Sources */,
 				E23268DA2AD4F34B00FA9CB7 /* CatalogAndProductsView.swift in Sources */,
 				E264954F2B40299B0014A669 /* ItemRowDetailForIPhoneView.swift in Sources */,
 				E2B066062B95EECA009138E5 /* String+Extension.swift in Sources */,
 				E2051A332B49491800FAC220 /* IconTextFieldModalView.swift in Sources */,
+				E29E44932C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift in Sources */,
 				E2D046102B305E910043E4A9 /* ProjectPanelView.swift in Sources */,
 				E226DDDE2B5529840072F535 /* PDF.swift in Sources */,
+				E2A0EDFE2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift in Sources */,
 				E24D52BB2C68DA2E00D7098D /* PDFSwiftUIView.swift in Sources */,
 				E2D0460E2B305A040043E4A9 /* ProjectLineView.swift in Sources */,
 				E21E7FBB2C5575240004F665 /* ItemsListFromProjectPDF.swift in Sources */,
-				E2089D7A2B2C720900948AC5 /* Settings.swift in Sources */,
+				E2089D7A2B2C720900948AC5 /* UserSettings.swift in Sources */,
 				E24843572B987B14000B1A55 /* RegisterViewModel.swift in Sources */,
 				E24D52B62C689E9600D7098D /* ProjectToPDF.swift in Sources */,
 				E227CB6B2AAC79E000B6DF8F /* AnimationLogoWebView.swift in Sources */,
-				E245FC722AD7F30000697DE5 /* MyImageClassifier 1.mlmodel in Sources */,
 				E240757A2AAD601C00C893F9 /* SVGView.swift in Sources */,
 				E23799ED2ACC07A000E53227 /* LaunchScreenView.swift in Sources */,
 				E27C54E02B972BB3000A97EF /* AccountView.swift in Sources */,
 				E2B066042B95E736009138E5 /* SignInViewModel.swift in Sources */,
 				E247CED72ACAF61900F43D52 /* ImageProductView.swift in Sources */,
 				E27C42FC2ABE95A10036E96C /* CatalogNavigationView.swift in Sources */,
+				E2D9F9452C8B0C68002962CA /* OpenAI.swift in Sources */,
 				E24D52B92C68D1F800D7098D /* ReportPDFProtocol.swift in Sources */,
 				E24075792AAD601C00C893F9 /* SVGLoader.swift in Sources */,
 				E264954D2B4002B50014A669 /* ProjectDetailView.swift in Sources */,
@@ -523,6 +565,7 @@
 				E20A6A152B3EC8730093DE14 /* SignInView.swift in Sources */,
 				E2089D742B2C576E00948AC5 /* ProjectModel.swift in Sources */,
 				E24843592B9880B0000B1A55 /* ForgotPasswordView.swift in Sources */,
+				E2A0EE022C906059006B08B4 /* CameraViewController.swift in Sources */,
 				E2089D762B2C587E00948AC5 /* CustomerModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -658,6 +701,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = RadioMartApp/RadioMartApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RadioMartApp/Preview Content\"";
@@ -698,6 +742,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = RadioMartApp/RadioMartAppRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RadioMartApp/Preview Content\"";
@@ -756,9 +801,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		E25D0CDF2C626D4400A1FCF3 /* XCLocalSwiftPackageReference "../GIT/FlowPDF" */ = {
+		E2D9F9412C8B055A002962CA /* XCLocalSwiftPackageReference "../FlowPDF" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../GIT/FlowPDF;
+			relativePath = ../FlowPDF;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -769,6 +814,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 2.3.0;
+			};
+		};
+		E2A0EDFA2C8C7386006B08B4 /* XCRemoteSwiftPackageReference "SwiftOpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jamesrochabrun/SwiftOpenAI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
 			};
 		};
 		E2B830902ADA4FB700E27332 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
@@ -824,6 +877,11 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = FlowPDF;
 		};
+		E2A0EDFB2C8C7386006B08B4 /* SwiftOpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E2A0EDFA2C8C7386006B08B4 /* XCRemoteSwiftPackageReference "SwiftOpenAI" */;
+			productName = SwiftOpenAI;
+		};
 		E2B830912ADA4FB700E27332 /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E2B830902ADA4FB700E27332 /* XCRemoteSwiftPackageReference "Alamofire" */;
@@ -848,6 +906,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E2BAA0CC2C70834200E6FA22 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseInAppMessaging-Beta";
+		};
+		E2D9F9422C8B055A002962CA /* FlowPDF */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FlowPDF;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

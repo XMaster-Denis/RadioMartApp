@@ -8,12 +8,31 @@
 import SwiftUI
 import RichText
 
+
+
 struct ProductView: View {
     let product: Product
     @State var productImagesURL: [URL] = []
     @State var selectedImage: String = ""
     @State var zoomedImage: String = ""
     @State private var anchorZoom: UnitPoint = .center
+    @State private var descriptionAllRichText: String = ""
+    
+    init(product: Product) {
+        self.product = product
+        
+        _descriptionAllRichText = State(initialValue: product.descriptionAllRichText)
+    }
+    
+
+//    func translateProductName(_ name: String) {
+//        Task {
+//            let translated = await performTranslation(for: name)
+//            DispatchQueue.main.async {
+//                translatedName = translated
+//            }
+//        }
+//    }
     
     var body: some View {
         GeometryReader { geometryScreen in
@@ -71,9 +90,20 @@ struct ProductView: View {
                     selectedImage = productImagesURL.first?.absoluteString ?? ""
                 }
                 .scrollIndicators(.hidden)
-             
-                RichText(html: product.descriptionAllRichText)
+                AsyncImage(url: URL(string: "https://picsum.photos/id/12/600")) { image in
+                    image.resizable()
+                } placeholder: {
+                    ProgressView()
+                }
+                .frame(width: 200, height: 200)
+                RichText(html: descriptionAllRichText)
                     .padding(.horizontal)
+                    .onAppear{
+                        Task{
+                            await descriptionAllRichText = OpenAI.shared.askQuestion(prompt: "Translate this Russian html content into English while preserving the entire structure and links without ```html" + product.descriptionAllRichText)
+                             print(descriptionAllRichText)
+                        }
+                    }
             }
         }
     }
@@ -129,6 +159,6 @@ struct ZoomImage<Content: View>: View {
 
 
 #Preview {
-    ProductView(product: Product(id: 1234, id_default_image: "19919", reference: "12478", price: "125", description: "description", description_short: "description_short description_short description_short description_short description_short", name: "Передатчик 333") )
+    ProductView(product: Product(id: 1234, id_default_image: "19919", reference: "12478", price: "125", description: "Карта памяти — компактное электронное запоминающее устройство, используемое для хранения цифровой информации. Современные карты памяти изготавливаются на основе флеш-памяти, хотя принципиально могут использоваться и другие технологии. Комплект поставки и внешний вид данного товара могут отличаться от указанных на фотографиях в каталоге интернет-магазина.", description_short: "description_short description_short description_short description_short description_short", name: "Передатчик 333") )
     
 }

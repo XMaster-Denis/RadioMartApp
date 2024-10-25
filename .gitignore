@@ -49,6 +49,7 @@ ci/
 # Firebase
 #
 GoogleService-Info.plist
+Keys.plist
 
 # Other
 #
@@ -60,7 +61,6 @@ GoogleService-Info.plist
 *.der
 *.sublime-workspace
 *.xcsettings
-*.plist
 
 # IDE preferences
 #

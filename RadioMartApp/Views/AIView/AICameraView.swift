@@ -9,17 +9,24 @@ import SwiftUI
 import AVFoundation
 
 struct AICameraView: View {
-    let captureSession = AVCaptureSession()
+    //@State var captureSession = AVCaptureSession()
     @State var cameraOn = false
     var body: some View {
         VStack {
             Text("AiCameraView")
-            CameraAIPreview(isCameraOn: $cameraOn, captureSession: captureSession)
+                .onAppear{
+                    cameraOn = true
+                }
+                .onDisappear(){
+                    //captureSession.stopRunning()
+                    cameraOn = false
+                }
+            CameraPreview(isCameraOn: $cameraOn)
+
             
         }
-        .onAppear{
-            cameraOn = true
-        }
+        
+        
     }
 }
 

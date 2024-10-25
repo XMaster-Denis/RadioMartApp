@@ -88,6 +88,27 @@ class PSServer {
         return result
     }
     
+    
+    // https://radiomart.kz/api/images/products/\(idProduct)?output_format=JSON
+    static func getImagesURLBy2(idProduct:Int) async -> [URL] {
+        var result: [URL] = []
+        do {
+            let data = try await AF.request(baseURLAPI + "images/products/\(idProduct)")
+                .authenticate(username: privateAPIKey, password: passwordAPIKey)
+                .serializingData().value
+            let xml = XMLHash.parse(data)
+            for elem in xml["prestashop"]["image"]["declination"].all {
+                guard let stringURL = elem.element?.attribute(by: "xlink:href")?.text,
+                      let url = URL(string: stringURL )  else {continue}
+                result.append(url)
+            }
+        } catch {
+            
+        }
+        return result
+    }
+    
+    
     static func getDataCategoryBy(idCategory:Int) async -> CategoryModel {
         
         let result: CategoryModel = CategoryModel()

@@ -14,12 +14,78 @@ struct CatalogAndProductsView: View {
     @StateObject var categoriesModel = CategoryModel()
     @StateObject var productsModel = ProductsModel()
     @StateObject var settings = DataBase.shared.getSettings()
-    
     init(id: Int) {
         
         currentCategory = id
     }
     
+//    // Функция для загрузки и сохранения изображений в папку "Images3"
+//       func downloadAndSaveImages(from urls: [URL]) async {
+//           let imagesFolder = getImagesDirectory()
+//
+//           for url in urls {
+//               do {
+//                   // Загружаем данные по URL
+//                   let (data, _) = try await URLSession.shared.data(from: url)
+//
+//                   // Определяем имя файла (последний компонент URL + .jpg)
+//                   let filename = url.deletingPathExtension().lastPathComponent + ".jpg"
+//                   let fileURL = imagesFolder.appendingPathComponent(filename)
+//
+//                   // Сохраняем файл в папку Images3
+//                   try data.write(to: fileURL)
+//
+//                   print("Изображение сохранено: \(fileURL)")
+//               } catch {
+//                   print("Ошибка при загрузке или сохранении изображения: \(error)")
+//               }
+//           }
+//       }
+    
+    // Функция для параллельной загрузки изображений и их сохранения
+//     func downloadImagesConcurrently() async {
+//         let imagesFolder = getImagesDirectory()
+//
+//         await withTaskGroup(of: Void.self) { group in
+//             for product in productsModel.products {
+//                 group.addTask {
+//                     let imageURLs = await PSServer.getImagesURLBy2(idProduct: product.id)
+//
+//                     for url in imageURLs {
+//                         do {
+//                             let (data, _) = try await URLSession.shared.data(from: url)
+//                             let filename = url.deletingPathExtension().lastPathComponent + ".jpg"
+//                             let fileURL = imagesFolder.appendingPathComponent(filename)
+//
+//                             try data.write(to: fileURL)
+//                             print("Изображение сохранено: \(fileURL)")
+//                         } catch {
+//                             print("Ошибка при загрузке или сохранении изображения: \(error)")
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+       // Функция для получения пути к папке "Images3" и создания ее, если она не существует
+//       func getImagesDirectory() -> URL {
+//           let fileManager = FileManager.default
+//           let appDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
+//           let imagesFolder = appDirectory.appendingPathComponent("Images3")
+//
+//           // Проверяем, существует ли папка, если нет — создаем
+//           if !fileManager.fileExists(atPath: imagesFolder.path) {
+//               do {
+//                   try fileManager.createDirectory(at: imagesFolder, withIntermediateDirectories: true, attributes: nil)
+//                   print("Папка Images3 создана по пути: \(imagesFolder.path)")
+//               } catch {
+//                   print("Не удалось создать папку Images3: \(error)")
+//               }
+//           }
+//
+//           return imagesFolder
+//       }
     
     var body: some View {
         ZStack {
@@ -40,7 +106,37 @@ struct CatalogAndProductsView: View {
                 
                 
                 if (productsModel.products.count != 0) {
+                    
                     Section("products-string"){
+//                        Button("Download Images") {
+//                            Task {
+//                                await downloadImagesConcurrently()
+////                                // Создаем пустой массив для хранения всех URL
+////                                var allProductImagesURL: [URL] = []
+////                                
+////                                // Используем TaskGroup для параллельного выполнения задач
+////                                await withTaskGroup(of: [URL].self) { group in
+////                                    for product in productsModel.products {
+////                                        // Добавляем задачу в группу для каждого продукта
+////                                        group.addTask {
+////                                            let productImagesURL = await PSServer.getImagesURLBy2(idProduct: product.id)
+////                                            return productImagesURL
+////                                        }
+////                                    }
+////                                    
+////                                    // Суммируем результаты всех задач
+////                                    for await imagesURL in group {
+////                                        allProductImagesURL.append(contentsOf: imagesURL)
+////                                    }
+////                                }
+////                                
+////                                // Теперь у вас есть все URL-адреса изображений
+////                                print("Все URL изображений: \(allProductImagesURL)")
+////                                // Скачиваем изображения и сохраняем их на телефон
+////                                await downloadAndSaveImages(from: allProductImagesURL)
+//                            }
+//                            
+//                        }
                         ForEach(productsModel.products){ product in
                             Button(action: {
                                 Router.shared.catalogPath.append(product)

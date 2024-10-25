@@ -9,6 +9,7 @@ import SwiftUI
 import Alamofire
 
 
+
 // MARK: - ProductElement
 struct Product: Codable, Identifiable, Hashable {
     var id: Int
@@ -40,6 +41,7 @@ struct Product: Codable, Identifiable, Hashable {
         let htmlEnd = "</BODY></HTML>"
         let addedHTML = rawString.replacingOccurrences(of: "src=\"/", with: "src=\"\(baseURL)")
         let htmlString = "\(htmlStart)\(addedHTML)\(htmlEnd)"
+        
         return htmlString
     }
 }
