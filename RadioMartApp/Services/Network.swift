@@ -40,27 +40,60 @@ class PSServer {
     
     static func getBaseURL() -> String {baseURL}
     
-    static func getProductsBy(idCategory:Int, fields: Field,
-                              compl: @escaping([Product])->Void) {
-        AF.request(baseURLAPI + "products/?display=" + fields.rawValue + "&output_format=JSON&filter[id_category_default]=\(idCategory)")
-            .authenticate(username: privateAPIKey, password: passwordAPIKey)
-            .response
-        { response in
-            if let data = response.data { //, let utf8Text = String(data: data, encoding: .utf8) {
-                if data.count == 2 {
-                    return
-                }
+    //    static func getProductsBy(idCategory:Int, fields: Field,
+    //                              compl: @escaping([Product])->Void) {
+    //        AF.request(baseURLAPI + "products/?display=" + fields.rawValue + "&output_format=JSON&filter[id_category_default]=\(idCategory)")
+    //            .authenticate(username: privateAPIKey, password: passwordAPIKey)
+    //            .response
+    //        { response in
+    //            if let data = response.data { //, let utf8Text = String(data: data, encoding: .utf8) {
+    //                if data.count == 2 {
+    //                    return
+    //                }
+    //            }
+    //
+    //            var prod: ProductsJSON = ProductsJSON(products: [])
+    //            do {
+    //                prod = try JSONDecoder().decode(ProductsJSON.self, from: response.data!)
+    //            } catch {
+    //                print(error)
+    //                print("Error in getProductsBy")
+    //            }
+    //            compl(prod.products)
+    //        }
+    //    }
+    static func getProductsBy(idCategory:Int, fields: Field) async -> ProductsModel {
+        let result = ProductsModel()
+        do {
+            
+//            print("response")
+//            print(baseURLAPI + "products/?display=" + fields.rawValue + "&output_format=JSON&filter[id_category_default]=\(idCategory)")
+//            print("response")
+            let response = try await AF.request(baseURLAPI + "products/?display=" + fields.rawValue + "&output_format=JSON&filter[id_category_default]=\(idCategory)")
+                .authenticate(username: privateAPIKey, password: passwordAPIKey)
+                .serializingData().value
+//            print(response)
+            
+            // Prestashop returns only [ ] if no products found. Treatment of incorrect API.
+            
+            if response.count == 2 {
+                return result
             }
+            
             
             var prod: ProductsJSON = ProductsJSON(products: [])
             do {
-                prod = try JSONDecoder().decode(ProductsJSON.self, from: response.data!)
+                prod = try JSONDecoder().decode(ProductsJSON.self, from: response)
             } catch {
-                print(error)
-                print("Error in getProductsBy")
+                print("Error in getProductsBy \(error)")
             }
-            compl(prod.products)
+            result.products = prod.products
+            
+        } catch {
+            print("Error in getProductsBy \(error)")
+            
         }
+        return result
     }
     
     // https://radiomart.kz/api/images/products/1057/19919

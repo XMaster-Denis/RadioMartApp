@@ -2,9 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>OPENAI_API_KEY_PROJECT</key>
-	<string>your-openai-key-project-here</string>
-	<key>OPENAI_API_KEY</key>
-	<string>your-openai-key-here</string>
+	<key>TRANSLATE_KEY</key>
+	<string>server-bearer-key</string>
 </dict>
 </plist>

@@ -24,15 +24,15 @@ struct ProductView: View {
         _descriptionAllRichText = State(initialValue: product.descriptionAllRichText)
     }
     
-
-//    func translateProductName(_ name: String) {
-//        Task {
-//            let translated = await performTranslation(for: name)
-//            DispatchQueue.main.async {
-//                translatedName = translated
-//            }
-//        }
-//    }
+    
+    //    func translateProductName(_ name: String) {
+    //        Task {
+    //            let translated = await performTranslation(for: name)
+    //            DispatchQueue.main.async {
+    //                translatedName = translated
+    //            }
+    //        }
+    //    }
     
     var body: some View {
         GeometryReader { geometryScreen in
@@ -90,18 +90,22 @@ struct ProductView: View {
                     selectedImage = productImagesURL.first?.absoluteString ?? ""
                 }
                 .scrollIndicators(.hidden)
-                AsyncImage(url: URL(string: "https://picsum.photos/id/12/600")) { image in
-                    image.resizable()
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(width: 200, height: 200)
                 RichText(html: descriptionAllRichText)
                     .padding(.horizontal)
                     .onAppear{
-                        Task{
-                            await descriptionAllRichText = OpenAI.shared.askQuestion(prompt: "Translate this Russian html content into English while preserving the entire structure and links without ```html" + product.descriptionAllRichText)
-                             print(descriptionAllRichText)
+                        Task {
+                            
+                            let userFB = UserSettingsFireBaseViewModel.shared
+                            if userFB.settings.contentLanguage != .RU {
+                                do {
+                                    guard  let descriptionTranslation = try await fetchTranslation(words: [product.descriptionAllRichText], targetLanguage: userFB.settings.contentLanguage.rawValue, contentType: .html).first else {
+                                        throw TranslationServiceError.invalidData
+                                    }
+                                    descriptionAllRichText = descriptionTranslation
+                                } catch {
+                                    print("Ошибка при получении перевода: \(error)")
+                                }
+                            }
                         }
                     }
             }

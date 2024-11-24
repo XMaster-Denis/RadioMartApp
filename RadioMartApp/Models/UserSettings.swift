@@ -27,7 +27,9 @@ final class Settings: ObservableObject {
 }
 
 enum ContentLanguages: String, CaseIterable, Identifiable, Codable {
-    case RU, DE, EN
+    case DE = "German"
+    case EN = "English"
+    case RU = "Russian"
     
     var id: Self { self }
 }

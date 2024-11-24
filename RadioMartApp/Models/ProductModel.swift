@@ -47,17 +47,57 @@ struct Product: Codable, Identifiable, Hashable {
 }
 
 struct ProductsJSON: Codable {
-        var products: [Product]
-    }
+    var products: [Product]
+}
 
 class ProductsModel: ObservableObject {
-
+    var userFB = UserSettingsFireBaseViewModel.shared
     @Published var products: [Product] = []
     
-    func reload(idCategory: Int) {
-        PSServer.getProductsBy(idCategory: idCategory, fields: .forCatalog) {
-            productsReturn in
-            self.products = productsReturn
-        }
+    func reload(idCategory: Int) async {
+        
+        
+        
+                let productsReturn = await PSServer.getProductsBy(idCategory: idCategory, fields: .forCatalog)
+        
+                do {
+                    if self.userFB.settings.contentLanguage != .RU {
+        
+                        //var productNames = TranslationJSONData()
+                    
+                        
+                        let productNames = productsReturn.products.map { $0.name }
+                        let targetLanguage = self.userFB.settings.contentLanguage.rawValue
+
+                        let translatedName = try await fetchTranslation(
+                            words: productNames,
+                            targetLanguage: targetLanguage,
+                            contentType: .word
+                        )
+                        
+                       
+                        
+                        // Убедимся, что количество элементов совпадает
+                        guard productsReturn.products.count == translatedName.count else {
+                            print("Error: Number of translated names does not match the number of products")
+                            return
+                        }
+
+
+                        for (index, translated) in translatedName.enumerated() {
+                            productsReturn.products[index].name = translated
+                        }
+                       
+                    }
+                    await MainActor.run {
+    
+                        self.products = productsReturn.products
+    
+                    }
+                } catch {
+                    print("Error receiving transfer: \(error)")
+                }
+        
+        
     }
 }

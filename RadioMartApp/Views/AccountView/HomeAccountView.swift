@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftOpenAI
 
 struct HomeAccountView: View {
-    @StateObject var userSettingsViewModel = UserSettingsFireBaseViewModel()
+    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
     
     @State var displayName: String = AuthService.shared.currentUser?.displayName ?? "User"
     @State var responce: String = ""
@@ -18,7 +18,7 @@ struct HomeAccountView: View {
         VStack {
             Form {
                 Section("string-settings"){
-                    Picker("string-content.language", selection: $userSettingsViewModel.settings.contentLanguage){
+                    Picker("string-content.language", selection: $userFB.settings.contentLanguage){
                         ForEach(ContentLanguages.allCases, id: \.self) {item in
                             Text(item.rawValue)
                         }
@@ -28,18 +28,9 @@ struct HomeAccountView: View {
                     TextField("", text: $displayName)
                 }
                 Section("string-yourCompanyName"){
-                    TextField("", text: $userSettingsViewModel.settings.yourCompanyName)
+                    TextField("", text: $userFB.settings.yourCompanyName)
                 }
                 
-                Button("run") {
-                    Task.init{
-                        //await OpenAI.shared.run()
-                        let prompt = "Tell me a joke"
-                        await responce = OpenAI.shared.askQuestion(prompt: prompt)
-                    }
-                        
-                    
-                }
             }
             
             
@@ -53,8 +44,8 @@ struct HomeAccountView: View {
             
        
             Button("save") {
-                userSettingsViewModel.updateDisplayName(newDisplayName: displayName)
-                userSettingsViewModel.saveSettings()
+                userFB.updateDisplayName(newDisplayName: displayName)
+                userFB.saveSettings()
             }
             .buttonStyle(.borderedProminent)
             
