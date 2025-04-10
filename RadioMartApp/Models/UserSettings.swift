@@ -27,27 +27,27 @@ final class Settings: ObservableObject {
 }
 
 enum ContentLanguages: String, CaseIterable, Identifiable, Codable {
-    case DE = "German"
-    case EN = "English"
-    case RU = "Russian"
+    case de = "German"
+    case en = "English"
+    case ru = "Russian"
     
     var id: Self { self }
+    var code: String {"\(self)"}
 }
-
 
 struct UserSettingsFireBase: Codable, Identifiable {
     @DocumentID var id: String?
     
     var activProject: String
-    var contentLanguage: ContentLanguages
-    var currentTab: Int
-    var yourCompanyName: String
+    var contentLanguage: ContentLanguages = .en
+    var currentTab: Int = 0
+    var yourCompanyName: String = "My Company"
     
     var userId: String
 }
 
 extension UserSettingsFireBase {
     static var empty: UserSettingsFireBase {
-        UserSettingsFireBase(activProject: "", contentLanguage: ContentLanguages.DE, currentTab: 0, yourCompanyName: "", userId: "")
+        UserSettingsFireBase(activProject: "", contentLanguage: ContentLanguages.de, currentTab: 0, yourCompanyName: "", userId: "")
     }
 }

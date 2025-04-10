@@ -12,29 +12,28 @@ import FirebaseCore
 //import FirebaseFirestore
 import FirebaseAuth
 
-enum AppAuthError: String, LocalizedError {
-    case invalidEmail = "msg: invalidEmail"
-    case invalidPasswordLength = "msg: invalidPasswordLength"
-    case passwordsDoNotMatch = "msg: passwordsDoNotMatch"
-    
-    case emailAlreadyInUse = "msg: emailAlreadyInUse"
-    case wrongPassword = "msg: wrongPassword"
-    case tooManyRequests = "msg: tooManyRequests"
-    case networkError = "msg: networkError"
-    
-    var errorDescription: String? {
-        self.rawValue
-    }
-}
+//enum AppAuthError: String, LocalizedError {
+//    case invalidEmail = "Invalid email. Check and try again."
+//    case invalidPasswordLength = "Password too short (min 6 chars)."
+//    case passwordsDoNotMatch = "Passwords don't match."
+//    case emailAlreadyInUse = "Email already in use. Log in instead."
+//    case wrongPassword = "Wrong password. Try again."
+//    case tooManyRequests = "Too many attempts. Try later."
+//    case networkError = "Network error. Check connection."
+//    
+//    var errorDescription: String? {
+//        self.rawValue
+//    }
+//}
 
 
 @Observable
-final class AuthService {
+final class AuthService2 {
     
     var currentUser: FirebaseAuth.User?
     
     private let auth = Auth.auth()
-    static let shared = AuthService()
+    static let shared = AuthService2()
     
     private init() {
         currentUser = auth.currentUser
@@ -93,6 +92,7 @@ final class AuthService {
                     }
         }
     }
+    
     
     func resetPassword(email: String) async throws {
         try await auth.sendPasswordReset(withEmail: email)

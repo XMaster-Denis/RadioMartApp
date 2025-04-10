@@ -15,7 +15,7 @@ struct RegistrationView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Register Account")
+                Text("register.account:string")
                     .bold()
                     .font(.largeTitle)
                     .padding(.leading)
@@ -35,16 +35,16 @@ struct RegistrationView: View {
             }
             
             
-            SignInFieldView(placeHolder: "Email Address", text: $regViewModel.email)
+            SignInFieldView(placeHolder: "email.address:string", text: $regViewModel.email)
             
-            SignInSecureFieldView(placeHolder: "Your Password", showPassword: $regViewModel.showPassword, text: $regViewModel.password)
+            SignInSecureFieldView(placeHolder: "your.password:string", showPassword: $regViewModel.showPassword, text: $regViewModel.password)
             
-            SignInSecureFieldView(placeHolder: "Repeat Password", showPassword: $regViewModel.showPasswordCheck, text: $regViewModel.passwordCheck)
+            SignInSecureFieldView(placeHolder: "repeat.password:string", showPassword: $regViewModel.showPasswordCheck, text: $regViewModel.passwordCheck)
             Button{
                 regViewModel.registarionWithEmail()
             } label: {
                 
-                Text("Register")
+                Text("register:string")
                     .font(.title)
                     .bold()
                     .foregroundStyle(.white)

@@ -14,7 +14,7 @@ struct ForgotPasswordView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Reset password")
+                Text("reset.password:string")
                     .bold()
                     .font(.largeTitle)
                     .padding(.leading)
@@ -30,11 +30,11 @@ struct ForgotPasswordView: View {
                 }
                 
             }
-            SignInFieldView(placeHolder: "Please enter your email", text: $viewModel.resetPasswordEmail)
+            SignInFieldView(placeHolder: "please.enter.your.email:string", text: $viewModel.resetPasswordEmail)
             Button {
                 viewModel.resetPassword()
             } label: {
-                Text("Reset password")
+                Text("reset.password:string")
                     .font(.title)
                     .bold()
                     .foregroundStyle(.white)

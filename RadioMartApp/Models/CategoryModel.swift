@@ -24,7 +24,7 @@ class CategoryModel: ObservableObject {
         let featchedData = await PSServer.getDataCategoryBy(idCategory: id)
         
         do {
-            if self.userFB.settings.contentLanguage != .RU {
+            if self.userFB.settings.contentLanguage != .ru {
                 let categoryNames =  featchedData.categories.map { $0.name } + [featchedData.nameCategory]
                 let targetLanguage = self.userFB.settings.contentLanguage.rawValue
                 

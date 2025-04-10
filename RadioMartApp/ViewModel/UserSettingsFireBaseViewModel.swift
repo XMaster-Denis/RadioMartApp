@@ -70,17 +70,5 @@ class UserSettingsFireBaseViewModel: ObservableObject {
         }
     }
     
-    func updateDisplayName(newDisplayName: String) {
-        if let user = Auth.auth().currentUser {
-            let changeRequest = user.createProfileChangeRequest()
-            changeRequest.displayName = newDisplayName
-            changeRequest.commitChanges { error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-            }
-        } else {
-            print("No user is currently signed in.")
-        }
-    }
+
 }

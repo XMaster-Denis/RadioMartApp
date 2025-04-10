@@ -94,6 +94,10 @@ class DataBase {
         modelContext.insert(instance)
     }
     
+    @MainActor
+    func totalProjectsCount() -> Int {
+        (try? modelContext.fetch(FetchDescriptor<Project>()).count) ?? 0
+    }
     
     @MainActor
     func getAllProjects() -> [Project] {
@@ -110,25 +114,7 @@ class DataBase {
         } catch {
             fatalError("FetchDescriptor<Project>")
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        //        do {
-        //            let result = try modelContext.fetch(FetchDescriptor<Project>())
-        //            return result
-        //        } catch {
-        //            print("Project fetch error")
-        //            let instance1 = Project(name: "Pro 1")
-        //            let instance2 = Project(name: "Pro 2")
-        //            modelContext.insert(instance1)
-        //            modelContext.insert(instance2)
-        //            return [instance1, instance2]
-        //        }
+
     }
     
     //

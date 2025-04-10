@@ -11,28 +11,20 @@ import RichText
 
 
 struct ProductView: View {
-    let product: Product
+    var product: Product
     @State var productImagesURL: [URL] = []
     @State var selectedImage: String = ""
     @State var zoomedImage: String = ""
     @State private var anchorZoom: UnitPoint = .center
     @State private var descriptionAllRichText: String = ""
+    @State private var nameProduct: String = ""
+    @State var isDescriptionReceived: Bool = false
+    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
     
     init(product: Product) {
         self.product = product
-        
-        _descriptionAllRichText = State(initialValue: product.descriptionAllRichText)
+        print("ProductView")
     }
-    
-    
-    //    func translateProductName(_ name: String) {
-    //        Task {
-    //            let translated = await performTranslation(for: name)
-    //            DispatchQueue.main.async {
-    //                translatedName = translated
-    //            }
-    //        }
-    //    }
     
     var body: some View {
         GeometryReader { geometryScreen in
@@ -90,27 +82,50 @@ struct ProductView: View {
                     selectedImage = productImagesURL.first?.absoluteString ?? ""
                 }
                 .scrollIndicators(.hidden)
-                RichText(html: descriptionAllRichText)
-                    .padding(.horizontal)
-                    .onAppear{
-                        Task {
-                            
-                            let userFB = UserSettingsFireBaseViewModel.shared
-                            if userFB.settings.contentLanguage != .RU {
-                                do {
-                                    guard  let descriptionTranslation = try await fetchTranslation(words: [product.descriptionAllRichText], targetLanguage: userFB.settings.contentLanguage.rawValue, contentType: .html).first else {
-                                        throw TranslationServiceError.invalidData
-                                    }
-                                    descriptionAllRichText = descriptionTranslation
-                                } catch {
-                                    print("Ошибка при получении перевода: \(error)")
-                                }
-                            }
-                        }
-                    }
+                if isDescriptionReceived {
+                    
+                    RichText(html: descriptionAllRichText)
+                        .padding(.horizontal)
+                        
+                } else {
+                    
+                      ProgressView("loading-string")
+                          .task {
+                              
+//                              let userFB = UserSettingsFireBaseViewModel.shared
+                              
+                              if userFB.settings.contentLanguage != .ru {
+                                  do {
+                                      let translatedText = try await fetchTranslation(
+                                        words: [product.descriptionAllRichText],
+                                        targetLanguage: userFB.settings.contentLanguage.rawValue,
+                                        contentType: .html
+                                      ).first ?? product.descriptionAllRichText
+                                      
+                                      await MainActor.run {
+                                          descriptionAllRichText = translatedText
+                                      }
+                                  } catch {
+                                      print("Translation error: \(error)")
+                                  }
+                              } else {
+                                  descriptionAllRichText = product.descriptionAllRichText
+                              }
+                              
+                              isDescriptionReceived = true
+
+                              
+                          }
+                  
+                }
+                    
             }
         }
+        .onChange(of: userFB.settings.contentLanguage) {
+            isDescriptionReceived = false
+        }
     }
+    
 }
 
 struct PreviewImage<Content: View>: View {

@@ -11,7 +11,7 @@ struct IconTextFieldModalView: View {
     
     var title: LocalizedStringKey
     
-    @State var inputStr: String = ""
+    @State var inputStr: String
     @Binding var isShow: Bool
     @State var succesButton: LocalizedStringKey = "Ok"
     
@@ -51,7 +51,7 @@ struct IconTextFieldModalView: View {
                             }
                         }, label: {
                             Text("cancel-string")
-                                .frame(maxWidth: 100)
+                                .frame(maxWidth: 150)
                         })
                         .buttonStyle(.borderedProminent)
                         .tint(.red)
@@ -63,9 +63,10 @@ struct IconTextFieldModalView: View {
                             condition(inputStr)
                         }, label: {
                             Text(succesButton)
-                                .frame(maxWidth: 100)
+                                .frame(maxWidth: 150)
                         })
                         .buttonStyle(.borderedProminent)
+                        .disabled(!valid)
                         
                     }
                 }
@@ -91,9 +92,3 @@ struct IconTextFieldModalView: View {
     }
 }
 
-#Preview {
-    @State var temp: Bool = false
-    return IconTextFieldModalView("My modal title", isShow: $temp, inputStr: "***"){
-        print($0)
-    }
-}

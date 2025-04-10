@@ -61,7 +61,7 @@ class ProductsModel: ObservableObject {
                 let productsReturn = await PSServer.getProductsBy(idCategory: idCategory, fields: .forCatalog)
         
                 do {
-                    if self.userFB.settings.contentLanguage != .RU {
+                    if self.userFB.settings.contentLanguage != .ru {
         
                         //var productNames = TranslationJSONData()
                     

@@ -47,9 +47,9 @@ struct GeneralTabView: View {
                 }
                     .tag(2)
                 
-                AccountView()
+                GeneralSettingsMenuView()
                     .tabItem {
-                        Label("account-string", systemImage: "person")
+                        Label("account:string", systemImage: "person")
                     }
                     .tag(3)
             }
@@ -62,8 +62,4 @@ struct GeneralTabView: View {
         .environment(\.locale, Locale(identifier: "en"))
 }
 
-#Preview {
-    GeneralTabView()
-        .environment(\.locale, Locale(identifier: "ru"))
-}
 

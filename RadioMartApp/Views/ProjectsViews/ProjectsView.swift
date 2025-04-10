@@ -51,6 +51,7 @@ struct ProjectsView: View {
     @State var isEditProjectName: Bool = false
     //  @State var newProjectName: String = ""
     @State var currentProject: Project?
+    @State private var showDeleteAlert: Bool = false
     
     var body: some View {
         NavigationStack (path: $path.projectsPath) {
@@ -86,22 +87,29 @@ struct ProjectsView: View {
                     List {
                         ForEach(projects.sorted(by: {$0.dateAdd < $1.dateAdd})){ project in
                             ProjectLineView(project: project)
-                                .swipeActions{
-                                    Button("delete-string", role: .destructive){
-                                        DataBase.shared.deleteProject(project)
+                                .swipeActions(allowsFullSwipe: false){
+                                    
+                                    Button {
+                                        
+                                        if  DataBase.shared.totalProjectsCount() > 1 {
+                                            DataBase.shared.deleteProject(project)
+                                        } else {
+                                            showDeleteAlert = true
+                                        }
+                                    } label: {
+                                        Label("delete-string", systemImage: "trash")
                                     }
-                                    Button("rename-string", role: .cancel){
+                                    .tint(.red)
+                                    
+                                    Button(role: .cancel) {
                                         withAnimation {
                                             currentProject = project
                                             isEditProjectName.toggle()
                                         }
+                                    } label: {
+                                        Label("rename-string", systemImage: "pencil")
                                     }
-                                    Button("teilen-string", role: .cancel){
-                                        withAnimation {
-                                            currentProject = project
-                                            isEditProjectName.toggle()
-                                        }
-                                    }
+                                    
                                 }
                                 .onTapGesture {
                                     path.projectsPath.append(project)
@@ -130,6 +138,9 @@ struct ProjectsView: View {
                     
                 }
             }
+        }
+        .alert("delete.last.project.error:string", isPresented: $showDeleteAlert) {
+            Button("Ok", role: .cancel) { }
         }
     }
 }

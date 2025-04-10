@@ -12,6 +12,8 @@ import Vision
 
 class VisionObjectRecognitionViewController: CameraViewController {
     
+    var confidenceThreshold: Float = 0.9
+    
     private var detectionOverlay: CALayer! = nil
     
     // Vision parts
@@ -53,6 +55,7 @@ class VisionObjectRecognitionViewController: CameraViewController {
             }
             // Select only the label with the highest confidence.
             let topLabelObservation = objectObservation.labels[0]
+            guard topLabelObservation.confidence >= confidenceThreshold else { continue }
             let objectBounds = VNImageRectForNormalizedRect(objectObservation.boundingBox, Int(bufferSize.width), Int(bufferSize.height))
             
             let shapeLayer = self.createRoundedRectLayerWithBounds(objectBounds)
@@ -131,15 +134,18 @@ class VisionObjectRecognitionViewController: CameraViewController {
     func createTextSubLayerInBounds(_ bounds: CGRect, identifier: String, confidence: VNConfidence) -> CATextLayer {
         let textLayer = CATextLayer()
         textLayer.name = "Object Label"
+        
         let formattedString = NSMutableAttributedString(string: String(format: "\(identifier)\n%.2f", confidence))
-        let largeFont = UIFont(name: "Helvetica", size: 12.0)!
-        formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: identifier.count))
+        let largeFont = UIFont(name: "Helvetica", size: 22.0)!
+        formattedString.addAttributes([NSAttributedString.Key.font: largeFont,
+                                       .foregroundColor: UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        ], range: NSRange(location: 0, length: identifier.count))
         textLayer.string = formattedString
         textLayer.bounds = CGRect(x: 0, y: 0, width: bounds.size.height - 10, height: bounds.size.width - 10)
         textLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
         textLayer.shadowOpacity = 0.7
         textLayer.shadowOffset = CGSize(width: 2, height: 2)
-        textLayer.foregroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.0, 0.0, 0.0, 1.0])
+       //textLayer.foregroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [0.4, 0.8, 0.1, 0.5])
         textLayer.contentsScale = 2.0 // retina rendering
         // rotate the layer into screen orientation and scale and mirror
         textLayer.setAffineTransform(CGAffineTransform(rotationAngle: CGFloat(.pi / 2.0)).scaledBy(x: 1.0, y: -1.0))

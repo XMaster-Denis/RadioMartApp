@@ -9,13 +9,24 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
+//    @EnvironmentObject var authManager: AuthManager
     var body: some View {
         ZStack {
-            LaunchScreenView()
+            Rectangle()
+                
+         //   LaunchScreenView()
             GeneralTabView()
                 .zIndex(0.9)
         }
+        .task {
+            print(AuthManager.shared.authState)
+//            if authManager.authState == .signedOut {
+//                authManager.signAnonymously()
+//            }
+        }
     }
+    
+
 }
 
 #Preview {

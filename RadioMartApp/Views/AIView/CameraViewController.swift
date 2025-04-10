@@ -12,6 +12,7 @@ import Vision
 
 class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
+    var selectedCameraIndex: Int = 0
     var bufferSize: CGSize = .zero
     var rootLayer: CALayer! = nil
     
@@ -36,20 +37,47 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         // Dispose of any resources that can be recreated.
     }
     
+    func restartCaptureSession() {
+        stopCaptureSession()
+        for input in captureSession.inputs {
+            captureSession.removeInput(input)
+        }
+        for output in captureSession.outputs {
+            captureSession.removeOutput(output)
+        }
+        setupAVCapture()
+        startCaptureSession()
+    }
+    
     func setupAVCapture() {
         var deviceInput: AVCaptureDeviceInput!
         
         // Select a video device, make an input
-        let videoDevice = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInUltraWideCamera], mediaType: .video, position: .back).devices.first
+        let videoDevices = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [.builtInWideAngleCamera, .builtInUltraWideCamera, .builtInTelephotoCamera],
+            mediaType: .video,
+            position: .back
+        ).devices
+        
+        guard videoDevices.indices.contains(selectedCameraIndex) else {
+            print("❌ Invalid camera index")
+            return
+        }
+        let videoDevice = videoDevices[selectedCameraIndex]
+        
+//        guard let videoDevice = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInUltraWideCamera], mediaType: .video, position: .back).devices.first else {
+//            print("No video device available (simulator?)")
+//            return
+//        }
         do {
-            deviceInput = try AVCaptureDeviceInput(device: videoDevice!)
+            deviceInput = try AVCaptureDeviceInput(device: videoDevice)
         } catch {
             print("Could not create video device input: \(error)")
             return
         }
         
         captureSession.beginConfiguration()
-        captureSession.sessionPreset = .hd1280x720 // Model image size is smaller.
+        captureSession.sessionPreset = .hd1920x1080 // Model image size is smaller.
         
         // Add a video input
         guard         captureSession.canAddInput(deviceInput) else {
@@ -73,11 +101,11 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         // Always process the frames
         captureConnection?.isEnabled = true
         do {
-            try  videoDevice!.lockForConfiguration()
-            let dimensions = CMVideoFormatDescriptionGetDimensions((videoDevice?.activeFormat.formatDescription)!)
+            try  videoDevice.lockForConfiguration()
+            let dimensions = CMVideoFormatDescriptionGetDimensions((videoDevice.activeFormat.formatDescription))
             bufferSize.width = CGFloat(dimensions.width)
             bufferSize.height = CGFloat(dimensions.height)
-            videoDevice!.unlockForConfiguration()
+            videoDevice.unlockForConfiguration()
         } catch {
             print(error)
         }

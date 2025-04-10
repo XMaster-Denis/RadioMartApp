@@ -19,7 +19,7 @@ class RegisterViewModel {
         Task {
             do {
                 try validateForm()
-                try await AuthService.shared.registerWithEmail(email: email, password: password)
+                try await AuthManager.shared.registerWithEmail(email: email, password: password)
             } catch {
                 print(error.localizedDescription)
             }

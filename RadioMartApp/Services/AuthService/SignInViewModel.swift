@@ -19,6 +19,9 @@ class SignInModel {
     var showPassword = false
     var showRegistrationView = false
     var showResetPasswordView = false
+    var errorMessage: String = ""
+    
+    
     
     func validateSignInForm() throws {
         if !email.validatorEmail() {
@@ -34,25 +37,30 @@ class SignInModel {
         }
     }
     
-    func signWithEmail() {
+    func signWithEmail(complection: @escaping (Bool, AppAuthError?) -> Void) {
         Task {
             do {
                 try validateSignInForm()
-                try await AuthService.shared.signWithEmail(email: email, password: password)
+                try await AuthManager.shared.signWithEmail(email: email, password: password)
+                complection(true, nil)
             } catch let error as AppAuthError {
                 print(error.localizedDescription)
+                complection(false, error)
             } catch {
                 print(error.localizedDescription)
+                complection(false, AppAuthError.networkError)
             }
             
         }
     }
     
+
+    
     func resetPassword() {
         Task {
             do {
                 try validateForgotPasswordForm()
-                try await AuthService.shared.resetPassword(email: resetPasswordEmail)
+                try await AuthManager.shared.resetPassword(email: resetPasswordEmail)
                 showResetPasswordView = false
             } catch {
                 print(error.localizedDescription)

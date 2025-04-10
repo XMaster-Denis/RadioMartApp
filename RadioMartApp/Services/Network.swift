@@ -85,12 +85,12 @@ class PSServer {
             do {
                 prod = try JSONDecoder().decode(ProductsJSON.self, from: response)
             } catch {
-                print("Error in getProductsBy \(error)")
+                print("Error in getProductsBy2 \(error)")
             }
             result.products = prod.products
             
         } catch {
-            print("Error in getProductsBy \(error)")
+            print("Error in getProductsBy1 \(error)")
             
         }
         return result
