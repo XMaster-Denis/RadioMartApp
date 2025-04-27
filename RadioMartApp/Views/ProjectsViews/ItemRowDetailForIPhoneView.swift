@@ -44,23 +44,23 @@ struct ItemRowDetailForIPhoneView: View {
     }
 }
 
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let schema = Schema([
-        Project.self,
-        ItemProject.self,
-        Settings.self
-    ])
-    let container = try! ModelContainer(for: schema, configurations: config)
-    let context = container.mainContext
-    
-    
-    let IP1 = ItemProject(name: "Led Electron PCB component Led Electron component ", count: 2, price: 15.0, idProductRM: "10117")
-    let IP2 = ItemProject(name: "PCB", count: 1, price: 300.0, idProductRM: "14254")
-    let IP3 = ItemProject(name: "Capasitor 220 uf 12 v. Arduino", count: 5, price: 370.0, idProductRM: "14234")
-    let project = Project(name: "Test Project", itemsProject: [IP1, IP2, IP3])
-    context.insert(project)
-    
-    return ProjectDetailView(project: project)
-        .modelContainer(container)
-}
+//#Preview {
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let schema = Schema([
+//        Project.self,
+//        ItemProject.self,
+//        SettingsModel.self
+//    ])
+//    let container = try! ModelContainer(for: schema, configurations: config)
+//    let context = container.mainContext
+//    
+//    
+//    let IP1 = ItemProject(name: "Led Electron PCB component Led Electron component ", count: 2, price: 15.0, idProductRM: "10117")
+//    let IP2 = ItemProject(name: "PCB", count: 1, price: 300.0, idProductRM: "14254")
+//    let IP3 = ItemProject(name: "Capasitor 220 uf 12 v. Arduino", count: 5, price: 370.0, idProductRM: "14234")
+//    let project = Project(name: "Test Project", itemsProject: [IP1, IP2, IP3])
+//    context.insert(project)
+//    
+//    return ProjectDetailView(project: project)
+//        .modelContainer(container)
+//}

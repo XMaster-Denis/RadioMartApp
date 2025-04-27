@@ -1,4 +1,3 @@
-//
 //  SettingsModel.swift
 //  RadioMartApp
 //
@@ -10,7 +9,7 @@ import SwiftData
 import FirebaseFirestore
 
 @Model
-final class Settings: ObservableObject {
+final class SettingsModel {
     var activProject: Project
     var language: String
     var currentTab: Int
@@ -20,8 +19,8 @@ final class Settings: ObservableObject {
         print("*set")
         self.language = language
         self.currentTab = 0
-        let instance1 = Project(name: "First Project")
-        self.activProject = instance1
+        let firstInstance = Project(name: ProjectsManager.firstProjectName)
+        activProject = firstInstance
     }
     
 }
@@ -38,7 +37,7 @@ enum ContentLanguages: String, CaseIterable, Identifiable, Codable {
 struct UserSettingsFireBase: Codable, Identifiable {
     @DocumentID var id: String?
     
-    var activProject: String
+    var activProjectID: String
     var contentLanguage: ContentLanguages = .en
     var currentTab: Int = 0
     var yourCompanyName: String = "My Company"
@@ -48,6 +47,8 @@ struct UserSettingsFireBase: Codable, Identifiable {
 
 extension UserSettingsFireBase {
     static var empty: UserSettingsFireBase {
-        UserSettingsFireBase(activProject: "", contentLanguage: ContentLanguages.de, currentTab: 0, yourCompanyName: "", userId: "")
+        UserSettingsFireBase(activProjectID: "", contentLanguage: ContentLanguages.de, currentTab: 0, yourCompanyName: "", userId: "")
     }
 }
+
+

@@ -11,12 +11,12 @@ import SwiftData
 class DataBase {
     
     let modelContainer: ModelContainer
-    private let modelContext: ModelContext
+    let modelContext: ModelContext
     private let modelConfiguration: ModelConfiguration
     let schema = Schema([
         Project.self,
         ItemProject.self,
-        Settings.self
+        SettingsModel.self
     ])
     
     
@@ -34,36 +34,31 @@ class DataBase {
         }
         self.modelContext = modelContainer.mainContext
     }
+
     
-    @MainActor
-    func getSettings() -> Settings {
-        if let settings = try! modelContext.fetch(FetchDescriptor<Settings>()).first{
-            return settings
-        } else {
-            
-            let settings = Settings()
-            modelContext.insert(settings)
-            return settings
-        }
-    }    
+//    @MainActor
+//    func getSettings() -> SettingsModel {
+//        if let settings = try! modelContext.fetch(FetchDescriptor<SettingsModel>()).first{
+//            return settings
+//        } else {
+//            
+//            let settings = SettingsModel()
+//            modelContext.insert(settings)
+//            return settings
+//        }
+//    }
     
-    @MainActor
-    func deleteProject(_ deleteProject: Project)  {
-        modelContext.delete(deleteProject)
-    }
+//    @MainActor
+//    func deleteProject(_ deleteProject: Project)  {
+//        modelContext.delete(deleteProject)
+//    }
     
-    @MainActor
-    func removeSettings() {
-        modelContext.delete(getSettings())
-    }
+//    @MainActor
+//    func removeSettings() {
+//        modelContext.delete(getSettings())
+//    }
     
-    func removeAllProjects() {
-        do {
-            try modelContext.delete(model: Project.self)
-        } catch {
-            print("Failed to clear all Project data.")
-        }
-    }
+
     
     //    @MainActor
     //    func generateProject() {
@@ -86,35 +81,47 @@ class DataBase {
      }
      */
     
+//    @MainActor
+//    func addNewProject(_ name: String) {
+//        let instance = Project(name: name)
+//        modelContext.insert(instance)
+//    }
     
+//    @MainActor
+//    func totalProjectsCount() -> Int {
+//        (try? modelContext.fetch(FetchDescriptor<Project>()).count) ?? 0
+//    }
+    
+//    @MainActor
+//    func getAllProjects() -> [Project] {
+//        
+//        do {
+//            let result = try modelContext.fetch(FetchDescriptor<Project>())
+//            if !result.isEmpty {
+//                return result
+//            } else {
+//                let instance = Project(name: "Pro 1")
+//                modelContext.insert(instance)
+//                return [instance]
+//            }
+//        } catch {
+//            fatalError("FetchDescriptor<Project>")
+//        }
+//
+//    }
     
     @MainActor
-    func addNewProject(_ name: String) {
-        let instance = Project(name: name)
-        modelContext.insert(instance)
-    }
-    
-    @MainActor
-    func totalProjectsCount() -> Int {
-        (try? modelContext.fetch(FetchDescriptor<Project>()).count) ?? 0
-    }
-    
-    @MainActor
-    func getAllProjects() -> [Project] {
-        
+    func getAllUnsyncedProjects() -> [Project] {
         do {
             let result = try modelContext.fetch(FetchDescriptor<Project>())
             if !result.isEmpty {
                 return result
             } else {
-                let instance = Project(name: "Pro 1")
-                modelContext.insert(instance)
-                return [instance]
+                return []
             }
         } catch {
             fatalError("FetchDescriptor<Project>")
         }
-
     }
     
     //
@@ -134,5 +141,21 @@ class DataBase {
     //            fatalError(error.localizedDescription)
     //        }
     //    }
+    
+    @MainActor
+    func assignUserIdToLocalProjectsIfMissing(_ userId: String) {
+        do {
+            let projects = try modelContext.fetch(FetchDescriptor<Project>())
+            for project in projects {
+                if project.userId.isEmpty {
+                    project.userId = userId
+                    project.lastModified = Date()
+                    project.isSyncedWithCloud = false
+                }
+            }
+        } catch {
+            print("Ошибка при обновлении userId в локальных проектах: \(error)")
+        }
+    }
     
 }

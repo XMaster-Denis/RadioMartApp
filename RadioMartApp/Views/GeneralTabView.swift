@@ -9,26 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct GeneralTabView: View {
-    @StateObject var settings = DataBase.shared.getSettings()
-    
-   // @State var currentTab: Int = 0
-    
+    @StateObject var settings = SettingsManager.shared
     var body: some View {
         
         VStack {
-           
 
-            
-          //  var activProject2 = settings.activProject
-            
-            
-            //@Bindable var result2 = result.first!
-            
-           
-            //result.first?.language
-            
-         //   Text(result.first?.language ?? "111")
-            TabView (selection: $settings.currentTab) {
+            TabView (selection: settings.currentTab) {
                 CatalogNavigationView()
                     .tabItem {
                         Label("catalog-string", systemImage: "square.grid.3x3.topleft.filled")

@@ -19,7 +19,7 @@ class UserSettingsFireBaseViewModel: ObservableObject {
     @Published var settings = UserSettingsFireBase.empty
     
     @Published private var user: User?
-    private var db = Firestore.firestore()
+    let db = FirebaseManager.shared.db
     private var cancellables = Set<AnyCancellable>()
     
     init() {

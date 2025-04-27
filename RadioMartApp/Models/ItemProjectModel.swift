@@ -30,4 +30,13 @@ class ItemProject: ObservableObject, Identifiable {
         self.idProductRM = idProductRM
         //self.project = project
     }
+    
+    func toDTO() -> ItemProjectDTO {
+        ItemProjectDTO(
+            idProductRM: self.idProductRM,
+            name: self.name,
+            price: self.price,
+            count: self.count
+        )
+    }
 }

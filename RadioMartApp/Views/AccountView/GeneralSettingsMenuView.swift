@@ -31,6 +31,12 @@ struct GeneralSettingsMenuView: View {
                 Divider()
 
                 Spacer()
+                Button("to firabase") {
+                    Task {
+                        await ProjectSyncManager.shared.syncProjectsBetweenLocalAndCloud()
+                        
+                    }
+                }
             }
             .navigationTitle("settings:string")
             .padding()

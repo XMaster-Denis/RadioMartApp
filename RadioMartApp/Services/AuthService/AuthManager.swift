@@ -41,8 +41,12 @@ class AuthManager: ObservableObject {
     private var authStateHandle: AuthStateDidChangeListenerHandle!
     
     init() {
-        // 3.
         configureAuthStateChanges()
+        
+        // если уже есть авторизованный пользователь — запустить синхронизацию
+        if let user = Auth.auth().currentUser {
+            updateState(user: user)
+        }
     }
 
     // 2.
@@ -66,9 +70,17 @@ class AuthManager: ObservableObject {
 
         if isAuthenticatedUser {
             self.authState = .signedIn
+            Task {
+                DataBase.shared.assignUserIdToLocalProjectsIfMissing(user?.uid ?? "")
+                await ProjectSyncManager.shared.syncProjectsBetweenLocalAndCloud()
+                ProjectSyncManager.shared.startAutoSync()
+            }
+            
             displayName = getDisplayName()
         } else {
             self.authState = .signedOut
+            ProjectSyncManager.shared.stopAutoSync()
+            
         }
     }
     
@@ -77,6 +89,8 @@ class AuthManager: ObservableObject {
             do {
                 // TODO: Sign out from signed-in Provider.
                 try Auth.auth().signOut()
+                ProjectSyncManager.shared.stopAutoSync()
+                ProjectsManager.shared.restart()
             }
             catch let error as NSError {
                 print("FirebaseAuthError: failed to sign out from Firebase, \(error)")

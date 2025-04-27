@@ -9,13 +9,17 @@ import SwiftUI
 import SwiftData
 
 struct ProjectLineView: View {
-    @ObservedObject var project: Project
+    @ObservedObject var viewModel: ProjectViewModel
     var body: some View {
         HStack {
             HStack {
-//                Image(systemName: "cpu")
-//                    .font(.callout)
-            Text(project.name)
+                VStack {
+                    Text(viewModel.project.name)
+                    Text(viewModel.project.userId)
+                        .font(.caption)
+                    
+                }
+                
             }
                 .foregroundStyle(.blue)
                 .font(.title2)
@@ -23,13 +27,12 @@ struct ProjectLineView: View {
                 .padding(.leading)
             Spacer()
             VStack {
-             //   Text("totalsum:-string")
                 HStack {
                     Text("itemscount:-string")
-                    Text("\(project.itemsProject.count)")
+                    Text("\(viewModel.totalItems)")
                         .bold()
                 }
-                Text("\(project.getProductsPrice().toLocateCurrencyString())")
+                Text("\(viewModel.totalPrice.toLocateCurrencyString())")
                     .bold()
             }
             .padding(.trailing)
@@ -44,7 +47,7 @@ struct ProjectLineView: View {
     let schema = Schema([
         Project.self,
         ItemProject.self,
-        Settings.self
+        SettingsModel.self
     ])
     let container = try! ModelContainer(for: schema, configurations: config)
     let context = container.mainContext
@@ -55,6 +58,6 @@ struct ProjectLineView: View {
     let project = Project(name: "Test Project", itemsProject: [IP1, IP2])
     context.insert(project)
     
-    return ProjectLineView(project: project)
+    return ProjectLineView(viewModel: ProjectViewModel(project: project))
         .modelContainer(container)
 }

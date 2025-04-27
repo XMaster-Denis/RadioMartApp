@@ -8,65 +8,19 @@
 import SwiftUI
 import SwiftData
 
-struct AddProjectView: View {
-    @Environment(\.dismiss) var dismiss
-    @State var newNameProject: String = ""
-    
-    var body: some View {
-        VStack(spacing: 30) {
-            Text("addingnewproject-string")
-            ValidationForm { valid in
-                
-                IconTextField("projectname-string", text: $newNameProject) {
-                    $0.textFieldStyle(.roundedBorder)
-                } modIcon: { $0
-                } condition: {
-                    !newNameProject.isEmpty
-                }
-                HStack {
-                    Button("cancel-string", role: .destructive) {
-                        dismiss()
-                    }
-                    .buttonStyle(.borderedProminent)
-                    //   .foregroundStyle(.red)
-                    Button("add-string") {
-                        DataBase.shared.addNewProject(newNameProject)
-                        dismiss()
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(!valid)
-                }
-            }
-            Spacer()
-        }
-        .padding()
-    }
-}
-
-
 struct ProjectsView: View {
-    @Query var projects: [Project]
-    @ObservedObject var path = Router.shared
+   // @State private var viewModels: [ProjectViewModel] = []
+    @ObservedObject private var projectsManager: ProjectsManager = ProjectsManager.shared
+    @ObservedObject var path: Router = Router.shared
     @State var isAddProjectShow: Bool = false
     @State var isEditProjectName: Bool = false
-    //  @State var newProjectName: String = ""
-    @State var currentProject: Project?
+    @State var selectedProjectViewModel: ProjectViewModel?
     @State private var showDeleteAlert: Bool = false
     
     var body: some View {
         NavigationStack (path: $path.projectsPath) {
             ZStack {
                 VStack {
-                    //                Button("removeAllProjects") {
-                    //                    DataBase.shared.removeAllProjects()
-                    //                }
-                    //                Button("removeSettings") {
-                    //                    DataBase.shared.removeSettings()
-                    //                }
-                    //                Button("AddNewProjects") {
-                    //                    DataBase.shared.addNewProject("Second")
-                    //                }
-                    
                     HStack {
                         Text("allprojects-string")
                             .font(.title)
@@ -85,14 +39,14 @@ struct ProjectsView: View {
                     .padding(.horizontal)
                     
                     List {
-                        ForEach(projects.sorted(by: {$0.dateAdd < $1.dateAdd})){ project in
-                            ProjectLineView(project: project)
+                        ForEach(projectsManager.projectViewModels, id: \.project.id) { projectViewModel in
+                            ProjectLineView(viewModel: projectViewModel)
                                 .swipeActions(allowsFullSwipe: false){
                                     
                                     Button {
                                         
-                                        if  DataBase.shared.totalProjectsCount() > 1 {
-                                            DataBase.shared.deleteProject(project)
+                                        if  ProjectsManager.shared.totalProjectsCount() > 1 {
+                                            ProjectsManager.shared.deleteProject(projectViewModel.project)
                                         } else {
                                             showDeleteAlert = true
                                         }
@@ -103,7 +57,7 @@ struct ProjectsView: View {
                                     
                                     Button(role: .cancel) {
                                         withAnimation {
-                                            currentProject = project
+                                            selectedProjectViewModel = projectViewModel
                                             isEditProjectName.toggle()
                                         }
                                     } label: {
@@ -112,7 +66,7 @@ struct ProjectsView: View {
                                     
                                 }
                                 .onTapGesture {
-                                    path.projectsPath.append(project)
+                                    path.projectsPath.append(projectViewModel.project)
                                 }
                         }
                         
@@ -126,13 +80,11 @@ struct ProjectsView: View {
                 }
                 .disabled(isEditProjectName)
                 
-                
                 if isEditProjectName {
-                    if let inputStr = currentProject?.name {
+                    if let selectedProjectViewModel = selectedProjectViewModel {
+                        let inputStr = selectedProjectViewModel.name
                         IconTextFieldModalView("enter.a.new.project.name-string", isShow: $isEditProjectName, succesButton: "rename-string", inputStr: inputStr) {
-                            if let currentProject = currentProject {
-                                currentProject.name = $0
-                            }
+                            selectedProjectViewModel.updateName($0)
                         }
                     }
                     

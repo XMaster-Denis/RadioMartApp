@@ -529,6 +529,29 @@
         }
       }
     },
+    "count.report-string" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menge"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantity"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Количество"
+          }
+        }
+      }
+    },
     "currentproject:-string" : {
       "localizations" : {
         "de" : {
@@ -793,7 +816,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Product"
+            "value" : "Bezeichnung"
           }
         },
         "en" : {
@@ -872,6 +895,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Цена: %@"
+          }
+        }
+      }
+    },
+    "price.report-string" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preis"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Price"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цена"
           }
         }
       }
@@ -1058,7 +1104,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Artikelnummer"
+            "value" : "Artikel"
           }
         },
         "en" : {
@@ -1080,7 +1126,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Artikelnummer:"
+            "value" : "Artikel:"
           }
         },
         "en" : {
@@ -1103,7 +1149,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Artikelnummer"
+            "value" : "Artikel"
           }
         },
         "en" : {
@@ -1270,29 +1316,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Настройки"
-          }
-        }
-      }
-    },
-    "share:string" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Teilen"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Share"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Поделиться"
           }
         }
       }
@@ -1495,6 +1518,29 @@
         }
       }
     },
+    "sum.report-string" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Summe"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сумма"
+          }
+        }
+      }
+    },
     "summa-string" : {
       "localizations" : {
         "de" : {
@@ -1516,6 +1562,9 @@
           }
         }
       }
+    },
+    "to firabase" : {
+
     },
     "translation.settings:string" : {
       "extractionState" : "manual",

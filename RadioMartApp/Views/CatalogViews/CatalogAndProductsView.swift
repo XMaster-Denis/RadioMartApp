@@ -10,19 +10,20 @@ import SwiftUI
 struct CatalogAndProductsView: View {
     var currentCategory: Int
     @State var isLoadingDone: Bool = false
-  //  @State var test: String = "1"
     @StateObject var categoriesModel = CategoryModel()
     @StateObject var productsModel = ProductsModel()
-    @StateObject var settings = DataBase.shared.getSettings()
+    @ObservedObject var settings = SettingsManager.shared
     @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
+    @ObservedObject var activeProject = SettingsManager.shared.activProjectViewModel
+    
     
     init(id: Int) {
-        
         currentCategory = id
     }
     
     var body: some View {
         ZStack {
+
             if isLoadingDone {
                 List {
                     if (categoriesModel.categories.count != 0) {
@@ -35,9 +36,7 @@ struct CatalogAndProductsView: View {
                                     
                                 })
                             }
-                            
                         }
-                        
                     }
                     
                     
@@ -74,7 +73,7 @@ struct CatalogAndProductsView: View {
                                         ZStack {
                                             Button {
                                                 let newItemProject = ItemProject(name: product.name, count: 1, price: product.priceDecimal, idProductRM: product.reference)
-                                                settings.activProject.incItem(item: newItemProject)
+                                                settings.activProjectViewModel.incItem(item: newItemProject)
                                             } label: {
                                                 
                                                 ZStack {
@@ -100,10 +99,10 @@ struct CatalogAndProductsView: View {
                                             .offset(x: 18, y:  -67)
                                             
                                             
-                                            if let item = settings.activProject.getItemByRM(product.reference) {
+                                            if let item = settings.activProjectViewModel.getItemByRM(product.reference) {
                                                 
                                                 Button {
-                                                    settings.activProject.decItem(item: item)
+                                                    settings.activProjectViewModel.decItem(item: item)
                                                 } label: {
                                                     
                                                     ZStack {
@@ -128,6 +127,9 @@ struct CatalogAndProductsView: View {
                                                 RMBadgeView(item: item)
                                                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                                                     .offset(x: 12, y:  -20)
+                                                    .task {
+                                                        print(item.count)
+                                                    }
                                             }
                                             
                                             

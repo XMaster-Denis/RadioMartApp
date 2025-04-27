@@ -11,7 +11,8 @@ import PDFKit
 
 
 struct ProjectDetailView: View {
-    @StateObject var project: Project
+//    @StateObject var project: Project
+    @StateObject var project: ProjectViewModel
     @State var currentItem: ItemProject?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var isEditingItem: Bool = false
@@ -19,9 +20,12 @@ struct ProjectDetailView: View {
     @State var anchor: UnitPoint = .center
     @State var newTitleProject = ""
     @State private var showModalPDF = false
-    @State private var showShareSheet = false
     @State private var isExporting = false
     @State private var pdfURL: URL?
+    
+    init(project: Project) {
+        _project = StateObject(wrappedValue: ProjectViewModel(project: project))
+    }
     
     var body: some View {
         GeometryReader { fullPage in
@@ -68,10 +72,6 @@ struct ProjectDetailView: View {
                                     }
                                 Button("exportpdf-string") {
                                     self.showModalPDF = true
-                                    // path.projectsPath.append(project)
-                                    // ItemsListFromProjectPDFView
-                                    
-                                    
                                 }
                             }
                         }
@@ -79,12 +79,12 @@ struct ProjectDetailView: View {
                     }
                     .padding(.horizontal)
                     
-                    if project.itemsProject.isEmpty {
+                    if project.isEmpty {
                         Text("in.this.project.dont.item-string")
                             .padding()
                     } else
                     {
-                        Table(project.itemsProject.sorted{$0.dateAdd < $1.dateAdd})
+                        Table(project.items)
                         {
                             
                             TableColumn("name-string"){ item in
@@ -138,16 +138,12 @@ struct ProjectDetailView: View {
                                         Button("", systemImage: "pencil") {
                                             withAnimation(.linear(duration: 0.4)) {
                                                 currentItem = item
-                                                //print(currentItem!.name)
-                                                
+
                                                 isEditingItem.toggle()
-                                                //   print(geometry.frame(in: .global).midX)
-                                                //   print(fullPage.size.width)
+
                                                 let x = geometry.frame(in: .global).maxX / fullPage.size.width
                                                 let y = geometry.frame(in: .global).minY / fullPage.size.height
                                                 
-                                                //   print(x)
-                                                //   print(y)
                                                 
                                                 anchor = .init(
                                                     x: x,
@@ -164,23 +160,21 @@ struct ProjectDetailView: View {
                         }
                         .disabled(isEditingItem)
                     }
-                    
-                    
-                    
+
                 }
                 if isEditingItem {
                     if let currentItem = currentItem {
-                        ItemManagerView(item: currentItem, isEditingItem: $isEditingItem)
-                            .transition(
-                                AnyTransition.scale(scale: 0.0, anchor: anchor)
-                                
-                            )
+                        let itemVM = ItemViewModel(item: currentItem)
+                        ItemManagerView(itemVM: itemVM, isEditingItem: $isEditingItem){
+                            project.markModified()
+                        }
+                            .transition(AnyTransition.scale(scale: 0.0, anchor: anchor))
                     }
                 }
             }
             .sheet(isPresented: $showModalPDF) {
                 VStack {
-                    if let pdfDocument = PDFDocument(data: project.PDFdata) {
+                    if let pdfDocument = PDFDocument(data: project.project.PDFdata) {
                         let wrapper = PDFDocumentWrapper(pdfDocument: pdfDocument, fileName: project.name)
                         
 
@@ -192,34 +186,12 @@ struct ProjectDetailView: View {
                         }
                         
 
-//                        ShareLink(item: wrapper, preview: SharePreview("fileName123.pdf", image: wrapper.pdfPreviewImage())) {
-//                            Label("Share PDF (via Wrapper)", systemImage: "square.and.arrow.up")
-//                        }
+
                     }
-                    
-                    // Отображение содержимого PDF
-                    PDFSwiftUIView(PDFdata: project.PDFdata)
+
+                    PDFSwiftUIView(PDFdata: project.project.PDFdata)
                 }
             }
-//            .sheet(isPresented: $showModalPDF) {
-//                VStack {
-//                    if let pdfDocument = PDFDocument(data: project.PDFdata) {
-//                        if let pdfURL = pdfDocument.savePDFToTemporaryFile(pdfData: project.PDFdata){
-//                            ShareLink(item: pdfURL/*, preview: SharePreview("fi23.pdf", image: Image("icon_pdf") pdfDocument.pdfPreviewImage()*/) {
-//                                Label("Share PDF", systemImage: "square.and.arrow.up")
-//                            }
-//                        }
-//                        let shareablePDF = ShareablePDF(pdfDocument: pdfDocument, fileName: "fileName123")
-//                        
-//                        ShareLink(item: shareablePDF, preview: SharePreview("fileName123.pdf", image: Image("icon_pdf") /*pdfDocument.pdfPreviewImage()*/)) {
-//                            Label("Share PDF", systemImage: "square.and.arrow.up")
-//                        }
-//                    }
-//                    PDFSwiftUIView(PDFdata: project.PDFdata)
-//                }
-//                
-//                
-//            }
             
         }
         
@@ -230,24 +202,24 @@ struct ProjectDetailView: View {
 
 
 
-
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let schema = Schema([
-        Project.self,
-        ItemProject.self,
-        Settings.self
-    ])
-    let container = try! ModelContainer(for: schema, configurations: config)
-    let context = container.mainContext
-    
-    
-    let IP1 = ItemProject(name: "Led Electron PCB component Led Electron component ", count: 99, price: 15.0, idProductRM: "10117")
-    let IP2 = ItemProject(name: "PCB", count: 4, price: 300000.0, idProductRM: "14254-12")
-    let IP3 = ItemProject(name: "Capasitor 220 uf 12 v. Arduino", count: 5, price: 370.0, idProductRM: "14234")
-    let project = Project(name: "Test Project", itemsProject: [IP1, IP2, IP3])
-    context.insert(project)
-    
-    return ProjectDetailView(project: project)
-        .modelContainer(container)
-}
+//
+//#Preview {
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let schema = Schema([
+//        Project.self,
+//        ItemProject.self,
+//        SettingsModel.self
+//    ])
+//    let container = try! ModelContainer(for: schema, configurations: config)
+//    let context = container.mainContext
+//    
+//    
+//    let IP1 = ItemProject(name: "Led Electron PCB component Led Electron component ", count: 99, price: 15.0, idProductRM: "10117")
+//    let IP2 = ItemProject(name: "PCB", count: 4, price: 300000.0, idProductRM: "14254-12")
+//    let IP3 = ItemProject(name: "Capasitor 220 uf 12 v. Arduino", count: 5, price: 370.0, idProductRM: "14234")
+//    let project = Project(name: "Test Project", itemsProject: [IP1, IP2, IP3])
+//    context.insert(project)
+//    
+//    return ProjectDetailView(project: project)
+//        .modelContainer(container)
+//}

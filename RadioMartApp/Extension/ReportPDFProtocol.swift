@@ -11,7 +11,6 @@ import PDFKit
 
 public protocol ReportPDFProtocol {
     var PDFdata: Data {get}
-  //  var PDFdataRepresentation: Data {get}
     var pdfDocument: PDFDocument? {get}
     func createPDF() -> Data
 }

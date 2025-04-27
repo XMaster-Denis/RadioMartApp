@@ -9,13 +9,14 @@ import SwiftUI
 
 struct ItemManagerView: View {
     
-    @StateObject var item: ItemProject
+    @StateObject var itemVM: ItemViewModel
     @Binding var isEditingItem: Bool
     @State var title: String = ""
     @State var name: String = ""
     @State var count: String = ""
     @State var price: String = ""
     
+    let updateProject: () -> Void
     
  
     
@@ -70,9 +71,11 @@ struct ItemManagerView: View {
                             }
                             
                             Button("saveitem-string") {
-                                item.price = Decimal(string: price) ?? 0
-                                item.count = Int(count) ?? 0
-                                item.name = name
+                                itemVM.price = Decimal(string: price) ?? 0
+                                itemVM.count = Int(count) ?? 0
+                                itemVM.name = name
+                                updateProject()
+                                isEditingItem.toggle()
                             }
                             .buttonStyle(.bordered)
                             .disabled(!valid)
@@ -83,10 +86,10 @@ struct ItemManagerView: View {
                     .padding()
                 }
                 .onAppear() {
-                    title = item.name
-                    count = String(item.count)
-                    name = item.name
-                    price = "\(item.price)"
+                    title = itemVM.item.name
+                    count = String(itemVM.item.count)
+                    name = itemVM.item.name
+                    price = "\(itemVM.item.price)"
                 }
                
                 .frame(width: proxy.size.width * 0.95, height: proxy.size.height * 0.98, alignment: .center)

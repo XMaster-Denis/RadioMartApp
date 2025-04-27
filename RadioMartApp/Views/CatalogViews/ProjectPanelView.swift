@@ -9,8 +9,9 @@ import SwiftUI
 import SwiftData
 
 struct ProjectPanelView: View {
-    @Query var projects: [Project]
-    @StateObject var settings = DataBase.shared.getSettings()
+    @ObservedObject private var projectsManager = ProjectsManager.shared
+    @ObservedObject var settings = SettingsManager.shared
+    @ObservedObject var activeProject = SettingsManager.shared.activProjectViewModel
     
     var body: some View {
         HStack {
@@ -19,22 +20,17 @@ struct ProjectPanelView: View {
                 .fixedSize()
             Spacer()
             VStack (spacing:0) {
-                Picker("currentproject:-string", selection: $settings.activProject) {
-                    ForEach(projects) { project in
-                        
-                        Text("\(project.name)")
-                            .tag(project)
+                Picker("currentproject:-string", selection: settings.activeProjectBinding) {
+                    ForEach(projectsManager.projectViewModels, id: \.project.id) { viewModel in
+                        Text("\(viewModel.project.name)")
+                            .tag(viewModel.project)
                             .fixedSize()
-                        
                     }
                 }
-                    .fixedSize()
-                Text("\(settings.activProject.getProductsPrice().toLocateCurrencyString())")
+                .fixedSize()
+                Text("\(activeProject.totalPrice.toLocateCurrencyString())")
                     .monospacedDigit()
             }
-            
-            
-            
         }
         .padding(.horizontal)
     }

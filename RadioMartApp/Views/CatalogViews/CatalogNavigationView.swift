@@ -11,9 +11,7 @@ import SwiftData
 struct CatalogNavigationView: View {
     let generalCategoryId = 2
     @ObservedObject var path = Router.shared
-    
-    @StateObject var settings = DataBase.shared.getSettings()
-    
+       
     var body: some View {
         VStack {
           

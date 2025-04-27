@@ -6,7 +6,6 @@ import FirebaseCore
 
 struct SignInView: View {
     @Environment(\.dismiss) var dismiss
-    @StateObject var settings = DataBase.shared.getSettings()
     @State var signInModel = SignInModel()
     @ObservedObject var authManager =  AuthManager.shared
     @State private var showSignInForm = false
