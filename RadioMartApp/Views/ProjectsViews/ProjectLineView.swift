@@ -41,23 +41,23 @@ struct ProjectLineView: View {
     }
 }
 
-
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let schema = Schema([
-        Project.self,
-        ItemProject.self,
-        SettingsModel.self
-    ])
-    let container = try! ModelContainer(for: schema, configurations: config)
-    let context = container.mainContext
-    
-    
-    let IP1 = ItemProject(name: "Led", count: 2, price: 15.0, idProductRM: "10117")
-    let IP2 = ItemProject(name: "PCB", count: 1, price: 300.0, idProductRM: "14254")
-    let project = Project(name: "Test Project", itemsProject: [IP1, IP2])
-    context.insert(project)
-    
-    return ProjectLineView(viewModel: ProjectViewModel(project: project))
-        .modelContainer(container)
-}
+//
+//#Preview {
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let schema = Schema([
+//        Project.self,
+//        ItemProject.self,
+//        SettingsModel.self
+//    ])
+//    let container = try! ModelContainer(for: schema, configurations: config)
+//    let context = container.mainContext
+//    
+//    
+//    let IP1 = ItemProject(name: "Led", count: 2, price: 15.0, idProductRM: "10117")
+//    let IP2 = ItemProject(name: "PCB", count: 1, price: 300.0, idProductRM: "14254")
+//    let project = Project(name: "Test Project", itemsProject: [IP1, IP2])
+//    context.insert(project)
+//    
+//    return ProjectLineView(viewModel: ProjectViewModel(project: project))
+//        .modelContainer(container)
+//}

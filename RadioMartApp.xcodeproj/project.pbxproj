@@ -97,6 +97,10 @@
 		E297D63D2CF38EFF00A70553 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = E297D63C2CF38EFF00A70553 /* FirebaseStorage */; };
 		E297D63F2CF38EFF00A70553 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = E297D63E2CF38EFF00A70553 /* FirebaseStorageCombine-Community */; };
 		E297D6412CF38EFF00A70553 /* FirebaseVertexAI in Frameworks */ = {isa = PBXBuildFile; productRef = E297D6402CF38EFF00A70553 /* FirebaseVertexAI */; };
+		E29D8F7D2DBE19F0009F2F15 /* ContentLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29D8F7C2DBE19F0009F2F15 /* ContentLanguages.swift */; };
+		E29D8F812DBE3F53009F2F15 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29D8F802DBE3F50009F2F15 /* Typealiases.swift */; };
+		E29D8F832DBE4F32009F2F15 /* SettingsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29D8F822DBE4F1E009F2F15 /* SettingsDTO.swift */; };
+		E29D8F852DBE52E7009F2F15 /* SettingsSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29D8F842DBE52E7009F2F15 /* SettingsSyncManager.swift */; };
 		E29E44932C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29E44922C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift */; };
 		E2A0EDFC2C8C7386006B08B4 /* SwiftOpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = E2A0EDFB2C8C7386006B08B4 /* SwiftOpenAI */; };
 		E2A0EDFE2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A0EDFD2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift */; };
@@ -191,6 +195,10 @@
 		E27C54E12B973C55000A97EF /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		E27E11462DAC331100051C1B /* ItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewModel.swift; sourceTree = "<group>"; };
 		E28327AB2C73C4240031EBDF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E29D8F7C2DBE19F0009F2F15 /* ContentLanguages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLanguages.swift; sourceTree = "<group>"; };
+		E29D8F802DBE3F50009F2F15 /* Typealiases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
+		E29D8F822DBE4F1E009F2F15 /* SettingsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDTO.swift; sourceTree = "<group>"; };
+		E29D8F842DBE52E7009F2F15 /* SettingsSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSyncManager.swift; sourceTree = "<group>"; };
 		E29E44922C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsFireBaseViewModel.swift; sourceTree = "<group>"; };
 		E2A0EDFD2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionObjectRecognitionViewController.swift; sourceTree = "<group>"; };
 		E2A0EE012C906059006B08B4 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -271,16 +279,17 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
-		E20612582B3454D20044E156 /* Extension */ = {
+		E20612582B3454D20044E156 /* Commom */ = {
 			isa = PBXGroup;
 			children = (
+				E29D8F802DBE3F50009F2F15 /* Typealiases.swift */,
 				E2BDA81D2DB677C100EA09F6 /* Project-PDF+Extension.swift */,
 				E24D52B82C68D1F800D7098D /* ReportPDFProtocol.swift */,
 				E20612592B3454EB0044E156 /* Double+Extension.swift */,
 				E2B066052B95EECA009138E5 /* String+Extension.swift */,
 				E24278032C6E7E3F00CC6775 /* PDFDocument+Extension.swift */,
 			);
-			path = Extension;
+			path = Commom;
 			sourceTree = "<group>";
 		};
 		E20A6A122B3EC5030093DE14 /* AccountView */ = {
@@ -409,7 +418,7 @@
 			children = (
 				E2E9717F2CB929DF004D0165 /* RadioMartAppRelease.entitlements */,
 				E2E9717E2CB929A7004D0165 /* RadioMartApp.entitlements */,
-				E20612582B3454D20044E156 /* Extension */,
+				E20612582B3454D20044E156 /* Commom */,
 				E227CB6C2AAC846900B6DF8F /* SVGReader */,
 				E227CB672AAC787700B6DF8F /* Resourses */,
 				E27066092AAC591200C58C1B /* RadioMartAppApp.swift */,
@@ -456,11 +465,13 @@
 		E27C42FF2ABEA01A0036E96C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E29D8F7C2DBE19F0009F2F15 /* ContentLanguages.swift */,
 				E2089D772B2C5A6600948AC5 /* ItemProjectModel.swift */,
 				E21320742DA7CD670037D281 /* ItemProjectDTO.swift */,
 				E2089D732B2C576E00948AC5 /* ProjectModel.swift */,
 				E21320722DA7CD620037D281 /* ProjectDTO.swift */,
 				E2089D792B2C720900948AC5 /* SettingsModel.swift */,
+				E29D8F822DBE4F1E009F2F15 /* SettingsDTO.swift */,
 				E27C42F32ABE8CD10036E96C /* ProductModel.swift */,
 				E23799EE2ACC124700E53227 /* CategoryModel.swift */,
 			);
@@ -470,8 +481,9 @@
 		E27C43002ABEA0310036E96C /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				E21320772DA904970037D281 /* FirebaseManager.swift */,
+				E29D8F842DBE52E7009F2F15 /* SettingsSyncManager.swift */,
 				E21320702DA7CC450037D281 /* ProjectSyncManager.swift */,
+				E21320772DA904970037D281 /* FirebaseManager.swift */,
 				E2E7DE352D99B9A4001B8D15 /* LocalizationManager.swift */,
 				E26205282D0D932300348D6A /* AuthService */,
 				E21E7FB92C5574EE0004F665 /* PDFReports */,
@@ -646,7 +658,9 @@
 			files = (
 				E27C54E22B973C55000A97EF /* RegistrationView.swift in Sources */,
 				E270660C2AAC591200C58C1B /* ContentView.swift in Sources */,
+				E29D8F812DBE3F53009F2F15 /* Typealiases.swift in Sources */,
 				E27C42F42ABE8CD10036E96C /* ProductModel.swift in Sources */,
+				E29D8F7D2DBE19F0009F2F15 /* ContentLanguages.swift in Sources */,
 				E25530EC2D4515D40068D6CD /* SignInEmailView.swift in Sources */,
 				E2FEABFB2B2DA6FB0020EF3B /* DataBase.swift in Sources */,
 				E2523E872D0DEF4B0048EB59 /* AppleSignInManager.swift in Sources */,
@@ -662,6 +676,7 @@
 				E23268DA2AD4F34B00FA9CB7 /* CatalogAndProductsView.swift in Sources */,
 				E264954F2B40299B0014A669 /* ItemRowDetailForIPhoneView.swift in Sources */,
 				E2B066062B95EECA009138E5 /* String+Extension.swift in Sources */,
+				E29D8F852DBE52E7009F2F15 /* SettingsSyncManager.swift in Sources */,
 				E2CEFEE32DABD1C300A92AE1 /* AddProjectView.swift in Sources */,
 				E2051A332B49491800FAC220 /* IconTextFieldModalView.swift in Sources */,
 				E29E44932C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift in Sources */,
@@ -702,6 +717,7 @@
 				E27C42F82ABE947E0036E96C /* GeneralTabView.swift in Sources */,
 				E27C42FA2ABE95350036E96C /* ProjectsView.swift in Sources */,
 				E206125A2B3454EB0044E156 /* Double+Extension.swift in Sources */,
+				E29D8F832DBE4F32009F2F15 /* SettingsDTO.swift in Sources */,
 				E23799EF2ACC124700E53227 /* CategoryModel.swift in Sources */,
 				E21E7FB82C5027AB0004F665 /* RMBadgeView.swift in Sources */,
 				E21320712DA7CC450037D281 /* ProjectSyncManager.swift in Sources */,

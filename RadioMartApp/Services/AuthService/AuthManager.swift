@@ -34,9 +34,14 @@ enum AppAuthError: String, LocalizedError {
 class AuthManager: ObservableObject {
     static let shared = AuthManager()
     
+    
     @Published var user: User?
     @Published var authState = AuthState.signedOut
     @Published var displayName = "User"
+    
+    var userId: String? {
+        user?.uid
+    }
     
     private var authStateHandle: AuthStateDidChangeListenerHandle!
     
@@ -71,15 +76,19 @@ class AuthManager: ObservableObject {
         if isAuthenticatedUser {
             self.authState = .signedIn
             Task {
-                DataBase.shared.assignUserIdToLocalProjectsIfMissing(user?.uid ?? "")
+//                DataBase.shared.assignUserIdToLocalProjectsIfMissing(user?.uid ?? "")
                 await ProjectSyncManager.shared.syncProjectsBetweenLocalAndCloud()
                 ProjectSyncManager.shared.startAutoSync()
+                
+                await SettingsSyncManager.shared.fetchSettings()
+                SettingsSyncManager.shared.startSettingsAutoSync()
             }
             
             displayName = getDisplayName()
         } else {
             self.authState = .signedOut
             ProjectSyncManager.shared.stopAutoSync()
+            SettingsSyncManager.shared.stopSettingsAutoSync()
             
         }
     }
@@ -90,6 +99,7 @@ class AuthManager: ObservableObject {
                 // TODO: Sign out from signed-in Provider.
                 try Auth.auth().signOut()
                 ProjectSyncManager.shared.stopAutoSync()
+                SettingsSyncManager.shared.stopSettingsAutoSync()
                 ProjectsManager.shared.restart()
             }
             catch let error as NSError {

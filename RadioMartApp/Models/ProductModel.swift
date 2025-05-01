@@ -51,7 +51,8 @@ struct ProductsJSON: Codable {
 }
 
 class ProductsModel: ObservableObject {
-    var userFB = UserSettingsFireBaseViewModel.shared
+//    var userFB = UserSettingsFireBaseViewModel.shared
+//    var settingsManager = SettingsManager.shared
     @Published var products: [Product] = []
     
     func reload(idCategory: Int) async {
@@ -61,13 +62,13 @@ class ProductsModel: ObservableObject {
                 let productsReturn = await PSServer.getProductsBy(idCategory: idCategory, fields: .forCatalog)
         
                 do {
-                    if self.userFB.settings.contentLanguage != .ru {
+                    if LM.shared.currentLanguage != .ru {
         
                         //var productNames = TranslationJSONData()
                     
                         
                         let productNames = productsReturn.products.map { $0.name }
-                        let targetLanguage = self.userFB.settings.contentLanguage.rawValue
+                        let targetLanguage = LM.shared.currentLanguage.rawValue
 
                         let translatedName = try await fetchTranslation(
                             words: productNames,

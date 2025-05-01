@@ -6,15 +6,16 @@
 //
 import Foundation
 
-class LocalizationManager {
+
+class LocalizationManager: ObservableObject {
     static let shared = LocalizationManager()
+    
+    @Published  var currentLanguage: ContentLanguages = .de
 
-    var selectedLanguage: String {
-        UserSettingsFireBaseViewModel.shared.settings.contentLanguage.code
-    }
+    
 
-    var bundle: Bundle {
-        guard let path = Bundle.main.path(forResource: selectedLanguage, ofType: "lproj"),
+    static var bundle: Bundle {
+        guard let path = Bundle.main.path(forResource: LM.shared.currentLanguage.code, ofType: "lproj"),
               let bundle = Bundle(path: path) else {
             return .main // fallback
         }

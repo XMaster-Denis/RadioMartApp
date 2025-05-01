@@ -12,7 +12,7 @@ import PDFKit
 
 @Model
 final class Project: ObservableObject {
-    var id: String = UUID().uuidString // используется и в SwiftData, и в Firestore
+    var id: String // используется и в SwiftData, и в Firestore
     var name: String
     var userId: String
     var lastModified: Date
@@ -20,14 +20,16 @@ final class Project: ObservableObject {
     var dateAdd: Date
     @Relationship(deleteRule: .cascade) var itemsProject = [ItemProject]()
     var isActiv: Bool = false
+    var isDeleted: Bool = false
     
-    init(name: String, itemsProject: [ItemProject] = []) {
+    init(id: String = UUID().uuidString, name: String, userId: String? = "", itemsProject: [ItemProject] = [],  ) {
+        self.id = id
         self.name = name
         self.itemsProject = itemsProject
         self.dateAdd = .now
         self.lastModified = .now
         self.isSyncedWithCloud = false
-        self.userId = UserSettingsFireBaseViewModel.shared.settings.userId
+        self.userId = userId ?? ""
     }
     
 
@@ -43,7 +45,7 @@ final class Project: ObservableObject {
                 id: self.id,
                 name: self.name,
                 userId: userId,
-                lastModified: Date(), // или self.lastModified
+                lastModified: self.lastModified,
                 items: self.itemsProject.map { $0.toDTO() }
             )
         }

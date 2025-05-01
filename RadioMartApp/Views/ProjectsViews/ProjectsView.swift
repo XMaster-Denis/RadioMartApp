@@ -46,7 +46,8 @@ struct ProjectsView: View {
                                     Button {
                                         
                                         if  ProjectsManager.shared.totalProjectsCount() > 1 {
-                                            ProjectsManager.shared.deleteProject(projectViewModel.project)
+                                            ProjectsManager.shared.markDeleteProject(projectViewModel.project)
+                                            ProjectsManager.shared.refreshProjects()
                                         } else {
                                             showDeleteAlert = true
                                         }
@@ -97,16 +98,16 @@ struct ProjectsView: View {
     }
 }
 
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Project.self, configurations: config)
-    
-    for i in 1..<6 {
-        let project = Project(name: "Test Project \(i)")
-        container.mainContext.insert(project)
-    }
-    
-    return ProjectsView()
-        .modelContainer(container)
-    
-}
+//#Preview {
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let container = try! ModelContainer(for: Project.self, configurations: config)
+//    
+//    for i in 1..<6 {
+//        let project = Project(name: "Test Project \(i)")
+//        container.mainContext.insert(project)
+//    }
+//    
+//    return ProjectsView()
+//        .modelContainer(container)
+//    
+//}

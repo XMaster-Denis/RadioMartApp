@@ -9,11 +9,12 @@ import SwiftUI
 import Combine
 import SwiftData
 
+// @ObservedObject var settingsManager = SettingsManager.shared
 
 @MainActor
 final class SettingsManager: ObservableObject {
     static let shared = SettingsManager()
-    
+    var isSyncedWithCloud: Bool = false
     @Published var settingsModel: SettingsModel
     @Published var activProjectViewModel: ProjectViewModel
     let modelContext = DataBase.shared.modelContext
@@ -33,12 +34,36 @@ final class SettingsManager: ObservableObject {
         )
     }
     
+    var contentLanguage: Binding<ContentLanguages> {
+        Binding(
+            get: { self.settingsModel.contentLanguage },
+            set: { newValue in
+                self.settingsModel.contentLanguage = newValue
+                LM.shared.currentLanguage = newValue
+                self.isSyncedWithCloud = false
+                try? self.modelContext.save()
+            }
+        )
+    }
+    
+    var companyName: Binding<String> {
+        Binding(
+            get: { self.settingsModel.companyName },
+            set: { newValue in
+                self.settingsModel.companyName = newValue
+                self.isSyncedWithCloud = false
+                try? self.modelContext.save()
+            }
+        )
+    }
+    
     var activeProjectBinding: Binding<Project> {
         Binding(
             get: { self.activProjectViewModel.project },
             set: { newProject in
                 self.activProjectViewModel.project = newProject
                 self.activProjectViewModel.markModified()
+                self.isSyncedWithCloud = false
             }
         )
     }
@@ -46,7 +71,7 @@ final class SettingsManager: ObservableObject {
     func updateActiveProject(to newProject: Project) {
         settingsModel.activProject = newProject
         activProjectViewModel = ProjectViewModel(project: newProject)
-        activProjectViewModel.markModified()
+        isSyncedWithCloud = false
     }
     
     static func getSettings() -> SettingsModel {
@@ -58,6 +83,19 @@ final class SettingsManager: ObservableObject {
             DataBase.shared.modelContext.insert(settings)
             return settings
         }
+    }
+    
+    func updateFromDTO(_ dto: SettingsDTO) {
+        let activProject =  ProjectsManager.shared.getProjectBy(id: dto.activProjectId)
+        updateActiveProject(to: activProject)
+        companyName.wrappedValue = dto.companyName
+        if let language = ContentLanguages(rawValue: dto.languageCode) {
+            contentLanguage.wrappedValue = language
+        } else {
+            contentLanguage.wrappedValue = .en
+        }
+        
+        
     }
     
 

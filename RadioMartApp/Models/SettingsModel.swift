@@ -10,45 +10,61 @@ import FirebaseFirestore
 
 @Model
 final class SettingsModel {
+    var id: String = UUID().uuidString
     var activProject: Project
-    var language: String
+    var contentLanguage: ContentLanguages
     var currentTab: Int
+    var companyName: String
+
     
     @MainActor
-    init( language: String = "en") {
+    init( contentLanguage: ContentLanguages = .de) {
         print("*set")
-        self.language = language
+        self.contentLanguage = contentLanguage
         self.currentTab = 0
-        let firstInstance = Project(name: ProjectsManager.firstProjectName)
+        let firstInstance = Project(name: ProjectsManager.firstProjectName,userId: AuthManager.shared.userId)
         activProject = firstInstance
+        companyName = "My Company"
     }
     
-}
-
-enum ContentLanguages: String, CaseIterable, Identifiable, Codable {
-    case de = "German"
-    case en = "English"
-    case ru = "Russian"
+    @MainActor
+    func toDTO() -> SettingsDTO {
+        guard let userId = AuthManager.shared.userId else {
+            fatalError("UserId not set in toDTO")
+            
+        }
+       // print (self.activProject.name)
+        return SettingsDTO(
+            id: self.id,
+            userId: userId,
+            activProjectId: self.activProject.id,
+            languageCode: self.contentLanguage.code,
+            currentTab: self.currentTab,
+            companyName: self.companyName
+            )
+        }
     
-    var id: Self { self }
-    var code: String {"\(self)"}
-}
-
-struct UserSettingsFireBase: Codable, Identifiable {
-    @DocumentID var id: String?
     
-    var activProjectID: String
-    var contentLanguage: ContentLanguages = .en
-    var currentTab: Int = 0
-    var yourCompanyName: String = "My Company"
     
-    var userId: String
+    
 }
-
-extension UserSettingsFireBase {
-    static var empty: UserSettingsFireBase {
-        UserSettingsFireBase(activProjectID: "", contentLanguage: ContentLanguages.de, currentTab: 0, yourCompanyName: "", userId: "")
-    }
-}
-
+//
+//
+//struct UserSettingsFireBase: Codable, Identifiable {
+//    @DocumentID var id: String?
+//    
+//    var activProjectID: String
+//    var contentLanguage: ContentLanguages = .en
+//    var currentTab: Int = 0
+//
+//    
+//    var userId: String
+//}
+//
+//extension UserSettingsFireBase {
+//    static var empty: UserSettingsFireBase {
+//        UserSettingsFireBase(activProjectID: "", contentLanguage: ContentLanguages.de, currentTab: 0,  userId: "")
+//    }
+//}
+//
 

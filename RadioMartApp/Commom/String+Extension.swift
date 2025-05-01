@@ -17,16 +17,11 @@ extension String {
         return emailPredicate.evaluate(with: self)
     }
     
-    // localizable string
-    
-//    var l: String {
-//        return NSLocalizedString(self, tableName: "Localizable", bundle: .main, value: "", comment: "")
-//    }
-    
     var l: String {
-        NSLocalizedString(self,
+        
+        return NSLocalizedString(self,
                           tableName: "Localizable",
-                          bundle: LocalizationManager.shared.bundle,
+                          bundle: LM.bundle,
                           value: "",
                           comment: "")
     }

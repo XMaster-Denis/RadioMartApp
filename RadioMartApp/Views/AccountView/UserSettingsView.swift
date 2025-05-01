@@ -16,7 +16,7 @@
 import SwiftUI
 
 struct UserSettingsView: View {
-    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
+//    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
     @ObservedObject var authManager = AuthManager.shared
 
     @State private var showAuthForm: Bool = false
@@ -28,9 +28,6 @@ struct UserSettingsView: View {
                 Section("string-displayName"){
                     TextField("", text: $authManager.displayName)
                 }
-            }
-            Button("save:string") {
-//                authManager.
             }
         }
     }

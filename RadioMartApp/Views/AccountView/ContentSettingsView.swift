@@ -16,7 +16,8 @@
 import SwiftUI
 
 struct ContentSettingsView: View {
-    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
+//    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
+    @ObservedObject var settingsManager = SettingsManager.shared
     @ObservedObject var authManager = AuthManager.shared
 
     @State private var showAuthForm: Bool = false
@@ -26,14 +27,12 @@ struct ContentSettingsView: View {
         VStack{
             Form {
                 Section("string-content"){
-                    Picker("string-content.language", selection: $userFB.settings.contentLanguage){
+                    Picker("string-content.language", selection: settingsManager.contentLanguage){
                         ForEach(ContentLanguages.allCases, id: \.self) {item in
                             Text(item.rawValue)
                         }
                     }
                 }
-            }
-            Button("save:string") {
             }
         }
     }

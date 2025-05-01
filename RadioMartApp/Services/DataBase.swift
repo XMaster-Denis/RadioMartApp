@@ -36,17 +36,7 @@ class DataBase {
     }
 
     
-//    @MainActor
-//    func getSettings() -> SettingsModel {
-//        if let settings = try! modelContext.fetch(FetchDescriptor<SettingsModel>()).first{
-//            return settings
-//        } else {
-//            
-//            let settings = SettingsModel()
-//            modelContext.insert(settings)
-//            return settings
-//        }
-//    }
+
     
 //    @MainActor
 //    func deleteProject(_ deleteProject: Project)  {
@@ -142,20 +132,6 @@ class DataBase {
     //        }
     //    }
     
-    @MainActor
-    func assignUserIdToLocalProjectsIfMissing(_ userId: String) {
-        do {
-            let projects = try modelContext.fetch(FetchDescriptor<Project>())
-            for project in projects {
-                if project.userId.isEmpty {
-                    project.userId = userId
-                    project.lastModified = Date()
-                    project.isSyncedWithCloud = false
-                }
-            }
-        } catch {
-            print("Ошибка при обновлении userId в локальных проектах: \(error)")
-        }
-    }
+
     
 }

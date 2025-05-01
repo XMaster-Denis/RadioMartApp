@@ -14,7 +14,8 @@ struct Category: Identifiable, Hashable {
 
 
 class CategoryModel: ObservableObject {
-    var userFB = UserSettingsFireBaseViewModel.shared
+//    var userFB = UserSettingsFireBaseViewModel.shared
+//    var settingsManager = SettingsManager.shared
     
     @Published var nameCategory = ""
     @Published var categories: [Category] = []
@@ -24,9 +25,9 @@ class CategoryModel: ObservableObject {
         let featchedData = await PSServer.getDataCategoryBy(idCategory: id)
         
         do {
-            if self.userFB.settings.contentLanguage != .ru {
+            if LM.shared.currentLanguage != .ru {
                 let categoryNames =  featchedData.categories.map { $0.name } + [featchedData.nameCategory]
-                let targetLanguage = self.userFB.settings.contentLanguage.rawValue
+                let targetLanguage = LM.shared.currentLanguage.rawValue
                 
                 let translatedCategoryNames = try await fetchTranslation(
                     words: categoryNames,

@@ -34,6 +34,7 @@ struct AddProjectView: View {
                     //   .foregroundStyle(.red)
                     Button("add-string") {
                         ProjectsManager.shared.addNewProject(newNameProject)
+                    //    ProjectsManager.shared.refreshProjects()
                         dismiss()
                     }
                     .buttonStyle(.borderedProminent)

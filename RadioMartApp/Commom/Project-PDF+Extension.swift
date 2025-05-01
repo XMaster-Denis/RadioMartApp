@@ -67,47 +67,47 @@ extension Project: ReportPDFProtocol {
 }
 
 
-
-#Preview {
-    
-    
-    struct PreviewProjectPDF: UIViewRepresentable {
-        
-        let project: Project
-        
-        func makeUIView(context: Context) -> PDFView {
-            
-            let pdfView = PDFView()
-            pdfView.document = PDFDocument(data: project.PDFdata)
-            pdfView.autoScales = true
-            return pdfView
-        }
-        
-        func updateUIView(_ pdfView: PDFView, context: Context) {
-            
-        }
-    }
-    
-    
-    
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let schema = Schema([
-        Project.self,
-        ItemProject.self,
-        SettingsModel.self
-    ])
-    let container = try! ModelContainer(for: schema, configurations: config)
-    let context = container.mainContext
-    
-    
-    let IP1 = ItemProject(name: "Led Electron PCB component Led Electron component ", count: 99, price: 15.0, idProductRM: "10117")
-    let IP2 = ItemProject(name: "PCB", count: 4, price: 300000.0, idProductRM: "14254-12")
-    let IP3 = ItemProject(name: "Capasitor 220 uf 12 v. Arduino", count: 5, price: 370.0, idProductRM: "14234")
-    let project = Project(name: "Test Project", itemsProject: [IP1, IP2, IP3])
-    context.insert(project)
-    
-    return PreviewProjectPDF(project: project)
-        .modelContainer(container)
-        .environment(\.locale, Locale(identifier: "ru"))
-}
+//
+//#Preview {
+//    
+//    
+//    struct PreviewProjectPDF: UIViewRepresentable {
+//        
+//        let project: Project
+//        
+//        func makeUIView(context: Context) -> PDFView {
+//            
+//            let pdfView = PDFView()
+//            pdfView.document = PDFDocument(data: project.PDFdata)
+//            pdfView.autoScales = true
+//            return pdfView
+//        }
+//        
+//        func updateUIView(_ pdfView: PDFView, context: Context) {
+//            
+//        }
+//    }
+//    
+//    
+//    
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//    let schema = Schema([
+//        Project.self,
+//        ItemProject.self,
+//        SettingsModel.self
+//    ])
+//    let container = try! ModelContainer(for: schema, configurations: config)
+//    let context = container.mainContext
+//    
+//    
+//    let IP1 = ItemProject(name: "Led Electron PCB component Led Electron component ", count: 99, price: 15.0, idProductRM: "10117")
+//    let IP2 = ItemProject(name: "PCB", count: 4, price: 300000.0, idProductRM: "14254-12")
+//    let IP3 = ItemProject(name: "Capasitor 220 uf 12 v. Arduino", count: 5, price: 370.0, idProductRM: "14234")
+//    let project = Project(name: "Test Project", itemsProject: [IP1, IP2, IP3])
+//    context.insert(project)
+//    
+//    return PreviewProjectPDF(project: project)
+//        .modelContainer(container)
+//        .environment(\.locale, Locale(identifier: "ru"))
+//}
 

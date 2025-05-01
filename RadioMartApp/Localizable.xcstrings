@@ -619,6 +619,7 @@
       }
     },
     "display.name:string" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1563,9 +1564,6 @@
         }
       }
     },
-    "to firabase" : {
-
-    },
     "translation.settings:string" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1680,6 +1678,15 @@
           }
         }
       }
+    },
+    "Да" : {
+
+    },
+    "Нет" : {
+
+    },
+    "Объединить локальные проекты с облаком?" : {
+
     },
     "сonfidence.threshold:string" : {
       "localizations" : {

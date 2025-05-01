@@ -12,8 +12,10 @@ struct CatalogAndProductsView: View {
     @State var isLoadingDone: Bool = false
     @StateObject var categoriesModel = CategoryModel()
     @StateObject var productsModel = ProductsModel()
-    @ObservedObject var settings = SettingsManager.shared
-    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
+//    @ObservedObject var settings = SettingsManager.shared
+    @ObservedObject var localizationManager = LM.shared
+//    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
+    @ObservedObject var settingsManager = SettingsManager.shared
     @ObservedObject var activeProject = SettingsManager.shared.activProjectViewModel
     
     
@@ -73,7 +75,7 @@ struct CatalogAndProductsView: View {
                                         ZStack {
                                             Button {
                                                 let newItemProject = ItemProject(name: product.name, count: 1, price: product.priceDecimal, idProductRM: product.reference)
-                                                settings.activProjectViewModel.incItem(item: newItemProject)
+                                                settingsManager.activProjectViewModel.incItem(item: newItemProject)
                                             } label: {
                                                 
                                                 ZStack {
@@ -99,10 +101,10 @@ struct CatalogAndProductsView: View {
                                             .offset(x: 18, y:  -67)
                                             
                                             
-                                            if let item = settings.activProjectViewModel.getItemByRM(product.reference) {
+                                            if let item = settingsManager.activProjectViewModel.getItemByRM(product.reference) {
                                                 
                                                 Button {
-                                                    settings.activProjectViewModel.decItem(item: item)
+                                                    settingsManager.activProjectViewModel.decItem(item: item)
                                                 } label: {
                                                     
                                                     ZStack {
@@ -165,7 +167,7 @@ struct CatalogAndProductsView: View {
                     }
             }
         }
-        .onChange(of: userFB.settings.contentLanguage) {
+        .onChange(of: localizationManager.currentLanguage) {
             Task{
                 await withTaskGroup(of: Void.self) { group in
                     group.addTask {

@@ -10,6 +10,8 @@ import SwiftUI
 import Combine
 import SwiftData
 
+//@ObservedObject var projectsManager = ProjectsManager.shared
+
 @MainActor
 final class ProjectsManager: ObservableObject {
     static let shared = ProjectsManager()
@@ -25,13 +27,16 @@ final class ProjectsManager: ObservableObject {
         refreshProjects()
     }
     
-    func restart() {
+    @discardableResult
+    func restart() -> Project {
+        print(AuthManager.shared.userId ?? "No user id")
         let firstInstance = Project(name: ProjectsManager.firstProjectName)
         SettingsManager.shared.updateActiveProject(to: firstInstance)
         deleteAllProjectsExcept(firstInstance)
         refreshProjects()
+        return firstInstance
     }
-    
+
 //    func removeAllProjects() {
 //        do {
 //            try DataBase.shared.modelContext.delete(model: Project.self)
@@ -77,26 +82,27 @@ final class ProjectsManager: ObservableObject {
         projectViewModels = projects.map { ProjectViewModel(project: $0) }
     }
     
-    func getAllProjects() -> [Project] {
-        do {
-            let result = try modelContext.fetch(FetchDescriptor<Project>())
-            if !result.isEmpty {
-                return result
-            } else {
-                let instance = Project(name: "Pro 1")
-                modelContext.insert(instance)
-                return [instance]
-            }
-        } catch {
-            fatalError("FetchDescriptor<Project>")
-        }
-
-    }
+//    func getAllProjects() -> [Project] {
+//        do {
+//            let result = try modelContext.fetch(FetchDescriptor<Project>())
+//            if !result.isEmpty {
+//                return result
+//            } else {
+//                let instance = Project(name: "Pro 1")
+//                modelContext.insert(instance)
+//                return [instance]
+//            }
+//        } catch {
+//            fatalError("FetchDescriptor<Project>")
+//        }
+//
+//    }
     
     func getAllProjectsSorted() -> [Project] {
         do {
             let descriptor = FetchDescriptor<Project>(
-                sortBy: [SortDescriptor(\.dateAdd, order: .reverse)]
+                predicate: #Predicate { !$0.isDeleted },
+                sortBy: [SortDescriptor(\.lastModified, order: .forward)]
             )
             let result = try modelContext.fetch(descriptor)
             return result
@@ -105,9 +111,30 @@ final class ProjectsManager: ObservableObject {
         }
     }
     
+    func getProjectBy(id: String) -> Project {
+        do {
+            let descriptor = FetchDescriptor<Project>()
+            let projects = try modelContext.fetch(descriptor)
+            
+            if projects.isEmpty {
+                return restart()
+            }
+            
+            if let project = projects.first(where: { $0.id == id }) {
+                return project
+            } else if let firstProject = projects.first {
+                return firstProject
+            } else {
+                fatalError("Нет доступных проектов")
+            }
+        } catch {
+            fatalError("Ошибка при получении проектов: \(error)")
+        }
+    }
+    
     
     func addNewProject(_ name: String) {
-        let instance = Project(name: name)
+        let instance = Project(name: name, userId: AuthManager.shared.userId)
         
         modelContext.insert(instance)
         try? modelContext.save()
@@ -122,20 +149,33 @@ final class ProjectsManager: ObservableObject {
     
     func deleteProject(_ deleteProject: Project) {
         // Если удаляемый проект активный, выбираем первый из оставшихся проектов
-        if deleteProject == SettingsManager.shared.activProjectViewModel.project {
-            if let allProjects = try? modelContext.fetch(FetchDescriptor<Project>()),
-               let newActiveProject = allProjects.filter({ $0 != deleteProject }).first {
-                SettingsManager.shared.updateActiveProject(to: newActiveProject)
+        if let allProjects = try? modelContext.fetch(FetchDescriptor<Project>()) {
+            if allProjects.count <= 1 { return }
+            if deleteProject == SettingsManager.shared.activProjectViewModel.project {
+                if  let newActiveProject = allProjects.filter({ $0 != deleteProject }).first {
+                    SettingsManager.shared.updateActiveProject(to: newActiveProject)
+                }
             }
+            // Удаляем проект
+            
+            modelContext.delete(deleteProject)
+            try? modelContext.save()
+            refreshProjects()
         }
-        // Удаляем проект
-        modelContext.delete(deleteProject)
+    }
+    
+    func markDeleteProject(_ project: Project) {
+        if AuthManager.shared.authState == .signedOut {
+            deleteProject(project)
+        } else {
+            project.isDeleted = true
+        }
         try? modelContext.save()
         refreshProjects()
     }
     
     func totalProjectsCount() -> Int {
-        (try? modelContext.fetch(FetchDescriptor<Project>()).count) ?? 0
+        getAllProjectsSorted().count
     }
     
     // Методы добавления/удаления проектов можно реализовать здесь,

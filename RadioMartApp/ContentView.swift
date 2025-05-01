@@ -9,7 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-//    @EnvironmentObject var authManager: AuthManager
+    @ObservedObject var projectSyncManager = ProjectSyncManager.shared
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -24,6 +25,18 @@ struct ContentView: View {
 //                authManager.signAnonymously()
 //            }
         }
+        
+        .alert("Объединить локальные проекты с облаком?", isPresented: $projectSyncManager.showMergePrompt) {
+            Button("Да") {
+                projectSyncManager.pendingSyncContinuation?.resume(returning: true)
+                projectSyncManager.pendingSyncContinuation = nil
+            }
+            Button("Нет", role: .cancel) {
+                projectSyncManager.pendingSyncContinuation?.resume(returning: false)
+                projectSyncManager.pendingSyncContinuation = nil
+            }
+        }
+        
     }
     
 

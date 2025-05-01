@@ -19,7 +19,9 @@ struct ProductView: View {
     @State private var descriptionAllRichText: String = ""
     @State private var nameProduct: String = ""
     @State var isDescriptionReceived: Bool = false
-    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
+    @ObservedObject var localizationManager = LM.shared
+//    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
+//    @ObservedObject var settingsManager = SettingsManager.shared
     
     init(product: Product) {
         self.product = product
@@ -94,11 +96,11 @@ struct ProductView: View {
                               
 //                              let userFB = UserSettingsFireBaseViewModel.shared
                               
-                              if userFB.settings.contentLanguage != .ru {
+                              if LM.shared.currentLanguage != .ru {
                                   do {
                                       let translatedText = try await fetchTranslation(
                                         words: [product.descriptionAllRichText],
-                                        targetLanguage: userFB.settings.contentLanguage.rawValue,
+                                        targetLanguage: LM.shared.currentLanguage.rawValue,
                                         contentType: .html
                                       ).first ?? product.descriptionAllRichText
                                       
@@ -121,7 +123,7 @@ struct ProductView: View {
                     
             }
         }
-        .onChange(of: userFB.settings.contentLanguage) {
+        .onChange(of: localizationManager.currentLanguage) {
             isDescriptionReceived = false
         }
     }

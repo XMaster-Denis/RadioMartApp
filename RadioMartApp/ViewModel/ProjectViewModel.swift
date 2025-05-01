@@ -76,12 +76,14 @@ class ProjectViewModel: ObservableObject {
 
     func updateName(_ newName: String) {
         project.name = newName
+        markModified()
     }
     
     func markModified() {
         try? DataBase.shared.modelContext.save()
         project.lastModified = .now
         project.isSyncedWithCloud = false
+        try? DataBase.shared.modelContext.save()
         updateItemsViewModel()
     }
     

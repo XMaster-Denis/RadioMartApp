@@ -9,6 +9,7 @@ struct SignInView: View {
     @State var signInModel = SignInModel()
     @ObservedObject var authManager =  AuthManager.shared
     @State private var showSignInForm = false
+    @ObservedObject var projectSyncManager = ProjectSyncManager.shared
     
     var body: some View {
         
@@ -22,7 +23,7 @@ struct SignInView: View {
                 })
                 .frame(height: 300)
             
-            VStack(spacing: 15) {
+            VStack(spacing: 6) {
 
                 SignInWithAppleButton(
                     onRequest: { request in
@@ -52,6 +53,8 @@ struct SignInView: View {
                         showSignInForm.toggle()
                     }
                 }
+                
+                
                 
             }
             
@@ -113,8 +116,6 @@ struct SignInView: View {
                         Text(signInModel.errorMessage)
                     }
                     
-                    
-                    
                     Spacer()
                     Text("dont.have.an.account.yet?:string")
                     
@@ -142,16 +143,20 @@ struct SignInView: View {
             Spacer()
         }
         .ignoresSafeArea()
+        
         .sheet(isPresented: $signInModel.showRegistrationView) {
             RegistrationView()
                 .presentationDetents([.fraction(0.5)])
         }
+        
         .sheet(isPresented: $signInModel.showResetPasswordView, content: {
             ForgotPasswordView(viewModel: signInModel)
                 .presentationDetents([.fraction(0.4)])
         })
+        
 
     }
+
     
     func signInWithGoogle() async {
         do {

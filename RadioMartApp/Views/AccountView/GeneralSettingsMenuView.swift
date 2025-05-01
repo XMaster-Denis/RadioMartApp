@@ -9,7 +9,10 @@ import SwiftUI
 
 struct GeneralSettingsMenuView: View {
     
-    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
+//    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
+    
+//    @ObservedObject var settingsManager = SettingsManager.shared
+    
     @ObservedObject var authManager = AuthManager.shared
     
     @State private var showAuthForm: Bool = false
@@ -31,12 +34,12 @@ struct GeneralSettingsMenuView: View {
                 Divider()
 
                 Spacer()
-                Button("to firabase") {
-                    Task {
-                        await ProjectSyncManager.shared.syncProjectsBetweenLocalAndCloud()
-                        
-                    }
-                }
+//                Button("to firabase") {
+//                    Task {
+//                        await SettingsSyncManager.shared.saveSettings()
+//                        
+//                    }
+//                }
             }
             .navigationTitle("settings:string")
             .padding()
