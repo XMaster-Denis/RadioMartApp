@@ -16,12 +16,27 @@ final class SettingsManager: ObservableObject {
     static let shared = SettingsManager()
     var isSyncedWithCloud: Bool = false
     @Published var settingsModel: SettingsModel
-    @Published var activProjectViewModel: ProjectViewModel
+//    @Published var activProjectViewModel: ProjectViewModel
     let modelContext = DataBase.shared.modelContext
 
     init() {
         self.settingsModel = SettingsManager.getSettings()
-        self.activProjectViewModel = ProjectViewModel(project: SettingsManager.getSettings().activProject)
+//        self.activProjectViewModel = ProjectViewModel(project: SettingsManager.getSettings().activProject)
+    }
+    
+    var activProjectViewModel: Binding<ProjectViewModel> {
+        Binding(
+            get: { ProjectViewModel(self.settingsModel.activProject) },
+            set: { newValue in
+                self.settingsModel.activProject = newValue.project
+                self.isSyncedWithCloud = false
+                try? self.modelContext.save()
+            }
+        )
+    }
+    
+    var currentProjectViewModel: ProjectViewModel {
+        ProjectViewModel(settingsModel.activProject)
     }
     
     var currentTab: Binding<Int> {
@@ -57,20 +72,21 @@ final class SettingsManager: ObservableObject {
         )
     }
     
-    var activeProjectBinding: Binding<Project> {
-        Binding(
-            get: { self.activProjectViewModel.project },
-            set: { newProject in
-                self.activProjectViewModel.project = newProject
-                self.activProjectViewModel.markModified()
-                self.isSyncedWithCloud = false
-            }
-        )
-    }
+//    var activeProjectBinding: Binding<Project> {
+//        Binding(
+//            get: { self.activProjectViewModel.project },
+//            set: { newProject in
+//                self.activProjectViewModel.project = newProject
+//                self.activProjectViewModel.markModified()
+//                self.isSyncedWithCloud = false
+//            }
+//        )
+//    }
 
-    func updateActiveProject(to newProject: Project) {
-        settingsModel.activProject = newProject
-        activProjectViewModel = ProjectViewModel(project: newProject)
+    func updateActiveProject(to newProject: ProjectViewModel) {
+        settingsModel.activProject = newProject.project
+//        activProjectViewModel = ProjectViewModel(project: newProject)
+//        activProjectViewModel.markModified()
         isSyncedWithCloud = false
     }
     
@@ -78,7 +94,6 @@ final class SettingsManager: ObservableObject {
         if let settings = try! DataBase.shared.modelContext.fetch(FetchDescriptor<SettingsModel>()).first{
             return settings
         } else {
-            
             let settings = SettingsModel()
             DataBase.shared.modelContext.insert(settings)
             return settings
@@ -103,3 +118,6 @@ final class SettingsManager: ObservableObject {
 //        modelContext.delete(getSettings())
 //    }
 }
+
+
+

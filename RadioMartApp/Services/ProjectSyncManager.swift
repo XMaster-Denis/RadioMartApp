@@ -12,13 +12,12 @@ import SwiftData
 @MainActor
 class ProjectSyncManager: ObservableObject {
     static let shared = ProjectSyncManager()
-
+    
     var settingsManager = SettingsManager.shared
     var projectsManager = ProjectsManager.shared
     let db = FirebaseManager.shared.db
     
     private var mergeLocalProjectsWithCloud: Bool = false //Merge local projects with the cloud
-    private var deleteLocalProjects: Bool = false //Merge local projects with the cloud
     private let collectionName = "projects"
     private let context: ModelContext = DataBase.shared.modelContext
     private var syncTimer: Timer?
@@ -26,12 +25,12 @@ class ProjectSyncManager: ObservableObject {
     @Published var showMergePrompt = false
     @Published var isWaitingForUserConfirmation = false
     @Published var pendingSyncContinuation: CheckedContinuation<Bool, Never>? = nil
-
+    
     
     func requestMergeConfirmation() async -> Bool {
-
         
-
+        
+        
         return await withCheckedContinuation { continuation in
             self.pendingSyncContinuation = continuation
             self.showMergePrompt = true
@@ -43,29 +42,28 @@ class ProjectSyncManager: ObservableObject {
             return
         }
         isWaitingForUserConfirmation = true
-
+        
         print(" - syncProjectsBetweenLocalAndCloud")
         do {
-
-            let unsyncedProjects = try context.fetch(FetchDescriptor<Project>(predicate: #Predicate { !$0.isSyncedWithCloud }))
-          //  var needsUpdate: Bool = false
             
-            let emptyLocalProjects = try context.fetch(FetchDescriptor<Project>(predicate: #Predicate { $0.itemsProject.isEmpty }))
+            let localProjectsWithoutUserId = projectsManager.projectViewModels.filter{
+                $0.userId == "" && !$0.isEmpty}
             
-            let localProjectsWithoutUserId = try context.fetch(FetchDescriptor<Project>(
-                predicate: #Predicate { $0.userId == "" && !$0.itemsProject.isEmpty })
-            )
+//            let localProjectsWithoutUserId = try context.fetch(FetchDescriptor<Project>(
+//                predicate: #Predicate { $0.userId == "" && !$0.itemsProject.isEmpty })
+//            )
             
-            let localProjectsForDeleting = try context.fetch(FetchDescriptor<Project>(
-                predicate: #Predicate { $0.isDeleted })
-            )
+            let localProjectsWithoutUserIdAndEmpty = projectsManager.projectViewModels.filter{
+                $0.userId == "" && $0.isEmpty
+            }
             
-            let localProjects = try context.fetch(FetchDescriptor<Project>())
+//            let localProjectsWithoutUserIdAndEmpty = try context.fetch(FetchDescriptor<Project>(
+//                predicate: #Predicate { $0.userId == "" && $0.itemsProject.isEmpty })
+//            )
             
-            print("localProjects - \(localProjects.count)")
-            print("emptyLocalProjects - \(emptyLocalProjects.count)")
-            print("localProjectsWithoutUserId - \(localProjectsWithoutUserId.count)")
-            print("unsyncedProjects - \(unsyncedProjects.count)")
+            let localProjects = projectsManager.projectViewModels
+//            let localProjects = try context.fetch(FetchDescriptor<Project>())
+            
             
             let remoteProjects = try await fetchRemoteProjects()
             
@@ -74,30 +72,42 @@ class ProjectSyncManager: ObservableObject {
                 let merge = await requestMergeConfirmation()
                 if merge {
                     mergeLocalProjectsWithCloud = true
-                    deleteLocalProjects = false
                 } else {
                     mergeLocalProjectsWithCloud = false
-                    deleteLocalProjects = true
+                    print("q11")
+                    for project in localProjectsWithoutUserIdAndEmpty {
+                        print("DELETE 1")
+                        projectsManager.markDeleteProject(project)
+                    }
                 }
-                
             } else {
                 print("q2")
                 mergeLocalProjectsWithCloud = true
-                deleteLocalProjects = false
-//                if remoteProjects.isEmpty && !localProjects.isEmpty {
-//                    print("q21")
-//                    mergeLocalProjectsWithCloud = true
-//                    deleteLocalProjects = false
-//                } else {
-//                    print("q22")
-//                    mergeLocalProjectsWithCloud = false
-//                    deleteLocalProjects = false
-//                }
+                for project in localProjectsWithoutUserIdAndEmpty {
+                    print("DELETE 2")
+                    projectsManager.markDeleteProject(project)
+                }
+                
             }
             
+            let unsyncedProjects = try context.fetch(FetchDescriptor<Project>(predicate: #Predicate { !$0.isSyncedWithCloud && !$0.isDeleted }))
+            
             
 
-
+            
+            let localProjectsForDeleting = projectsManager.projectViewModels.filter{
+                $0.isDeleted
+            }
+            
+            //            let localProjectsForDeleting = try context.fetch(FetchDescriptor<Project>(
+            //                predicate: #Predicate { $0.isDeleted })
+            //            )
+            
+            print("localProjects - \(localProjects.count)")
+            print("localProjectsWithoutUserId - \(localProjectsWithoutUserId.count)")
+            print("unsyncedProjects - \(unsyncedProjects.count)")
+            print("localProjectsForDeleting - \(localProjectsForDeleting.count)")
+            
             
             if let user = AuthManager.shared.user    {
                 assignUserIdToLocalProjectsIfMissing(user.uid)
@@ -105,22 +115,22 @@ class ProjectSyncManager: ObservableObject {
             
             // Синхронизация: из Firebase в локальную базу
             if !remoteProjects.isEmpty {
-                var newActiveProject: Project?
+                var newActiveProject: ProjectViewModel?
                 for remoteDTO in remoteProjects {
                     if let local = localProjects.first(where: { $0.id == remoteDTO.id }) {
                         newActiveProject = local
                         if remoteDTO.lastModified > local.lastModified {
                             print("q51")
                             updateLocalProject(local, with: remoteDTO)
-                      //      needsUpdate = true
                         }
                     } else {
                         print("q52")
                         newActiveProject = insertLocalProject(from: remoteDTO)
                     }
                 }
-                guard let newActiveProject else {return}
-                settingsManager.updateActiveProject(to: newActiveProject)
+                if let newActiveProject {
+                    settingsManager.updateActiveProject(to: newActiveProject)
+                }
             }
             //
             
@@ -128,38 +138,16 @@ class ProjectSyncManager: ObservableObject {
                 for local in unsyncedProjects {
                     print("q6")
                     try await uploadLocalProjectToCloud(local)
-//                    //where local.userId ==
-//                    if let remote = remoteProjects.first(where: { $0.id == local.id }) {
-//                      //  if local.lastModified > remote.lastModified {
-//                            print("q61")
-//                            try await uploadLocalProjectToCloud(local)
-//                      //  }
-//                    } else {
-//                        print("q62")
-//                        try await uploadLocalProjectToCloud(local)
-//                    }
                 }
             }
             
+            
             for project in localProjectsForDeleting {
                 projectsManager.deleteProject(project)
-                await deleteProjectFromCloud(project.id)
+                if !project.userId.isEmpty {
+                    await deleteProjectFromCloud(project.id)
+                }
             }
-            
-//            if deleteLocalProjects {
-//               for local in localProjects {
-//                   projectsManager.deleteProject(local)
-//               }
-//           }
-            
-//            for emptyLocalProject in emptyLocalProjects {
-//                print("q3")
-//                projectsManager.deleteProject(emptyLocalProject)
-//            }
-            
-         //   if needsUpdate {
-//            projectsManager.refreshProjects()
-          //  }
             
         } catch {
             print("Ошибка синхронизации: \(error)")
@@ -167,7 +155,7 @@ class ProjectSyncManager: ObservableObject {
         isWaitingForUserConfirmation = false
     }
     
-
+    
     private func deleteProjectFromCloud(_ projectId: String) async {
         do {
             try await db.collection(collectionName).document(projectId).delete()
@@ -176,31 +164,26 @@ class ProjectSyncManager: ObservableObject {
             print("❌ Ошибка при удалении проекта из облака: \(error)")
         }
     }
-
-
+    
+    
     private func fetchRemoteProjects() async throws -> [ProjectDTO] {
         guard let userId = AuthManager.shared.userId else {return []}
         
-            let snapshot = try await db.collection(collectionName)
-                .whereField("userId", isEqualTo: userId)
-                .getDocuments()
-            return snapshot.documents.compactMap { doc in
-                try? doc.data(as: ProjectDTO.self)
-            }
+        let snapshot = try await db.collection(collectionName)
+            .whereField("userId", isEqualTo: userId)
+            .getDocuments()
+        return snapshot.documents.compactMap { doc in
+            try? doc.data(as: ProjectDTO.self)
+        }
         
     }
-        
-         
-
     
-
+    
+    
+    
+    
     private func uploadLocalProjectToCloud(_ project: Project) async throws {
         let dto = project.toDTO(userId: project.userId)
-//        print("!!")
-//        print(dto.userId)
-//        print(project.userId)
-//        
-//        print("!!!!")
         
         try db.collection(collectionName).document(dto.id).setData(from: dto, merge: true) { error in
             if let error = error {
@@ -210,19 +193,19 @@ class ProjectSyncManager: ObservableObject {
         project.isSyncedWithCloud = true
     }
     
-    private func insertLocalProject(from dto: ProjectDTO) -> Project {
+    private func insertLocalProject(from dto: ProjectDTO) -> ProjectViewModel {
         let items = dto.items.map {
             ItemProject(name: $0.name, count: $0.count, price: $0.price, idProductRM: $0.idProductRM)
         }
-        let newProject = Project(id: dto.id, name: dto.name, userId: AuthManager.shared.userId ?? "", itemsProject: items)
+        let newProject = ProjectViewModel(Project(id: dto.id, name: dto.name, userId: AuthManager.shared.userId ?? "", itemsProject: items))
         newProject.lastModified = dto.lastModified
         newProject.userId = dto.userId
         newProject.isSyncedWithCloud = false
         ProjectsManager.shared.addNewProject(newProject)
         return newProject
     }
-
-    private func updateLocalProject(_ local: Project, with dto: ProjectDTO) {
+    
+    private func updateLocalProject(_ local: ProjectViewModel, with dto: ProjectDTO) {
         local.name = dto.name
         local.lastModified = dto.lastModified
         local.userId = dto.userId
@@ -230,28 +213,28 @@ class ProjectSyncManager: ObservableObject {
             ItemProject(name: $0.name, count: $0.count, price: $0.price, idProductRM: $0.idProductRM)
         }
     }
-
+    
     func startAutoSync(interval: TimeInterval = 5) {
         stopAutoSync()
         syncTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
             Task {
                 print("TIMER Projects")
                 await self.syncProjectsBetweenLocalAndCloud()
-//                await self.syncUnsyncedProjectsToCloud()
+                //                await self.syncUnsyncedProjectsToCloud()
             }
         }
     }
-
+    
     func stopAutoSync() {
         syncTimer?.invalidate()
         syncTimer = nil
     }
     
-
+    
     private func assignUserIdToLocalProjectsIfMissing(_ userId: String) {
         do {
             let projects = try context.fetch(FetchDescriptor<Project>(
-                predicate: #Predicate { $0.userId == ""})
+                predicate: #Predicate { $0.userId == "" && !$0.isDeleted})
             )
             for project in projects {
                 if project.userId.isEmpty {
@@ -264,7 +247,7 @@ class ProjectSyncManager: ObservableObject {
             print("Ошибка при обновлении userId в локальных проектах: \(error)")
         }
     }
-
+    
     func syncUnsyncedProjectsToCloud() async {
         do {
             let unsyncedProjects =   try context.fetch(FetchDescriptor<Project>(predicate: #Predicate { !$0.isSyncedWithCloud }))

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ItemManagerView: View {
     
-    @StateObject var itemVM: ItemViewModel
+    @StateObject var itemVM: ItemProjectViewModel
     @Binding var isEditingItem: Bool
     @State var title: String = ""
     @State var name: String = ""

@@ -10,7 +10,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-class ItemViewModel: ObservableObject, Identifiable {
+class ItemProjectViewModel: ObservableObject, Identifiable {
     // Идентификатор можно получить из модели или генерировать здесь, если необходимо
     let id: UUID
     @ObservedObject var item: ItemProject
@@ -38,6 +38,15 @@ class ItemViewModel: ObservableObject, Identifiable {
         get { item.price }
         set {
             item.price = newValue
+            objectWillChange.send()
+            markModified()
+        }
+    }
+    
+    var idProductRM: String {
+        get { item.idProductRM }
+        set {
+            item.idProductRM = newValue
             objectWillChange.send()
             markModified()
         }

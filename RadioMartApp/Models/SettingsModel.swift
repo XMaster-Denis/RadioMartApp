@@ -11,7 +11,7 @@ import FirebaseFirestore
 @Model
 final class SettingsModel {
     var id: String = UUID().uuidString
-    var activProject: Project
+    @Relationship var activProject: Project
     var contentLanguage: ContentLanguages
     var currentTab: Int
     var companyName: String
@@ -43,11 +43,9 @@ final class SettingsModel {
             companyName: self.companyName
             )
         }
-    
-    
-    
-    
 }
+
+
 //
 //
 //struct UserSettingsFireBase: Codable, Identifiable {

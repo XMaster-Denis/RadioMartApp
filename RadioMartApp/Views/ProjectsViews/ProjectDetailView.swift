@@ -12,7 +12,7 @@ import PDFKit
 
 struct ProjectDetailView: View {
 //    @StateObject var project: Project
-    @StateObject var project: ProjectViewModel
+    @ObservedObject var project: ProjectViewModel
     @State var currentItem: ItemProject?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @State var isEditingItem: Bool = false
@@ -23,11 +23,14 @@ struct ProjectDetailView: View {
     @State private var isExporting = false
     @State private var pdfURL: URL?
     
-    init(project: Project) {
-        _project = StateObject(wrappedValue: ProjectViewModel(project: project))
+    init(projectViewModel: ProjectViewModel) {
+        project = projectViewModel
+//        _project = StateObject(wrappedValue: ProjectViewModel(projectViewModel))
     }
     
     var body: some View {
+        
+        
         GeometryReader { fullPage in
             
             ZStack {
@@ -84,7 +87,7 @@ struct ProjectDetailView: View {
                             .padding()
                     } else
                     {
-                        Table(project.items)
+                        Table(project.itemsProject)
                         {
                             
                             TableColumn("name-string"){ item in
@@ -164,7 +167,7 @@ struct ProjectDetailView: View {
                 }
                 if isEditingItem {
                     if let currentItem = currentItem {
-                        let itemVM = ItemViewModel(item: currentItem)
+                        let itemVM = ItemProjectViewModel(item: currentItem)
                         ItemManagerView(itemVM: itemVM, isEditingItem: $isEditingItem){
                             project.markModified()
                         }

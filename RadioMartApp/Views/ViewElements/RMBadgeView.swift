@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RMBadgeView: View {
-    @ObservedObject var item: ItemProject
+    @ObservedObject var item: ItemProjectViewModel
     var body: some View {
         if item.count > 0 {
             ZStack{

@@ -76,12 +76,11 @@ class AuthManager: ObservableObject {
         if isAuthenticatedUser {
             self.authState = .signedIn
             Task {
-//                DataBase.shared.assignUserIdToLocalProjectsIfMissing(user?.uid ?? "")
-                await ProjectSyncManager.shared.syncProjectsBetweenLocalAndCloud()
-                ProjectSyncManager.shared.startAutoSync()
-                
-                await SettingsSyncManager.shared.fetchSettings()
-                SettingsSyncManager.shared.startSettingsAutoSync()
+//                await ProjectSyncManager.shared.syncProjectsBetweenLocalAndCloud()
+//                ProjectSyncManager.shared.startAutoSync()
+//                
+//                await SettingsSyncManager.shared.fetchSettings()
+//                SettingsSyncManager.shared.startSettingsAutoSync()
             }
             
             displayName = getDisplayName()

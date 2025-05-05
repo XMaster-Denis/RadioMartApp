@@ -11,7 +11,7 @@ import SwiftData
 struct ProjectPanelView: View {
     @ObservedObject private var projectsManager = ProjectsManager.shared
     @ObservedObject var settings = SettingsManager.shared
-    @ObservedObject var activeProject = SettingsManager.shared.activProjectViewModel
+//    @ObservedObject var activeProject = SettingsManager.shared.activProjectViewModel
     
     var body: some View {
         HStack {
@@ -20,15 +20,15 @@ struct ProjectPanelView: View {
                 .fixedSize()
             Spacer()
             VStack (spacing:0) {
-                Picker("currentproject:-string", selection: settings.activeProjectBinding) {
-                    ForEach(projectsManager.projectViewModels, id: \.project.id) { viewModel in
+                Picker("currentproject:-string", selection: settings.activProjectViewModel) {
+                    ForEach(projectsManager.projectViewModels, id: \.id) { viewModel in
                         Text("\(viewModel.project.name)")
-                            .tag(viewModel.project)
+                            .tag(viewModel)
                             .fixedSize()
                     }
                 }
                 .fixedSize()
-                Text("\(activeProject.totalPrice.toLocateCurrencyString())")
+                Text(settings.currentProjectViewModel.totalPrice.toLocateCurrencyString())
                     .monospacedDigit()
             }
         }

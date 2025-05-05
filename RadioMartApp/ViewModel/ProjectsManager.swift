@@ -28,10 +28,9 @@ final class ProjectsManager: ObservableObject {
     }
     
     @discardableResult
-    func restart() -> Project {
+    func restart() -> ProjectViewModel {
         print(AuthManager.shared.userId ?? "No user id")
-        let firstInstance = Project(name: ProjectsManager.firstProjectName)
-        SettingsManager.shared.updateActiveProject(to: firstInstance)
+        let firstInstance = ProjectViewModel(Project(name: ProjectsManager.firstProjectName,userId: AuthManager.shared.userId))
         deleteAllProjectsExcept(firstInstance)
         refreshProjects()
         return firstInstance
@@ -45,7 +44,7 @@ final class ProjectsManager: ObservableObject {
 //        }
 //    }
     
-    func deleteAllProjectsExcept(_ projectToKeep: Project) {
+    func deleteAllProjectsExcept(_ projectToKeep: ProjectViewModel) {
         let fetchDescriptor = FetchDescriptor<Project>()
         let allProjects = try? modelContext.fetch(fetchDescriptor)
         let projectsToDelete = allProjects?.filter { $0.id != projectToKeep.id } ?? []
@@ -79,7 +78,7 @@ final class ProjectsManager: ObservableObject {
     
     private func fetchProjects() {
         let projects = getAllProjectsSorted()
-        projectViewModels = projects.map { ProjectViewModel(project: $0) }
+        projectViewModels = projects.map { ProjectViewModel($0) }
     }
     
 //    func getAllProjects() -> [Project] {
@@ -111,60 +110,61 @@ final class ProjectsManager: ObservableObject {
         }
     }
     
-    func getProjectBy(id: String) -> Project {
-        do {
-            let descriptor = FetchDescriptor<Project>()
-            let projects = try modelContext.fetch(descriptor)
-            
-            if projects.isEmpty {
+    func getProjectBy(id: String) -> ProjectViewModel {
+//        do {
+//            let descriptor = FetchDescriptor<Project>()
+//            let projects = try modelContext.fetch(descriptor)
+//            
+            if projectViewModels.isEmpty {
                 return restart()
             }
             
-            if let project = projects.first(where: { $0.id == id }) {
+            if let project = projectViewModels.first(where: { $0.id == id }) {
                 return project
-            } else if let firstProject = projects.first {
+            } else if let firstProject = projectViewModels.first {
                 return firstProject
             } else {
                 fatalError("Нет доступных проектов")
             }
-        } catch {
-            fatalError("Ошибка при получении проектов: \(error)")
-        }
+//        } catch {
+//            fatalError("Ошибка при получении проектов: \(error)")
+//        }
     }
     
     
     func addNewProject(_ name: String) {
-        let instance = Project(name: name, userId: AuthManager.shared.userId)
-        
-        modelContext.insert(instance)
-        try? modelContext.save()
+        let instance = ProjectViewModel(Project(name: name, userId: AuthManager.shared.userId))
+        projectViewModels.append(instance)
+//        modelContext.insert(instance)
+//        try? modelContext.save()
         refreshProjects()
     }
       
-    func addNewProject(_ project: Project) {
-        modelContext.insert(project)
-        try? modelContext.save()
+    func addNewProject(_ project: ProjectViewModel) {
+        projectViewModels.append(project)
+//        modelContext.insert(project)
+//        try? modelContext.save()
         refreshProjects()
     }
     
-    func deleteProject(_ deleteProject: Project) {
+    func deleteProject(_ deleteProject: ProjectViewModel) {
         // Если удаляемый проект активный, выбираем первый из оставшихся проектов
-        if let allProjects = try? modelContext.fetch(FetchDescriptor<Project>()) {
-            if allProjects.count <= 1 { return }
-            if deleteProject == SettingsManager.shared.activProjectViewModel.project {
-                if  let newActiveProject = allProjects.filter({ $0 != deleteProject }).first {
+//        if let allProjects = try? modelContext.fetch(FetchDescriptor<Project>()) {
+            if projectViewModels.count <= 1 { return }
+        if deleteProject == SettingsManager.shared.currentProjectViewModel {
+                if  let newActiveProject = projectViewModels.filter({ $0 != deleteProject }).first {
                     SettingsManager.shared.updateActiveProject(to: newActiveProject)
                 }
             }
             // Удаляем проект
             
-            modelContext.delete(deleteProject)
+            modelContext.delete(deleteProject.project)
             try? modelContext.save()
             refreshProjects()
-        }
+//        }
     }
     
-    func markDeleteProject(_ project: Project) {
+    func markDeleteProject(_ project: ProjectViewModel) {
         if AuthManager.shared.authState == .signedOut {
             deleteProject(project)
         } else {

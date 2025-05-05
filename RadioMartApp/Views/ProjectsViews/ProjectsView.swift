@@ -9,8 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ProjectsView: View {
-   // @State private var viewModels: [ProjectViewModel] = []
-    @ObservedObject private var projectsManager: ProjectsManager = ProjectsManager.shared
+    @ObservedObject private var projectsManager = ProjectsManager.shared
     @ObservedObject var path: Router = Router.shared
     @State var isAddProjectShow: Bool = false
     @State var isEditProjectName: Bool = false
@@ -18,6 +17,7 @@ struct ProjectsView: View {
     @State private var showDeleteAlert: Bool = false
     
     var body: some View {
+        
         NavigationStack (path: $path.projectsPath) {
             ZStack {
                 VStack {
@@ -45,9 +45,9 @@ struct ProjectsView: View {
                                     
                                     Button {
                                         
-                                        if  ProjectsManager.shared.totalProjectsCount() > 1 {
-                                            ProjectsManager.shared.markDeleteProject(projectViewModel.project)
-                                            ProjectsManager.shared.refreshProjects()
+                                        if  projectsManager.totalProjectsCount() > 1 {
+                                            projectsManager.markDeleteProject(projectViewModel)
+                                            projectsManager.refreshProjects()
                                         } else {
                                             showDeleteAlert = true
                                         }
@@ -67,7 +67,7 @@ struct ProjectsView: View {
                                     
                                 }
                                 .onTapGesture {
-                                    path.projectsPath.append(projectViewModel.project)
+                                    path.projectsPath.append(projectViewModel)
                                 }
                         }
                         
@@ -76,8 +76,8 @@ struct ProjectsView: View {
                     
                     
                 }
-                .navigationDestination(for: Project.self) { project in
-                    ProjectDetailView(project: project)
+                .navigationDestination(for: ProjectViewModel.self) { project in
+                    ProjectDetailView(projectViewModel: project)
                 }
                 .disabled(isEditProjectName)
                 

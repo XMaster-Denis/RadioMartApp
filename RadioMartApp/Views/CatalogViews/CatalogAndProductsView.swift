@@ -16,14 +16,20 @@ struct CatalogAndProductsView: View {
     @ObservedObject var localizationManager = LM.shared
 //    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
     @ObservedObject var settingsManager = SettingsManager.shared
-    @ObservedObject var activeProject = SettingsManager.shared.activProjectViewModel
     
+    @ObservedObject var activeProject = SettingsManager.shared.currentProjectViewModel
+    
+//    var activeProject: ProjectViewModel {
+//        settingsManager.currentProjectViewModel
+//    }
     
     init(id: Int) {
         currentCategory = id
     }
     
     var body: some View {
+        
+        
         ZStack {
 
             if isLoadingDone {
@@ -74,8 +80,8 @@ struct CatalogAndProductsView: View {
                                     .overlay {
                                         ZStack {
                                             Button {
-                                                let newItemProject = ItemProject(name: product.name, count: 1, price: product.priceDecimal, idProductRM: product.reference)
-                                                settingsManager.activProjectViewModel.incItem(item: newItemProject)
+                                                let newItemProject = ItemProjectViewModel(item: ItemProject(name: product.name, count: 1, price: product.priceDecimal, idProductRM: product.reference))
+                                                activeProject.incItem(item: newItemProject)
                                             } label: {
                                                 
                                                 ZStack {
@@ -100,11 +106,11 @@ struct CatalogAndProductsView: View {
                                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                                             .offset(x: 18, y:  -67)
                                             
-                                            
-                                            if let item = settingsManager.activProjectViewModel.getItemByRM(product.reference) {
+//                                            if true {
+                                            if  let item: ItemProjectViewModel = activeProject.getItemByRM(product.reference) {
                                                 
                                                 Button {
-                                                    settingsManager.activProjectViewModel.decItem(item: item)
+                                                    activeProject.decItem(item: item)
                                                 } label: {
                                                     
                                                     ZStack {
@@ -129,9 +135,9 @@ struct CatalogAndProductsView: View {
                                                 RMBadgeView(item: item)
                                                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
                                                     .offset(x: 12, y:  -20)
-                                                    .task {
-                                                        print(item.count)
-                                                    }
+//                                                    .task {
+//                                                        print(item.count)
+//                                                    }
                                             }
                                             
                                             
