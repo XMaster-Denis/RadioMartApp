@@ -45,24 +45,27 @@ class ProjectSyncManager: ObservableObject {
         
         print(" - syncProjectsBetweenLocalAndCloud")
         do {
+            let localProjectsForDeleting = projectsManager.projectViewModelsAll.filter{
+                $0.isMarkDeleted
+            }
+            
+            for project in localProjectsForDeleting {
+                projectsManager.deleteProject(project)
+                if !project.userId.isEmpty {
+                    await deleteProjectFromCloud(project.id)
+                }
+            }
             
             let localProjectsWithoutUserId = projectsManager.projectViewModels.filter{
                 $0.userId == "" && !$0.isEmpty}
             
-//            let localProjectsWithoutUserId = try context.fetch(FetchDescriptor<Project>(
-//                predicate: #Predicate { $0.userId == "" && !$0.itemsProject.isEmpty })
-//            )
             
             let localProjectsWithoutUserIdAndEmpty = projectsManager.projectViewModels.filter{
                 $0.userId == "" && $0.isEmpty
             }
             
-//            let localProjectsWithoutUserIdAndEmpty = try context.fetch(FetchDescriptor<Project>(
-//                predicate: #Predicate { $0.userId == "" && $0.itemsProject.isEmpty })
-//            )
             
             let localProjects = projectsManager.projectViewModels
-//            let localProjects = try context.fetch(FetchDescriptor<Project>())
             
             
             let remoteProjects = try await fetchRemoteProjects()
@@ -90,22 +93,14 @@ class ProjectSyncManager: ObservableObject {
                 
             }
             
-            let unsyncedProjects = try context.fetch(FetchDescriptor<Project>(predicate: #Predicate { !$0.isSyncedWithCloud && !$0.isDeleted }))
+
             
             
 
             
-            let localProjectsForDeleting = projectsManager.projectViewModels.filter{
-                $0.isDeleted
-            }
-            
-            //            let localProjectsForDeleting = try context.fetch(FetchDescriptor<Project>(
-            //                predicate: #Predicate { $0.isDeleted })
-            //            )
-            
             print("localProjects - \(localProjects.count)")
             print("localProjectsWithoutUserId - \(localProjectsWithoutUserId.count)")
-            print("unsyncedProjects - \(unsyncedProjects.count)")
+
             print("localProjectsForDeleting - \(localProjectsForDeleting.count)")
             
             
@@ -118,7 +113,6 @@ class ProjectSyncManager: ObservableObject {
                 var newActiveProject: ProjectViewModel?
                 for remoteDTO in remoteProjects {
                     if let local = localProjects.first(where: { $0.id == remoteDTO.id }) {
-                        newActiveProject = local
                         if remoteDTO.lastModified > local.lastModified {
                             print("q51")
                             updateLocalProject(local, with: remoteDTO)
@@ -128,11 +122,22 @@ class ProjectSyncManager: ObservableObject {
                         newActiveProject = insertLocalProject(from: remoteDTO)
                     }
                 }
+                print("q53")
                 if let newActiveProject {
+                    print("q54")
                     settingsManager.updateActiveProject(to: newActiveProject)
                 }
             }
-            //
+            
+            let unsyncedProjects = projectsManager.projectViewModelsAll.filter{
+                !$0.isSyncedWithCloud && !$0.isMarkDeleted && !$0.userId.isEmpty
+            }
+            
+
+//            let unsyncedProjects = try context.fetch(FetchDescriptor<Project>(predicate: #Predicate { !$0.isSyncedWithCloud && !$0.isMarkDeleted && !$0.userId.isEmpty }))
+            
+            
+            print("unsyncedProjects - \(unsyncedProjects.count)")
             
             if mergeLocalProjectsWithCloud {
                 for local in unsyncedProjects {
@@ -141,13 +146,7 @@ class ProjectSyncManager: ObservableObject {
                 }
             }
             
-            
-            for project in localProjectsForDeleting {
-                projectsManager.deleteProject(project)
-                if !project.userId.isEmpty {
-                    await deleteProjectFromCloud(project.id)
-                }
-            }
+
             
         } catch {
             print("Ошибка синхронизации: \(error)")
@@ -182,8 +181,9 @@ class ProjectSyncManager: ObservableObject {
     
     
     
-    private func uploadLocalProjectToCloud(_ project: Project) async throws {
-        let dto = project.toDTO(userId: project.userId)
+    private func uploadLocalProjectToCloud(_ project: ProjectViewModel) async throws {
+        print(project.project.name)
+        let dto = project.project.toDTO()
         
         try db.collection(collectionName).document(dto.id).setData(from: dto, merge: true) { error in
             if let error = error {
@@ -234,7 +234,7 @@ class ProjectSyncManager: ObservableObject {
     private func assignUserIdToLocalProjectsIfMissing(_ userId: String) {
         do {
             let projects = try context.fetch(FetchDescriptor<Project>(
-                predicate: #Predicate { $0.userId == "" && !$0.isDeleted})
+                predicate: #Predicate { $0.userId == "" && !$0.isMarkDeleted})
             )
             for project in projects {
                 if project.userId.isEmpty {
@@ -248,17 +248,4 @@ class ProjectSyncManager: ObservableObject {
         }
     }
     
-    func syncUnsyncedProjectsToCloud() async {
-        do {
-            let unsyncedProjects =   try context.fetch(FetchDescriptor<Project>(predicate: #Predicate { !$0.isSyncedWithCloud }))
-            
-            for project in unsyncedProjects {
-                print("Projecr for Sink \(project.name)")
-                try await uploadLocalProjectToCloud(project)
-                project.isSyncedWithCloud = true
-            }
-        } catch {
-            print("Ошибка авто-синхронизации: \(error)")
-        }
-    }
 }

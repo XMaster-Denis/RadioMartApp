@@ -19,30 +19,39 @@ final class ProjectsManager: ObservableObject {
     static let firstProjectName: String = "First project"
     let modelContext = DataBase.shared.modelContext
     
-    @Published var projectViewModels: [ProjectViewModel] = []
+    @Published var projectViewModelsAll: [ProjectViewModel] = []
+    
+    var projectViewModels: [ProjectViewModel] {
+        projectViewModelsAll.filter{
+            !$0.isMarkDeleted
+        }
+    }
     
     private var cancellables = Set<AnyCancellable>()
     
     private init() {
-        refreshProjects()
+        fetchProjects()
+        //refreshProjects()
     }
     
     @discardableResult
     func restart() -> ProjectViewModel {
+        print("-------------restart")
         print(AuthManager.shared.userId ?? "No user id")
         let firstInstance = ProjectViewModel(Project(name: ProjectsManager.firstProjectName,userId: AuthManager.shared.userId))
         deleteAllProjectsExcept(firstInstance)
+        projectViewModelsAll = [firstInstance]
         refreshProjects()
         return firstInstance
     }
-
-//    func removeAllProjects() {
-//        do {
-//            try DataBase.shared.modelContext.delete(model: Project.self)
-//        } catch {
-//            print("Failed to clear all Project data.")
-//        }
-//    }
+    
+    //    func removeAllProjects() {
+    //        do {
+    //            try DataBase.shared.modelContext.delete(model: Project.self)
+    //        } catch {
+    //            print("Failed to clear all Project data.")
+    //        }
+    //    }
     
     func deleteAllProjectsExcept(_ projectToKeep: ProjectViewModel) {
         let fetchDescriptor = FetchDescriptor<Project>()
@@ -60,7 +69,7 @@ final class ProjectsManager: ObservableObject {
         // Отменяем старые подписки, если они были
         cancellables.removeAll()
         
-        for viewModel in projectViewModels {
+        for viewModel in projectViewModelsAll {
             print("add")
             viewModel.objectWillChange
                 .sink { [weak self] _ in
@@ -72,35 +81,36 @@ final class ProjectsManager: ObservableObject {
     }
     
     func refreshProjects() {
-        fetchProjects()
+        
         subscribeToProjectsChanges()
     }
     
     private func fetchProjects() {
+        print("fetchProjects")
         let projects = getAllProjectsSorted()
-        projectViewModels = projects.map { ProjectViewModel($0) }
+        projectViewModelsAll = projects.map { ProjectViewModel($0) }
     }
     
-//    func getAllProjects() -> [Project] {
-//        do {
-//            let result = try modelContext.fetch(FetchDescriptor<Project>())
-//            if !result.isEmpty {
-//                return result
-//            } else {
-//                let instance = Project(name: "Pro 1")
-//                modelContext.insert(instance)
-//                return [instance]
-//            }
-//        } catch {
-//            fatalError("FetchDescriptor<Project>")
-//        }
-//
-//    }
+    //    func getAllProjects() -> [Project] {
+    //        do {
+    //            let result = try modelContext.fetch(FetchDescriptor<Project>())
+    //            if !result.isEmpty {
+    //                return result
+    //            } else {
+    //                let instance = Project(name: "Pro 1")
+    //                modelContext.insert(instance)
+    //                return [instance]
+    //            }
+    //        } catch {
+    //            fatalError("FetchDescriptor<Project>")
+    //        }
+    //
+    //    }
     
     func getAllProjectsSorted() -> [Project] {
         do {
             let descriptor = FetchDescriptor<Project>(
-                predicate: #Predicate { !$0.isDeleted },
+//                predicate: #Predicate { !$0.isDeleted },
                 sortBy: [SortDescriptor(\.lastModified, order: .forward)]
             )
             let result = try modelContext.fetch(descriptor)
@@ -111,73 +121,77 @@ final class ProjectsManager: ObservableObject {
     }
     
     func getProjectBy(id: String) -> ProjectViewModel {
-//        do {
-//            let descriptor = FetchDescriptor<Project>()
-//            let projects = try modelContext.fetch(descriptor)
-//            
-            if projectViewModels.isEmpty {
-                return restart()
-            }
-            
-            if let project = projectViewModels.first(where: { $0.id == id }) {
-                return project
-            } else if let firstProject = projectViewModels.first {
-                return firstProject
-            } else {
-                fatalError("Нет доступных проектов")
-            }
-//        } catch {
-//            fatalError("Ошибка при получении проектов: \(error)")
-//        }
+        //        do {
+        //            let descriptor = FetchDescriptor<Project>()
+        //            let projects = try modelContext.fetch(descriptor)
+        //
+        if projectViewModels.isEmpty {
+            return restart()
+        }
+        
+        if let project = projectViewModels.first(where: { $0.id == id }) {
+            return project
+        } else if let firstProject = projectViewModels.first {
+            return firstProject
+        } else {
+            fatalError("Нет доступных проектов")
+        }
+        //        } catch {
+        //            fatalError("Ошибка при получении проектов: \(error)")
+        //        }
     }
     
     
     func addNewProject(_ name: String) {
         let instance = ProjectViewModel(Project(name: name, userId: AuthManager.shared.userId))
-        projectViewModels.append(instance)
-//        modelContext.insert(instance)
-//        try? modelContext.save()
+        projectViewModelsAll.append(instance)
+//                modelContext.insert(instance)
+//                try? modelContext.save()
         refreshProjects()
     }
-      
+    
     func addNewProject(_ project: ProjectViewModel) {
-        projectViewModels.append(project)
-//        modelContext.insert(project)
-//        try? modelContext.save()
+        projectViewModelsAll.append(project)
+//                modelContext.insert(project)
+//                try? modelContext.save()
         refreshProjects()
     }
     
     func deleteProject(_ deleteProject: ProjectViewModel) {
-        // Если удаляемый проект активный, выбираем первый из оставшихся проектов
-//        if let allProjects = try? modelContext.fetch(FetchDescriptor<Project>()) {
-            if projectViewModels.count <= 1 { return }
+        if projectViewModels.count == 1 &&
+            deleteProject === projectViewModels.first { return }
         if deleteProject == SettingsManager.shared.currentProjectViewModel {
-                if  let newActiveProject = projectViewModels.filter({ $0 != deleteProject }).first {
-                    SettingsManager.shared.updateActiveProject(to: newActiveProject)
-                }
+            if  let newActiveProject = projectViewModels.filter({ $0 != deleteProject }).first {
+                SettingsManager.shared.updateActiveProject(to: newActiveProject)
             }
-            // Удаляем проект
-            
-            modelContext.delete(deleteProject.project)
-            try? modelContext.save()
-            refreshProjects()
-//        }
+        }
+
+        
+        projectViewModelsAll.removeAll { $0.id == deleteProject.id }
+        
+        modelContext.delete(deleteProject.project)
+        try? modelContext.save()
+        refreshProjects()
     }
+    
     
     func markDeleteProject(_ project: ProjectViewModel) {
         if AuthManager.shared.authState == .signedOut {
             deleteProject(project)
         } else {
-            project.isDeleted = true
+
+            project.isMarkDeleted = true
+
         }
         try? modelContext.save()
-        refreshProjects()
+ 
+        
+        let localProjectsForDeleting = projectViewModelsAll.filter{
+            $0.isMarkDeleted == true //"+"
+        }
+        
+        print(localProjectsForDeleting)
+
     }
-    
-    func totalProjectsCount() -> Int {
-        getAllProjectsSorted().count
-    }
-    
-    // Методы добавления/удаления проектов можно реализовать здесь,
-    // а после изменения данных вызывать fetchProjects() или обновлять projectViewModels напрямую.
+
 }

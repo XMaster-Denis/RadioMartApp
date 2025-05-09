@@ -80,8 +80,11 @@ struct CatalogAndProductsView: View {
                                     .overlay {
                                         ZStack {
                                             Button {
-                                                let newItemProject = ItemProjectViewModel(item: ItemProject(name: product.name, count: 1, price: product.priceDecimal, idProductRM: product.reference))
-                                                activeProject.incItem(item: newItemProject)
+//                                                let newItemProject = ItemProjectViewModel(item: ItemProject(name: product.name, count: 1, price: product.priceDecimal, idProductRM: product.reference))
+//                                                activeProject.incItem(item: newItemProject)
+                                                print(activeProject.totalItems)
+                                                print(activeProject.project.itemsProject.count)
+                                                activeProject.incItem(item: product)
                                             } label: {
                                                 
                                                 ZStack {

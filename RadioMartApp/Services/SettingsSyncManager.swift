@@ -25,7 +25,7 @@ class SettingsSyncManager {
     
     func saveSettings() async {
         
-        print("\(settingsManager.activProjectViewModel.project.id)")
+//        print("\(settingsManager.activProjectViewModel.project.id)")
         
         let localSettingsDTO = settingsManager.settingsModel.toDTO()
         
@@ -71,6 +71,7 @@ class SettingsSyncManager {
     
     func syncSettingsToCloud() async {
         if !settingsManager.isSyncedWithCloud {
+            print("saveSettings")
             await saveSettings()
             settingsManager.isSyncedWithCloud = true
         }

@@ -52,9 +52,14 @@ class ItemProjectViewModel: ObservableObject, Identifiable {
         }
     }
     
-    init(item: ItemProject) {
+    init(item: ItemProject, insertIfNeeded: Bool = false) {
         self.item = item
-        self.id = item.id // Например, если в модели Item есть уникальный id
+        self.id = item.id
+        if insertIfNeeded {
+            print("insertIfNeeded")
+            DataBase.shared.modelContext.insert(item)
+            try? DataBase.shared.modelContext.save()
+        }
     }
     
     private func markModified() {

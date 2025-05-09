@@ -39,13 +39,13 @@ struct ProjectsView: View {
                     .padding(.horizontal)
                     
                     List {
-                        ForEach(projectsManager.projectViewModels, id: \.project.id) { projectViewModel in
+                        ForEach(projectsManager.projectViewModelsAll, id: \.id) { projectViewModel in
                             ProjectLineView(viewModel: projectViewModel)
                                 .swipeActions(allowsFullSwipe: false){
                                     
                                     Button {
                                         
-                                        if  projectsManager.totalProjectsCount() > 1 {
+                                        if  projectsManager.projectViewModels.count > 1 {
                                             projectsManager.markDeleteProject(projectViewModel)
                                             projectsManager.refreshProjects()
                                         } else {

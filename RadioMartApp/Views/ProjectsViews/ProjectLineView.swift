@@ -17,6 +17,13 @@ struct ProjectLineView: View {
                     Text(viewModel.project.name)
                     Text(viewModel.project.userId)
                         .font(.caption)
+                    HStack {
+                        Text("\(viewModel.project.isMarkDeleted)")
+                            .font(.caption)
+                        Text("\(viewModel.project.isSyncedWithCloud)")
+                            .font(.caption)
+                    }
+                 
                     
                 }
                 
@@ -60,4 +67,4 @@ struct ProjectLineView: View {
 //    
 //    return ProjectLineView(viewModel: ProjectViewModel(project: project))
 //        .modelContainer(container)
-//}
+//

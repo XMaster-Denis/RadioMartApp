@@ -78,18 +78,18 @@ class ProjectViewModel: ObservableObject {
         get { project.isSyncedWithCloud }
         set {
             project.isSyncedWithCloud = newValue
-            markModified()
+            try? DataBase.shared.modelContext.save()
         }
-    }    
-    var isDeleted: Bool {
-        get { project.isDeleted }
+    }
+    var isMarkDeleted: Bool {
+        get { project.isMarkDeleted }
         set {
-            project.isDeleted = newValue
+            project.isMarkDeleted = newValue
             markModified()
         }
     }
     
-
+    
     
     private func updateItemsViewModel() {
         itemsViewModel = project.itemsProject.map { ItemProjectViewModel(item: $0) }
@@ -105,41 +105,63 @@ class ProjectViewModel: ObservableObject {
     }
     
     func markModified() {
-        try? DataBase.shared.modelContext.save()
+//        try? DataBase.shared.modelContext.save()
         project.lastModified = .now
         project.isSyncedWithCloud = false
         try? DataBase.shared.modelContext.save()
-        updateItemsViewModel()
+//        updateItemsViewModel()
     }
     
     func getItemByRM (_ reference: String) -> ItemProjectViewModel? {
-        return nil
-//        return itemsViewModel.first{$0.idProductRM == reference}
+//        return nil
+        return itemsViewModel.first{$0.idProductRM == reference}
         //project.itemsProject.first{$0.idProductRM == reference}
     }
     
     
-    func incItem(item: ItemProjectViewModel, count: Int = 1) {
-        if let findedItem = itemsViewModel.first(where: {$0.idProductRM == item.idProductRM &&
-            $0.price == item.price &&
+//    
+//    
+//    func incItem(item: ItemProjectViewModel, count: Int = 1) {
+//        if let findedItem = itemsViewModel.first(where: {$0.idProductRM == item.idProductRM &&
+//            $0.price == item.price &&
+//            $0.name == item.name}) {
+//                findedItem.count += 1
+//                markModified()
+//            } else {
+//                itemsViewModel.append(item)
+//                markModified()
+//            }
+//        
+////        let findedItem = itemsViewModel.first{$0.idProductRM == item.idProductRM &&
+////            $0.price == item.price &&
+////            $0.name == item.name}
+////        guard  let findedItem = findedItem else {
+////            itemsViewModel.append(item)
+////            markModified()
+////            return
+////        }
+////        findedItem.count += 1
+////        markModified()
+//    }
+    
+        
+    
+    func incItem(item: Product, count: Int = 1) {
+        print("incItem(item: Product")
+        if let findedItem = itemsViewModel.first(where: {$0.idProductRM == item.reference &&
+            $0.price == item.priceDecimal &&
             $0.name == item.name}) {
+            print("exist")
                 findedItem.count += 1
                 markModified()
             } else {
-                itemsViewModel.append(item)
+                print("new")
+                let newItem = ItemProject(name: item.name, count: count, price: item.priceDecimal, idProductRM: item.reference)
+                project.itemsProject.append(newItem)
+                let newItemProject = ItemProjectViewModel(item: newItem,  insertIfNeeded: true)
+                itemsViewModel.append(newItemProject)
                 markModified()
             }
-        
-//        let findedItem = itemsViewModel.first{$0.idProductRM == item.idProductRM &&
-//            $0.price == item.price &&
-//            $0.name == item.name}
-//        guard  let findedItem = findedItem else {
-//            itemsViewModel.append(item)
-//            markModified()
-//            return
-//        }
-//        findedItem.count += 1
-//        markModified()
     }
     
     
@@ -152,10 +174,17 @@ class ProjectViewModel: ObservableObject {
         } else {
             if let index = itemsViewModel.firstIndex(where: { $0.idProductRM == item.idProductRM }) {
                 itemsViewModel.remove(at: index)
+                if let index = project.itemsProject.firstIndex(where: { $0.id == item.id }) {
+                    let removedItem = project.itemsProject.remove(at: index)
+                    modelContext.delete(removedItem)
+               
+                }
+                
             }
         }
         markModified()
     }
+
     
     private func getProductsPrice() -> Decimal {
         var summa: Decimal = 0

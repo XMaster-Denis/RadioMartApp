@@ -76,11 +76,11 @@ class AuthManager: ObservableObject {
         if isAuthenticatedUser {
             self.authState = .signedIn
             Task {
-//                await ProjectSyncManager.shared.syncProjectsBetweenLocalAndCloud()
-//                ProjectSyncManager.shared.startAutoSync()
-//                
-//                await SettingsSyncManager.shared.fetchSettings()
-//                SettingsSyncManager.shared.startSettingsAutoSync()
+                await ProjectSyncManager.shared.syncProjectsBetweenLocalAndCloud()
+                ProjectSyncManager.shared.startAutoSync()
+                
+                await SettingsSyncManager.shared.fetchSettings()
+                SettingsSyncManager.shared.startSettingsAutoSync()
             }
             
             displayName = getDisplayName()
@@ -93,19 +93,21 @@ class AuthManager: ObservableObject {
     }
     
     func signOut() async throws {
+        self.user = nil
         if let _ = Auth.auth().currentUser {
             do {
                 // TODO: Sign out from signed-in Provider.
                 try Auth.auth().signOut()
                 ProjectSyncManager.shared.stopAutoSync()
                 SettingsSyncManager.shared.stopSettingsAutoSync()
-                ProjectsManager.shared.restart()
+                
             }
             catch let error as NSError {
                 print("FirebaseAuthError: failed to sign out from Firebase, \(error)")
                 throw error
             }
         }
+        ProjectsManager.shared.restart()
     }
     
     func getDisplayName() -> String {
