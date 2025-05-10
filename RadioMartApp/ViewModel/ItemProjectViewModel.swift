@@ -11,11 +11,10 @@ import SwiftUI
 
 @MainActor
 class ItemProjectViewModel: ObservableObject, Identifiable {
-    // Идентификатор можно получить из модели или генерировать здесь, если необходимо
+    
     let id: UUID
     @ObservedObject var item: ItemProject
 
-    // Для удобства можно добавить вычисляемые свойства, если они нужны для отображения
     var name: String {
         get { item.name }
         set {
@@ -56,14 +55,13 @@ class ItemProjectViewModel: ObservableObject, Identifiable {
         self.item = item
         self.id = item.id
         if insertIfNeeded {
-            print("insertIfNeeded")
+            print("insertIfNeeded ItemProject")
             DataBase.shared.modelContext.insert(item)
             try? DataBase.shared.modelContext.save()
         }
     }
     
     private func markModified() {
-        // Вызов сохранения или обновление чего-либо в базе.
         try? DataBase.shared.modelContext.save()
     }
 }

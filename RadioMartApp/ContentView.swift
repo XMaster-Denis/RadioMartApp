@@ -18,6 +18,7 @@ struct ContentView: View {
          //   LaunchScreenView()
             GeneralTabView()
                 .zIndex(0.9)
+            
         }
         .task {
             print(AuthManager.shared.authState)

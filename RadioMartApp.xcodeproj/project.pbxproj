@@ -59,6 +59,7 @@
 		E262052F2D0DC3B500348D6A /* SignInWithGoogleButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E262052E2D0DC3B500348D6A /* SignInWithGoogleButtonView.swift */; };
 		E264954D2B4002B50014A669 /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E264954C2B4002B50014A669 /* ProjectDetailView.swift */; };
 		E264954F2B40299B0014A669 /* ItemRowDetailForIPhoneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E264954E2B40299B0014A669 /* ItemRowDetailForIPhoneView.swift */; };
+		E26E12A12DCF3C0B004218F4 /* ProductCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E26E12A02DCF3C0B004218F4 /* ProductCounterView.swift */; };
 		E26E3D892B3ACB0B00E0AC0D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E26E3D882B3ACB0B00E0AC0D /* Localizable.xcstrings */; };
 		E270660A2AAC591200C58C1B /* RadioMartAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27066092AAC591200C58C1B /* RadioMartAppApp.swift */; };
 		E270660C2AAC591200C58C1B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E270660B2AAC591200C58C1B /* ContentView.swift */; };
@@ -178,6 +179,7 @@
 		E262052E2D0DC3B500348D6A /* SignInWithGoogleButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithGoogleButtonView.swift; sourceTree = "<group>"; };
 		E264954C2B4002B50014A669 /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
 		E264954E2B40299B0014A669 /* ItemRowDetailForIPhoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRowDetailForIPhoneView.swift; sourceTree = "<group>"; };
+		E26E12A02DCF3C0B004218F4 /* ProductCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCounterView.swift; sourceTree = "<group>"; };
 		E26E3D882B3ACB0B00E0AC0D /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		E27066062AAC591200C58C1B /* RadioMartApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RadioMartApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E27066092AAC591200C58C1B /* RadioMartAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioMartAppApp.swift; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 			isa = PBXGroup;
 			children = (
 				E21E7FB72C5027AB0004F665 /* RMBadgeView.swift */,
+				E26E12A02DCF3C0B004218F4 /* ProductCounterView.swift */,
 			);
 			path = ViewElements;
 			sourceTree = "<group>";
@@ -686,6 +689,7 @@
 				E24D52BB2C68DA2E00D7098D /* PDFSwiftUIView.swift in Sources */,
 				E2BDA81E2DB677C100EA09F6 /* Project-PDF+Extension.swift in Sources */,
 				E2D0460E2B305A040043E4A9 /* ProjectLineView.swift in Sources */,
+				E26E12A12DCF3C0B004218F4 /* ProductCounterView.swift in Sources */,
 				E2089D7A2B2C720900948AC5 /* SettingsModel.swift in Sources */,
 				E24843572B987B14000B1A55 /* RegisterViewModel.swift in Sources */,
 				E2CEFEE12DABBFF900A92AE1 /* ProjectsManager.swift in Sources */,

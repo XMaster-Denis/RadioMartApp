@@ -18,15 +18,18 @@ class ProjectViewModel: ObservableObject {
     
 
     
-    init(_ project: Project) {
+    init(_ project: Project, insertIfNeeded: Bool = false) {
         self.project = project
         self.itemsViewModel = project.itemsProject.map {
             ItemProjectViewModel(item: $0)
         }
         self.id = project.id
-        modelContext.insert(project)
-        try? modelContext.save()
-        updateItemsViewModel()
+        if insertIfNeeded {
+            print("insertIfNeeded Project")
+            modelContext.insert(project)
+            try? modelContext.save()
+        }
+//        updateItemsViewModel()
     }
     
     
@@ -91,9 +94,9 @@ class ProjectViewModel: ObservableObject {
     
     
     
-    private func updateItemsViewModel() {
-        itemsViewModel = project.itemsProject.map { ItemProjectViewModel(item: $0) }
-    }
+//    private func updateItemsViewModel() {
+//        itemsViewModel = project.itemsProject.map { ItemProjectViewModel(item: $0) }
+//    }
 
     
     
@@ -147,11 +150,12 @@ class ProjectViewModel: ObservableObject {
         
     
     func incItem(item: Product, count: Int = 1) {
-        print("incItem(item: Product")
+        
+
         if let findedItem = itemsViewModel.first(where: {$0.idProductRM == item.reference &&
             $0.price == item.priceDecimal &&
             $0.name == item.name}) {
-            print("exist")
+            print("************incItem \(findedItem.id)")
                 findedItem.count += 1
                 markModified()
             } else {
@@ -169,6 +173,7 @@ class ProjectViewModel: ObservableObject {
 
     
     func decItem(item: ItemProjectViewModel) {
+        print("**************decItem \(item.id)")
         if item.count > 1 {
             item.count -= 1
         } else {

@@ -57,7 +57,7 @@ class SettingsSyncManager {
         stopSettingsAutoSync()
         syncTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
             Task {
-                print("TIMER Settings")
+//                print("TIMER Settings")
                 
                 await self.syncSettingsToCloud()
             }

@@ -20,8 +20,8 @@ struct ProductView: View {
     @State private var nameProduct: String = ""
     @State var isDescriptionReceived: Bool = false
     @ObservedObject var localizationManager = LM.shared
-//    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
-//    @ObservedObject var settingsManager = SettingsManager.shared
+    @EnvironmentObject var activeProject: ProjectViewModel
+
     
     init(product: Product) {
         self.product = product
@@ -57,6 +57,10 @@ struct ProductView: View {
                             }
                         }
                     }
+                }
+                .overlay {
+                    ProductCounterView(product: product)
+                        .offset(x: -25, y:  -100)
                 }
                 
                 .tabViewStyle(PageTabViewStyle())

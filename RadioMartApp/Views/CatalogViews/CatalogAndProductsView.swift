@@ -12,16 +12,9 @@ struct CatalogAndProductsView: View {
     @State var isLoadingDone: Bool = false
     @StateObject var categoriesModel = CategoryModel()
     @StateObject var productsModel = ProductsModel()
-//    @ObservedObject var settings = SettingsManager.shared
     @ObservedObject var localizationManager = LM.shared
-//    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
     @ObservedObject var settingsManager = SettingsManager.shared
-    
-    @ObservedObject var activeProject = SettingsManager.shared.currentProjectViewModel
-    
-//    var activeProject: ProjectViewModel {
-//        settingsManager.currentProjectViewModel
-//    }
+    @EnvironmentObject var activeProject: ProjectViewModel
     
     init(id: Int) {
         currentCategory = id
@@ -31,7 +24,7 @@ struct CatalogAndProductsView: View {
         
         
         ZStack {
-
+            
             if isLoadingDone {
                 List {
                     if (categoriesModel.categories.count != 0) {
@@ -78,77 +71,8 @@ struct CatalogAndProductsView: View {
                                         }
                                     }
                                     .overlay {
-                                        ZStack {
-                                            Button {
-//                                                let newItemProject = ItemProjectViewModel(item: ItemProject(name: product.name, count: 1, price: product.priceDecimal, idProductRM: product.reference))
-//                                                activeProject.incItem(item: newItemProject)
-                                                print(activeProject.totalItems)
-                                                print(activeProject.project.itemsProject.count)
-                                                activeProject.incItem(item: product)
-                                            } label: {
-                                                
-                                                ZStack {
-                                                    RoundedRectangle(cornerRadius: 5)
-                                                        .stroke(Color.blue, lineWidth: 2)
-                                                        .fill(Color.blue.opacity(0.8))
-                                                        .frame(width: 36, height: 36)
-                                                        .shadow(radius: 3, x: 3, y: 3)
-                                                    
-                                                    
-                                                    ZStack {
-                                                        Image(systemName: "plus")
-                                                        
-                                                            .imageScale(.large)
-                                                            .fontWeight(.bold)
-                                                        
-                                                    }
-                                                    .foregroundStyle(Color.white)
-                                                    
-                                                }
-                                            }
-                                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                                            .offset(x: 18, y:  -67)
-                                            
-//                                            if true {
-                                            if  let item: ItemProjectViewModel = activeProject.getItemByRM(product.reference) {
-                                                
-                                                Button {
-                                                    activeProject.decItem(item: item)
-                                                } label: {
-                                                    
-                                                    ZStack {
-                                                        RoundedRectangle(cornerRadius: 5)
-                                                            .stroke(Color.blue, lineWidth: 2)
-                                                            .fill(Color.blue.opacity(0.8))
-                                                            .frame(width: 36, height: 36)
-                                                            .shadow(radius: 3, x: 3, y: 3)
-                                                        ZStack {
-                                                            Image(systemName: "minus")
-                                                            
-                                                                .imageScale(.large)
-                                                                .fontWeight(.bold)
-                                                        }
-                                                        .foregroundStyle(Color.white)
-                                                        
-                                                    }
-                                                }
-                                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                                                .offset(x: 18, y:  -10)
-                                                
-                                                RMBadgeView(item: item)
-                                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                                                    .offset(x: 12, y:  -20)
-//                                                    .task {
-//                                                        print(item.count)
-//                                                    }
-                                            }
-                                            
-                                            
-                                            
-                                        }
-                                        
-                                        
-                                        
+                                        ProductCounterView(product: product)
+                                            .offset(x: 0, y:  0)
                                     }
                                 })
                             }
@@ -157,26 +81,28 @@ struct CatalogAndProductsView: View {
                         //  .navigationBarTitleDisplayMode(.inline)
                     }
                 }
-                 .listStyle(.plain)
-
+                .listStyle(.plain)
+                
             } else  {
                 ProgressView("loading-string")
-                    .task {
-                        
-                        await withTaskGroup(of: Void.self) { group in
-                            group.addTask {
-                                await categoriesModel.loadCategoryBy(id: currentCategory)
+                    .onAppear {
+                        isLoadingDone = false
+                        Task {
+                            await withTaskGroup(of: Void.self) { group in
+                                group.addTask {
+                                    await categoriesModel.loadCategoryBy(id: currentCategory)
+                                }
+                                group.addTask {
+                                    await productsModel.reload(idCategory: currentCategory)
+                                }
                             }
-                            group.addTask {
-                                await productsModel.reload(idCategory: currentCategory)
-                            }
+                            isLoadingDone = true
                         }
-                        
-                        isLoadingDone = true
                     }
             }
         }
         .onChange(of: localizationManager.currentLanguage) {
+            isLoadingDone = false
             Task{
                 await withTaskGroup(of: Void.self) { group in
                     group.addTask {
@@ -186,7 +112,7 @@ struct CatalogAndProductsView: View {
                         await productsModel.reload(idCategory: currentCategory)
                     }
                 }
-                
+                isLoadingDone = true
             }
         }
     }
