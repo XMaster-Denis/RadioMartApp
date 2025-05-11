@@ -38,9 +38,10 @@ final class ProjectsManager: ObservableObject {
     func restart() -> ProjectViewModel {
         print("-------------restart")
         print(AuthManager.shared.userId ?? "No user id")
-        let firstInstance = ProjectViewModel(Project(name: ProjectsManager.firstProjectName,userId: AuthManager.shared.userId))
+        let firstInstance = ProjectViewModel(Project(name: ProjectsManager.firstProjectName, userId: AuthManager.shared.userId), insertIfNeeded: true)
         deleteAllProjectsExcept(firstInstance)
         projectViewModelsAll = [firstInstance]
+        SettingsManager.shared.updateActiveProject(to: firstInstance)
         refreshProjects()
         return firstInstance
     }

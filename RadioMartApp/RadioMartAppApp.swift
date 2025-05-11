@@ -56,7 +56,7 @@ struct RadioMartAppApp: App {
             ContentView()
                 .environmentObject(localizationManager)
                 .environment(\.locale, Locale(identifier: localizationManager.currentLanguage.code))
-                .environmentObject(SettingsManager.shared.currentProjectViewModel)
+                .environmentObject(SettingsManager.shared)
         }
         .modelContainer(DataBase.shared.modelContainer)
     }

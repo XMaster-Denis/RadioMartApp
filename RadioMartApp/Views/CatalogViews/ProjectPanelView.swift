@@ -10,7 +10,8 @@ import SwiftData
 
 struct ProjectPanelView: View {
     @ObservedObject private var projectsManager = ProjectsManager.shared
-    @ObservedObject var settings = SettingsManager.shared
+    @EnvironmentObject var settings: SettingsManager
+//    @EnvironmentObject var activeProject: SettingsManager
 //    @ObservedObject var activeProject = SettingsManager.shared.activProjectViewModel
     
     var body: some View {

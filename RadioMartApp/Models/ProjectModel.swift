@@ -21,7 +21,7 @@ final class Project: ObservableObject {
     @Relationship(deleteRule: .cascade) var itemsProject = [ItemProject]()
     var isMarkDeleted: Bool
     
-    init(id: String = UUID().uuidString, name: String, userId: String? = "", itemsProject: [ItemProject] = [],  ) {
+    init(id: String = UUID().uuidString, name: String, userId: String? = "", itemsProject: [ItemProject] = []) {
         self.id = id
         self.name = name
         self.itemsProject = itemsProject

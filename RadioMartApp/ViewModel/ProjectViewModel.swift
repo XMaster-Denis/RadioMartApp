@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 @MainActor
 class ProjectViewModel: ObservableObject {
@@ -15,6 +16,7 @@ class ProjectViewModel: ObservableObject {
     let id: String
     @Published var project: Project
     @Published var itemsViewModel: [ItemProjectViewModel] = []
+    private var cancellables = Set<AnyCancellable>()
     
 
     
@@ -23,12 +25,20 @@ class ProjectViewModel: ObservableObject {
         self.itemsViewModel = project.itemsProject.map {
             ItemProjectViewModel(item: $0)
         }
+
         self.id = project.id
         if insertIfNeeded {
             print("insertIfNeeded Project")
             modelContext.insert(project)
             try? modelContext.save()
         }
+        
+        project.objectWillChange
+            .sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
+            .store(in: &cancellables)
+        
 //        updateItemsViewModel()
     }
     

@@ -17,6 +17,7 @@ final class SettingsManager: ObservableObject {
     var isSyncedWithCloud: Bool = false
     @Published var settingsModel: SettingsModel
 //    @Published var activProjectViewModel: ProjectViewModel
+    
     let modelContext = DataBase.shared.modelContext
 
     init() {

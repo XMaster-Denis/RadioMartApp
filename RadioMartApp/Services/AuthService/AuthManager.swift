@@ -107,6 +107,7 @@ class AuthManager: ObservableObject {
                 throw error
             }
         }
+        print("restart")
         ProjectsManager.shared.restart()
     }
     

@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ProductCounterView: View {
-    @EnvironmentObject var activeProject: ProjectViewModel
+    @EnvironmentObject var settings: SettingsManager
     var product: Product
     var body: some View {
         ZStack {
             Button {
-                activeProject.incItem(item: product)
+                settings.currentProjectViewModel.incItem(item: product)
             } label: {
                 
                 ZStack {
@@ -38,10 +38,10 @@ struct ProductCounterView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             .offset(x: 18, y:  -67)
 
-            if  let item: ItemProjectViewModel = activeProject.getItemByRM(product.reference) {
+            if  let item: ItemProjectViewModel = settings.currentProjectViewModel.getItemByRM(product.reference) {
                 
                 Button {
-                    activeProject.decItem(item: item)
+                    settings.currentProjectViewModel.decItem(item: item)
                 } label: {
                     
                     ZStack {

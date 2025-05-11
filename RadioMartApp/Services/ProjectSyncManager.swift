@@ -197,11 +197,23 @@ class ProjectSyncManager: ObservableObject {
         let items = dto.items.map {
             ItemProject(name: $0.name, count: $0.count, price: $0.price, idProductRM: $0.idProductRM)
         }
-        let newProject = ProjectViewModel(Project(id: dto.id, name: dto.name, userId: AuthManager.shared.userId ?? "", itemsProject: items))
-        newProject.lastModified = dto.lastModified
-        newProject.userId = dto.userId
-        newProject.isSyncedWithCloud = false
-        ProjectsManager.shared.addNewProject(newProject)
+        items.forEach{
+            DataBase.shared.modelContext.insert($0)
+            try? DataBase.shared.modelContext.save()
+        }
+        
+        print("*insertLocalProject 1 - items.count-  \(items.count)")
+//        let pr = Project(id: dto.id, name: dto.name, userId: AuthManager.shared.userId, itemsProject: items)
+        let pr = Project(id: dto.id, name: dto.name, userId: AuthManager.shared.userId)
+        pr.itemsProject = items
+        let newProject = ProjectViewModel(pr)
+        projectsManager.addNewProject(newProject)
+        
+        print("*insertLocalProject 2")
+//        newProject.lastModified = dto.lastModified
+//        newProject.userId = dto.userId
+//        newProject.isSyncedWithCloud = false
+//        ProjectsManager.shared.addNewProject(newProject)
         return newProject
     }
     

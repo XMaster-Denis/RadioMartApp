@@ -20,7 +20,7 @@ struct ProductView: View {
     @State private var nameProduct: String = ""
     @State var isDescriptionReceived: Bool = false
     @ObservedObject var localizationManager = LM.shared
-    @EnvironmentObject var activeProject: ProjectViewModel
+//    @EnvironmentObject var activeProject: ProjectViewModel
 
     
     init(product: Product) {

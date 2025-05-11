@@ -13,8 +13,8 @@ struct CatalogAndProductsView: View {
     @StateObject var categoriesModel = CategoryModel()
     @StateObject var productsModel = ProductsModel()
     @ObservedObject var localizationManager = LM.shared
-    @ObservedObject var settingsManager = SettingsManager.shared
-    @EnvironmentObject var activeProject: ProjectViewModel
+//    @EnvironmentObject var settings: SettingsManager
+//    @EnvironmentObject var activeProject: ProjectViewModel
     
     init(id: Int) {
         currentCategory = id

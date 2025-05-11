@@ -39,7 +39,7 @@ struct ProjectsView: View {
                     .padding(.horizontal)
                     
                     List {
-                        ForEach(projectsManager.projectViewModelsAll, id: \.id) { projectViewModel in
+                        ForEach(projectsManager.projectViewModels, id: \.id) { projectViewModel in
                             ProjectLineView(viewModel: projectViewModel)
                                 .swipeActions(allowsFullSwipe: false){
                                     
