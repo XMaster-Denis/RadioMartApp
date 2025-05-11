@@ -30,7 +30,7 @@ struct SignInWithGoogleButtonView: View {
                 RoundedRectangle(cornerRadius: 10)
                     .stroke(Color.gray, lineWidth: 2)
             )
-          //  .cornerRadius(10)
+
         }
     }
 }

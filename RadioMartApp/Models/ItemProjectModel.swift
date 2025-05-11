@@ -21,14 +21,14 @@ class ItemProject: ObservableObject, Identifiable {
     var sumItem: Decimal {
         price * Decimal(count)
     }
-  //  var project: Project
+
     
-    init(name: String, count: Int, price: Decimal, idProductRM: String = ""/*, project: Project*/) {
+    init(name: String, count: Int, price: Decimal, idProductRM: String = "") {
         self.name = name
         self.count = count
         self.price = price
         self.idProductRM = idProductRM
-        //self.project = project
+
     }
     
     func toDTO() -> ItemProjectDTO {

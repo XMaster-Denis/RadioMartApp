@@ -20,7 +20,6 @@ struct ProductView: View {
     @State private var nameProduct: String = ""
     @State var isDescriptionReceived: Bool = false
     @ObservedObject var localizationManager = LM.shared
-//    @EnvironmentObject var activeProject: ProjectViewModel
 
     
     init(product: Product) {
@@ -97,8 +96,6 @@ struct ProductView: View {
                     
                       ProgressView("loading-string")
                           .task {
-                              
-//                              let userFB = UserSettingsFireBaseViewModel.shared
                               
                               if LM.shared.currentLanguage != .ru {
                                   do {

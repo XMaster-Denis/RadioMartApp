@@ -8,11 +8,6 @@
 import SwiftUI
 
 struct GeneralSettingsMenuView: View {
-    
-//    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
-    
-//    @ObservedObject var settingsManager = SettingsManager.shared
-    
     @ObservedObject var authManager = AuthManager.shared
     
     @State private var showAuthForm: Bool = false
@@ -34,12 +29,6 @@ struct GeneralSettingsMenuView: View {
                 Divider()
 
                 Spacer()
-//                Button("to firabase") {
-//                    Task {
-//                        await SettingsSyncManager.shared.saveSettings()
-//                        
-//                    }
-//                }
             }
             .navigationTitle("settings:string")
             .padding()
@@ -69,7 +58,6 @@ struct GeneralSettingsMenuView: View {
                                     .stroke(.blue, lineWidth: 2)
                             }
                     }
-//                    NavigationLink("Sign in", destination: SignInView())
                 }
             }
             .sheet(isPresented: $showAuthForm) {
@@ -92,7 +80,7 @@ struct GeneralSettingsMenuView: View {
 
 struct MenuSettingsItem: View {
     let image: String
-    let title: LocalizedStringKey  // LocalizedStringKey
+    let title: LocalizedStringKey  
     let description: LocalizedStringKey
     var body: some View {
         HStack {

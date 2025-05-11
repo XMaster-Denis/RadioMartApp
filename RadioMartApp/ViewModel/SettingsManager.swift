@@ -9,20 +9,17 @@ import SwiftUI
 import Combine
 import SwiftData
 
-// @ObservedObject var settingsManager = SettingsManager.shared
 
 @MainActor
 final class SettingsManager: ObservableObject {
     static let shared = SettingsManager()
     var isSyncedWithCloud: Bool = false
     @Published var settingsModel: SettingsModel
-//    @Published var activProjectViewModel: ProjectViewModel
     
     let modelContext = DataBase.shared.modelContext
-
+    
     init() {
         self.settingsModel = SettingsManager.getSettings()
-//        self.activProjectViewModel = ProjectViewModel(project: SettingsManager.getSettings().activProject)
     }
     
     var activProjectViewModel: Binding<ProjectViewModel> {
@@ -73,21 +70,9 @@ final class SettingsManager: ObservableObject {
         )
     }
     
-//    var activeProjectBinding: Binding<Project> {
-//        Binding(
-//            get: { self.activProjectViewModel.project },
-//            set: { newProject in
-//                self.activProjectViewModel.project = newProject
-//                self.activProjectViewModel.markModified()
-//                self.isSyncedWithCloud = false
-//            }
-//        )
-//    }
-
+    
     func updateActiveProject(to newProject: ProjectViewModel) {
         settingsModel.activProject = newProject.project
-//        activProjectViewModel = ProjectViewModel(project: newProject)
-//        activProjectViewModel.markModified()
         isSyncedWithCloud = false
     }
     
@@ -114,10 +99,6 @@ final class SettingsManager: ObservableObject {
         
     }
     
-
-//    func removeSettings() {
-//        modelContext.delete(getSettings())
-//    }
 }
 
 

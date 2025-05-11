@@ -13,8 +13,6 @@ struct SignInEmailView: View {
         Button(action: action) {
             HStack {
                 Image(systemName: "envelope.badge.person.crop")
-                   // .resizable()
-                    //.frame(width: 20)
                 Text("sign.in.with.e.mail:string")
                    
                     .font(.system(size: 19, weight: .medium, design: .default))

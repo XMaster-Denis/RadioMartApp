@@ -64,11 +64,7 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
             return
         }
         let videoDevice = videoDevices[selectedCameraIndex]
-        
-//        guard let videoDevice = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInUltraWideCamera], mediaType: .video, position: .back).devices.first else {
-//            print("No video device available (simulator?)")
-//            return
-//        }
+
         do {
             deviceInput = try AVCaptureDeviceInput(device: videoDevice)
         } catch {
@@ -140,11 +136,6 @@ class CameraViewController: UIViewController, AVCaptureVideoDataOutputSampleBuff
         }
     }
     
-    // Clean up capture setup
-//    func teardownAVCapture() {
-//        previewLayer.removeFromSuperlayer()
-//        previewLayer = nil
-//    }
     
     func captureOutput(_ captureOutput: AVCaptureOutput, didDrop didDropSampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         // print("frame dropped")

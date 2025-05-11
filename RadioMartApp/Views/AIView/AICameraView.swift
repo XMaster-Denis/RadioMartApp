@@ -9,7 +9,6 @@ import SwiftUI
 import AVFoundation
 
 struct AICameraView: View {
-    //@State var captureSession = AVCaptureSession()
     @State var cameraOn = false
     @State var cameraIndex = 0
     @State var cameraNames: [LocalizedStringKey] = []
@@ -36,7 +35,6 @@ struct AICameraView: View {
                     }
                 }
                 .onDisappear(){
-                    //captureSession.stopRunning()
                     cameraOn = false
                 }
             if UIImagePickerController.isSourceTypeAvailable(.camera) {

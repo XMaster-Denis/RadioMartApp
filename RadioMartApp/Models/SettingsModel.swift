@@ -33,7 +33,7 @@ final class SettingsModel {
             fatalError("UserId not set in toDTO")
             
         }
-       // print (self.activProject.name)
+
         return SettingsDTO(
             id: self.id,
             userId: userId,
@@ -45,24 +45,4 @@ final class SettingsModel {
         }
 }
 
-
-//
-//
-//struct UserSettingsFireBase: Codable, Identifiable {
-//    @DocumentID var id: String?
-//    
-//    var activProjectID: String
-//    var contentLanguage: ContentLanguages = .en
-//    var currentTab: Int = 0
-//
-//    
-//    var userId: String
-//}
-//
-//extension UserSettingsFireBase {
-//    static var empty: UserSettingsFireBase {
-//        UserSettingsFireBase(activProjectID: "", contentLanguage: ContentLanguages.de, currentTab: 0,  userId: "")
-//    }
-//}
-//
 

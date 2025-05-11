@@ -21,8 +21,6 @@ class AppleSignInManager {
     }
 
     private init() {
-        
-       // AppleSignInManager.shared.requestAppleAuthorization(request)
     }
 
     // TODO: Request Apple Authorization.

@@ -11,7 +11,6 @@ import PDFKit
 
 
 struct ProjectDetailView: View {
-//    @StateObject var project: Project
     @ObservedObject var project: ProjectViewModel
     @State var currentItem: ItemProject?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
@@ -25,7 +24,6 @@ struct ProjectDetailView: View {
     
     init(projectViewModel: ProjectViewModel) {
         project = projectViewModel
-//        _project = StateObject(wrappedValue: ProjectViewModel(projectViewModel))
     }
     
     var body: some View {

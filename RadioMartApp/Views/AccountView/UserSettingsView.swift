@@ -16,7 +16,6 @@
 import SwiftUI
 
 struct UserSettingsView: View {
-//    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
     @ObservedObject var authManager = AuthManager.shared
 
     @State private var showAuthForm: Bool = false

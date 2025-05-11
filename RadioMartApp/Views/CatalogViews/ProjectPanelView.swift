@@ -9,10 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct ProjectPanelView: View {
-    @ObservedObject private var projectsManager = ProjectsManager.shared
+    @EnvironmentObject var projectsManager: ProjectsManager
     @EnvironmentObject var settings: SettingsManager
-//    @EnvironmentObject var activeProject: SettingsManager
-//    @ObservedObject var activeProject = SettingsManager.shared.activProjectViewModel
     
     var body: some View {
         HStack {

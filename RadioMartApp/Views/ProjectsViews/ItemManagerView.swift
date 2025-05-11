@@ -28,7 +28,6 @@ struct ItemManagerView: View {
                     RoundedRectangle(cornerRadius: 25.0)
                         .fill(Color.white)
                         .shadow(radius: 10)
-                      //  .frame(width: proxy.size.width - 10, height: proxy.size.height - 10, alignment: .center)
                     VStack (spacing: 3){
                         Text(title)
                             

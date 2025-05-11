@@ -70,8 +70,6 @@
 		E27C42F82ABE947E0036E96C /* GeneralTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C42F72ABE947E0036E96C /* GeneralTabView.swift */; };
 		E27C42FA2ABE95350036E96C /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C42F92ABE95350036E96C /* ProjectsView.swift */; };
 		E27C42FC2ABE95A10036E96C /* CatalogNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C42FB2ABE95A10036E96C /* CatalogNavigationView.swift */; };
-		E27C54DE2B9729A7000A97EF /* HomeAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C54DD2B9729A7000A97EF /* HomeAccountView.swift */; };
-		E27C54E02B972BB3000A97EF /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C54DF2B972BB3000A97EF /* AccountView.swift */; };
 		E27C54E22B973C55000A97EF /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27C54E12B973C55000A97EF /* RegistrationView.swift */; };
 		E27E11472DAC331100051C1B /* ItemProjectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27E11462DAC331100051C1B /* ItemProjectViewModel.swift */; };
 		E28327A72C738B120031EBDF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E28327A62C738B120031EBDF /* FirebaseFirestore */; };
@@ -102,7 +100,6 @@
 		E29D8F812DBE3F53009F2F15 /* Typealiases.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29D8F802DBE3F50009F2F15 /* Typealiases.swift */; };
 		E29D8F832DBE4F32009F2F15 /* SettingsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29D8F822DBE4F1E009F2F15 /* SettingsDTO.swift */; };
 		E29D8F852DBE52E7009F2F15 /* SettingsSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29D8F842DBE52E7009F2F15 /* SettingsSyncManager.swift */; };
-		E29E44932C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29E44922C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift */; };
 		E2A0EDFC2C8C7386006B08B4 /* SwiftOpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = E2A0EDFB2C8C7386006B08B4 /* SwiftOpenAI */; };
 		E2A0EDFE2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A0EDFD2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift */; };
 		E2A0EE022C906059006B08B4 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A0EE012C906059006B08B4 /* CameraViewController.swift */; };
@@ -192,8 +189,6 @@
 		E27C42F72ABE947E0036E96C /* GeneralTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTabView.swift; sourceTree = "<group>"; };
 		E27C42F92ABE95350036E96C /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
 		E27C42FB2ABE95A10036E96C /* CatalogNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogNavigationView.swift; sourceTree = "<group>"; };
-		E27C54DD2B9729A7000A97EF /* HomeAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAccountView.swift; sourceTree = "<group>"; };
-		E27C54DF2B972BB3000A97EF /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		E27C54E12B973C55000A97EF /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		E27E11462DAC331100051C1B /* ItemProjectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProjectViewModel.swift; sourceTree = "<group>"; };
 		E28327AB2C73C4240031EBDF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -201,7 +196,6 @@
 		E29D8F802DBE3F50009F2F15 /* Typealiases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealiases.swift; sourceTree = "<group>"; };
 		E29D8F822DBE4F1E009F2F15 /* SettingsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDTO.swift; sourceTree = "<group>"; };
 		E29D8F842DBE52E7009F2F15 /* SettingsSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSyncManager.swift; sourceTree = "<group>"; };
-		E29E44922C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsFireBaseViewModel.swift; sourceTree = "<group>"; };
 		E2A0EDFD2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionObjectRecognitionViewController.swift; sourceTree = "<group>"; };
 		E2A0EE012C906059006B08B4 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		E2B066002B95D325009138E5 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -301,11 +295,9 @@
 				E2523E912D0F33BD0048EB59 /* UserSettingsView.swift */,
 				E25530ED2D452A120068D6CD /* ContentSettingsView.swift */,
 				E25530EF2D452A290068D6CD /* ProjectsSettingsView.swift */,
-				E27C54DF2B972BB3000A97EF /* AccountView.swift */,
 				E20A6A142B3EC8730093DE14 /* SignInView.swift */,
 				E27C54E12B973C55000A97EF /* RegistrationView.swift */,
 				E24843582B9880B0000B1A55 /* ForgotPasswordView.swift */,
-				E27C54DD2B9729A7000A97EF /* HomeAccountView.swift */,
 				E2F280CC2B88A2B1002E2818 /* FieldsView.swift */,
 			);
 			path = AccountView;
@@ -508,7 +500,6 @@
 				E2CEFEE02DABBFF900A92AE1 /* ProjectsManager.swift */,
 				E2CEFEDE2DABB06C00A92AE1 /* SettingsManager.swift */,
 				E21320792DA98A370037D281 /* ProjectViewModel.swift */,
-				E29E44922C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -682,7 +673,6 @@
 				E29D8F852DBE52E7009F2F15 /* SettingsSyncManager.swift in Sources */,
 				E2CEFEE32DABD1C300A92AE1 /* AddProjectView.swift in Sources */,
 				E2051A332B49491800FAC220 /* IconTextFieldModalView.swift in Sources */,
-				E29E44932C74CC1300A5C922 /* UserSettingsFireBaseViewModel.swift in Sources */,
 				E2D046102B305E910043E4A9 /* ProjectPanelView.swift in Sources */,
 				E226DDDE2B5529840072F535 /* PDF.swift in Sources */,
 				E2A0EDFE2C8F4236006B08B4 /* VisionObjectRecognitionViewController.swift in Sources */,
@@ -700,7 +690,6 @@
 				E216C4B62CE8A19700485E9F /* TranslationService.swift in Sources */,
 				E23799ED2ACC07A000E53227 /* LaunchScreenView.swift in Sources */,
 				E262052D2D0DC3AF00348D6A /* SignInWithAppleButtonView.swift in Sources */,
-				E27C54E02B972BB3000A97EF /* AccountView.swift in Sources */,
 				E2B066042B95E736009138E5 /* SignInViewModel.swift in Sources */,
 				E247CED72ACAF61900F43D52 /* ImageProductView.swift in Sources */,
 				E27C42FC2ABE95A10036E96C /* CatalogNavigationView.swift in Sources */,
@@ -711,7 +700,6 @@
 				E245FC742AD7F6A700697DE5 /* AICameraView.swift in Sources */,
 				E27C42F62ABE8D240036E96C /* Network.swift in Sources */,
 				E245FC6E2AD686FF00697DE5 /* LocaleFormater.swift in Sources */,
-				E27C54DE2B9729A7000A97EF /* HomeAccountView.swift in Sources */,
 				E2B066012B95D325009138E5 /* AuthService.swift in Sources */,
 				E27E11472DAC331100051C1B /* ItemProjectViewModel.swift in Sources */,
 				E21320752DA7CD670037D281 /* ItemProjectDTO.swift in Sources */,

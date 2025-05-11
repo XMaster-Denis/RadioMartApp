@@ -17,7 +17,7 @@ class ProjectSyncManager: ObservableObject {
     var settingsManager = SettingsManager.shared
     var projectsManager = ProjectsManager.shared
     let db = FirebaseManager.shared.db
-
+    
     private var mergeLocalProjectsWithCloud: Bool = false //Merge local projects with the cloud
     private let collectionName = "projects"
     private let context: ModelContext = DataBase.shared.modelContext
@@ -44,7 +44,7 @@ class ProjectSyncManager: ObservableObject {
         }
         isWaitingForUserConfirmation = true
         
-//        print(" - syncProjectsBetweenLocalAndCloud")
+        print(" - syncProjectsBetweenLocalAndCloud")
         do {
             let localProjectsForDeleting = projectsManager.projectViewModelsAll.filter{
                 $0.isMarkDeleted
@@ -85,7 +85,7 @@ class ProjectSyncManager: ObservableObject {
                     }
                 }
             } else {
-//                print("q2")
+                //                print("q2")
                 mergeLocalProjectsWithCloud = true
                 for project in localProjectsWithoutUserIdAndEmpty {
                     print("DELETE 2")
@@ -94,15 +94,15 @@ class ProjectSyncManager: ObservableObject {
                 
             }
             
-
             
             
-
             
-//            print("localProjects - \(localProjects.count)")
-//            print("localProjectsWithoutUserId - \(localProjectsWithoutUserId.count)")
-//
-//            print("localProjectsForDeleting - \(localProjectsForDeleting.count)")
+            
+            
+            //            print("localProjects - \(localProjects.count)")
+            //            print("localProjectsWithoutUserId - \(localProjectsWithoutUserId.count)")
+            //
+            //            print("localProjectsForDeleting - \(localProjectsForDeleting.count)")
             
             
             if let user = AuthManager.shared.user    {
@@ -121,9 +121,11 @@ class ProjectSyncManager: ObservableObject {
                     } else {
                         print("q52")
                         newActiveProject = insertLocalProject(from: remoteDTO)
+                        
                     }
+                    
                 }
-//                print("q53")
+                //                print("q53")
                 if let newActiveProject {
                     print("q54")
                     settingsManager.updateActiveProject(to: newActiveProject)
@@ -134,11 +136,11 @@ class ProjectSyncManager: ObservableObject {
                 !$0.isSyncedWithCloud && !$0.isMarkDeleted && !$0.userId.isEmpty
             }
             
-
-//            let unsyncedProjects = try context.fetch(FetchDescriptor<Project>(predicate: #Predicate { !$0.isSyncedWithCloud && !$0.isMarkDeleted && !$0.userId.isEmpty }))
+            
+            //            let unsyncedProjects = try context.fetch(FetchDescriptor<Project>(predicate: #Predicate { !$0.isSyncedWithCloud && !$0.isMarkDeleted && !$0.userId.isEmpty }))
             
             
-//            print("unsyncedProjects - \(unsyncedProjects.count)")
+            //            print("unsyncedProjects - \(unsyncedProjects.count)")
             
             if mergeLocalProjectsWithCloud {
                 for local in unsyncedProjects {
@@ -147,7 +149,7 @@ class ProjectSyncManager: ObservableObject {
                 }
             }
             
-
+            
         } catch {
             print("Ошибка синхронизации: \(error)")
         }
@@ -187,7 +189,7 @@ class ProjectSyncManager: ObservableObject {
         
         try db.collection(collectionName).document(dto.id).setData(from: dto, merge: true) { error in
             if let error = error {
-                print("123Ошибка при загрузке проекта в облако: \(error)")
+                print("Ошибка при загрузке проекта в облако: \(error)")
             }
         }
         project.isSyncedWithCloud = true
@@ -202,18 +204,10 @@ class ProjectSyncManager: ObservableObject {
             try? DataBase.shared.modelContext.save()
         }
         
-        print("*insertLocalProject 1 - items.count-  \(items.count)")
-//        let pr = Project(id: dto.id, name: dto.name, userId: AuthManager.shared.userId, itemsProject: items)
         let pr = Project(id: dto.id, name: dto.name, userId: AuthManager.shared.userId)
         pr.itemsProject = items
         let newProject = ProjectViewModel(pr)
         projectsManager.addNewProject(newProject)
-        
-        print("*insertLocalProject 2")
-//        newProject.lastModified = dto.lastModified
-//        newProject.userId = dto.userId
-//        newProject.isSyncedWithCloud = false
-//        ProjectsManager.shared.addNewProject(newProject)
         return newProject
     }
     
@@ -230,9 +224,7 @@ class ProjectSyncManager: ObservableObject {
         stopAutoSync()
         syncTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
             Task {
-//                print("TIMER Projects")
                 await self.syncProjectsBetweenLocalAndCloud()
-                //                await self.syncUnsyncedProjectsToCloud()
             }
         }
     }

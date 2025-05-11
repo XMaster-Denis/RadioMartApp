@@ -51,8 +51,7 @@ struct ProductsJSON: Codable {
 }
 
 class ProductsModel: ObservableObject {
-//    var userFB = UserSettingsFireBaseViewModel.shared
-//    var settingsManager = SettingsManager.shared
+
     @Published var products: [Product] = []
     
     func reload(idCategory: Int) async {
@@ -63,10 +62,7 @@ class ProductsModel: ObservableObject {
         
                 do {
                     if LM.shared.currentLanguage != .ru {
-        
-                        //var productNames = TranslationJSONData()
-                    
-                        
+
                         let productNames = productsReturn.products.map { $0.name }
                         let targetLanguage = LM.shared.currentLanguage.rawValue
 
@@ -75,10 +71,7 @@ class ProductsModel: ObservableObject {
                             targetLanguage: targetLanguage,
                             contentType: .word
                         )
-                        
-                       
-                        
-                        // Убедимся, что количество элементов совпадает
+
                         guard productsReturn.products.count == translatedName.count else {
                             print("Error: Number of translated names does not match the number of products")
                             return

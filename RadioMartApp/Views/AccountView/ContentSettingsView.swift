@@ -16,7 +16,6 @@
 import SwiftUI
 
 struct ContentSettingsView: View {
-//    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
     @ObservedObject var settingsManager = SettingsManager.shared
     @ObservedObject var authManager = AuthManager.shared
 

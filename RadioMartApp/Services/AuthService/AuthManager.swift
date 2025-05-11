@@ -11,9 +11,9 @@ import FirebaseCore
 import GoogleSignIn
 
 enum AuthState {
-//    case authenticated // Anonymously authenticated in Firebase.
-    case signedIn // Authenticated in Firebase using one of service providers, and not anonymous.
-    case signedOut // Not authenticated in Firebase.
+
+    case signedIn
+    case signedOut
 }
 
 enum AppAuthError: String, LocalizedError {
@@ -47,14 +47,13 @@ class AuthManager: ObservableObject {
     
     init() {
         configureAuthStateChanges()
-        
-        // если уже есть авторизованный пользователь — запустить синхронизацию
+
         if let user = Auth.auth().currentUser {
             updateState(user: user)
         }
     }
 
-    // 2.
+
     func configureAuthStateChanges() {
         authStateHandle = Auth.auth().addStateDidChangeListener { auth, user in
             print("Auth changed: \(user != nil)")
@@ -62,17 +61,15 @@ class AuthManager: ObservableObject {
         }
     }
     
-    // 2.
+
     func removeAuthStateListener() {
         Auth.auth().removeStateDidChangeListener(authStateHandle)
     }
 
-    // 4.
+
     func updateState(user: User?) {
         self.user = user
         let isAuthenticatedUser = user != nil
-//        let isAnonymous = user?.isAnonymous ?? false
-
         if isAuthenticatedUser {
             self.authState = .signedIn
             Task {
@@ -189,31 +186,9 @@ class AuthManager: ObservableObject {
         try await Auth.auth().sendPasswordReset(withEmail: email)
     }
     
+
     
-//    func signInAnonymously() async throws -> AuthDataResult? {
-//        do {
-//            let result = try await Auth.auth().signInAnonymously()
-//            print("FirebaseAuthSuccess: Sign in anonymously, UID:(\(String(describing: result.user.uid)))")
-//            return result
-//        }
-//        catch {
-//            print("FirebaseAuthError: failed to sign in anonymously: \(error.localizedDescription)")
-//            throw error
-//        }
-//    }
-    
-//    func signAnonymously() {
-//        Task {
-//            do {
-//                _ = try await signInAnonymously()
-//            }
-//            catch {
-//                print("SignInAnonymouslyError: \(error)")
-//            }
-//        }
-//    }
-    
-    // 1.
+
     private func authenticateUser(credentials: AuthCredential) async throws -> AuthDataResult? {
         if Auth.auth().currentUser != nil {
             return try await authLink(credentials: credentials)
@@ -222,7 +197,7 @@ class AuthManager: ObservableObject {
         }
     }
 
-    // 2.
+
     private func authSignIn(credentials: AuthCredential) async throws -> AuthDataResult? {
         do {
             let result = try await Auth.auth().signIn(with: credentials)
@@ -235,7 +210,7 @@ class AuthManager: ObservableObject {
         }
     }
 
-    // 3.
+   
     private func authLink(credentials: AuthCredential) async throws -> AuthDataResult? {
         do {
             guard let user = Auth.auth().currentUser else { return nil }
@@ -253,13 +228,13 @@ class AuthManager: ObservableObject {
     func googleAuth(_ user: GIDGoogleUser) async throws -> AuthDataResult? {
         guard let idToken = user.idToken?.tokenString else { return nil }
         
-        // 1.
+     
         let credentials = GoogleAuthProvider.credential(
             withIDToken: idToken,
             accessToken: user.accessToken.tokenString
         )
         do {
-            // 2.
+           
             return try await authenticateUser(credentials: credentials)
         }
         catch {
@@ -287,12 +262,12 @@ class AuthManager: ObservableObject {
             return nil
         }
 
-        // 2.
+      
         let credentials = OAuthProvider.appleCredential(withIDToken: idTokenString,
                                                        rawNonce: nonce,
                                                        fullName: appleIDCredential.fullName)
 
-        do { // 3.
+        do { 
             return try await authenticateUser(credentials: credentials)
         }
         catch {

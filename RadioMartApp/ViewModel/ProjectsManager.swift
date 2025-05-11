@@ -10,8 +10,6 @@ import SwiftUI
 import Combine
 import SwiftData
 
-//@ObservedObject var projectsManager = ProjectsManager.shared
-
 @MainActor
 final class ProjectsManager: ObservableObject {
     static let shared = ProjectsManager()
@@ -31,7 +29,6 @@ final class ProjectsManager: ObservableObject {
     
     private init() {
         fetchProjects()
-        //refreshProjects()
     }
     
     @discardableResult
@@ -42,17 +39,9 @@ final class ProjectsManager: ObservableObject {
         deleteAllProjectsExcept(firstInstance)
         projectViewModelsAll = [firstInstance]
         SettingsManager.shared.updateActiveProject(to: firstInstance)
-        refreshProjects()
         return firstInstance
     }
     
-    //    func removeAllProjects() {
-    //        do {
-    //            try DataBase.shared.modelContext.delete(model: Project.self)
-    //        } catch {
-    //            print("Failed to clear all Project data.")
-    //        }
-    //    }
     
     func deleteAllProjectsExcept(_ projectToKeep: ProjectViewModel) {
         let fetchDescriptor = FetchDescriptor<Project>()
@@ -61,30 +50,10 @@ final class ProjectsManager: ObservableObject {
         for project in projectsToDelete {
             modelContext.delete(project)
         }
-        refreshProjects()
         try? modelContext.save()
     }
     
-    private func subscribeToProjectsChanges() {
-        print("subscribeToProjectsChanges")
-        // Отменяем старые подписки, если они были
-        cancellables.removeAll()
-        
-        for viewModel in projectViewModelsAll {
-            print("add")
-            viewModel.objectWillChange
-                .sink { [weak self] _ in
-                    print("ccccc")
-                    self?.objectWillChange.send()
-                }
-                .store(in: &cancellables)
-        }
-    }
     
-    func refreshProjects() {
-        
-        subscribeToProjectsChanges()
-    }
     
     private func fetchProjects() {
         print("fetchProjects")
@@ -92,26 +61,10 @@ final class ProjectsManager: ObservableObject {
         projectViewModelsAll = projects.map { ProjectViewModel($0) }
     }
     
-    //    func getAllProjects() -> [Project] {
-    //        do {
-    //            let result = try modelContext.fetch(FetchDescriptor<Project>())
-    //            if !result.isEmpty {
-    //                return result
-    //            } else {
-    //                let instance = Project(name: "Pro 1")
-    //                modelContext.insert(instance)
-    //                return [instance]
-    //            }
-    //        } catch {
-    //            fatalError("FetchDescriptor<Project>")
-    //        }
-    //
-    //    }
     
     func getAllProjectsSorted() -> [Project] {
         do {
             let descriptor = FetchDescriptor<Project>(
-//                predicate: #Predicate { !$0.isDeleted },
                 sortBy: [SortDescriptor(\.lastModified, order: .forward)]
             )
             let result = try modelContext.fetch(descriptor)
@@ -122,10 +75,6 @@ final class ProjectsManager: ObservableObject {
     }
     
     func getProjectBy(id: String) -> ProjectViewModel {
-        //        do {
-        //            let descriptor = FetchDescriptor<Project>()
-        //            let projects = try modelContext.fetch(descriptor)
-        //
         if projectViewModels.isEmpty {
             return restart()
         }
@@ -137,25 +86,16 @@ final class ProjectsManager: ObservableObject {
         } else {
             fatalError("Нет доступных проектов")
         }
-        //        } catch {
-        //            fatalError("Ошибка при получении проектов: \(error)")
-        //        }
     }
     
     
     func addNewProject(_ name: String) {
         let instance = ProjectViewModel(Project(name: name, userId: AuthManager.shared.userId))
         projectViewModelsAll.append(instance)
-//                modelContext.insert(instance)
-//                try? modelContext.save()
-        refreshProjects()
     }
     
     func addNewProject(_ project: ProjectViewModel) {
         projectViewModelsAll.append(project)
-//                modelContext.insert(project)
-//                try? modelContext.save()
-        refreshProjects()
     }
     
     func deleteProject(_ deleteProject: ProjectViewModel) {
@@ -166,13 +106,12 @@ final class ProjectsManager: ObservableObject {
                 SettingsManager.shared.updateActiveProject(to: newActiveProject)
             }
         }
-
+        
         
         projectViewModelsAll.removeAll { $0.id == deleteProject.id }
         
         modelContext.delete(deleteProject.project)
         try? modelContext.save()
-        refreshProjects()
     }
     
     
@@ -180,19 +119,19 @@ final class ProjectsManager: ObservableObject {
         if AuthManager.shared.authState == .signedOut {
             deleteProject(project)
         } else {
-
+            
             project.isMarkDeleted = true
-
+            
         }
         try? modelContext.save()
- 
+        
         
         let localProjectsForDeleting = projectViewModelsAll.filter{
-            $0.isMarkDeleted == true //"+"
+            $0.isMarkDeleted == true
         }
         
         print(localProjectsForDeleting)
-
+        
     }
-
+    
 }

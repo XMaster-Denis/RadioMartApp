@@ -16,7 +16,7 @@ class NumberFormat {
         return result
     }()
     init () {
-        //currencyFormatter.
+   
     }
 }
 

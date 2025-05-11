@@ -24,24 +24,17 @@ class SettingsSyncManager {
     
     
     func saveSettings() async {
-        
-//        print("\(settingsManager.activProjectViewModel.project.id)")
-        
         let localSettingsDTO = settingsManager.settingsModel.toDTO()
-        
         guard let documentId = AuthManager.shared.userId else {return}
-        //        if !documentId.isEmpty {
         do {
             try  fb.collection(collectionName).document(documentId).setData(from: localSettingsDTO, merge: true)
         } catch {
             print("saveSettings error: \(error.localizedDescription)")
         }
-        //        }
     }
     
     func fetchSettings() async {
         guard let documentId = AuthManager.shared.userId else {return}
-        
         do {
             let fetchedSettings = try await fb.collection(collectionName).document(documentId).getDocument(as: SettingsDTO.self)
             await MainActor.run {
@@ -57,8 +50,6 @@ class SettingsSyncManager {
         stopSettingsAutoSync()
         syncTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
             Task {
-//                print("TIMER Settings")
-                
                 await self.syncSettingsToCloud()
             }
         }

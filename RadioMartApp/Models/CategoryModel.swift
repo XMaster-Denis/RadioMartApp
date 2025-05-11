@@ -14,9 +14,6 @@ struct Category: Identifiable, Hashable {
 
 
 class CategoryModel: ObservableObject {
-//    var userFB = UserSettingsFireBaseViewModel.shared
-//    var settingsManager = SettingsManager.shared
-    
     @Published var nameCategory = ""
     @Published var categories: [Category] = []
     

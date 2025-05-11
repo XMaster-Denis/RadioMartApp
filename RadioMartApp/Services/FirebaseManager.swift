@@ -12,7 +12,7 @@ final class FirebaseManager {
     static let shared = FirebaseManager()
     
     let db: Firestore
-
+    
     private init() {
         self.db = Firestore.firestore()
     }

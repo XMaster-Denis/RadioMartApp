@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ProjectsView: View {
-    @ObservedObject private var projectsManager = ProjectsManager.shared
+    @EnvironmentObject var projectsManager: ProjectsManager
     @ObservedObject var path: Router = Router.shared
     @State var isAddProjectShow: Bool = false
     @State var isEditProjectName: Bool = false
@@ -39,7 +39,7 @@ struct ProjectsView: View {
                     .padding(.horizontal)
                     
                     List {
-                        ForEach(projectsManager.projectViewModels, id: \.id) { projectViewModel in
+                        ForEach(projectsManager.projectViewModels, id: \.idU) { projectViewModel in
                             ProjectLineView(viewModel: projectViewModel)
                                 .swipeActions(allowsFullSwipe: false){
                                     
@@ -47,7 +47,6 @@ struct ProjectsView: View {
                                         
                                         if  projectsManager.projectViewModels.count > 1 {
                                             projectsManager.markDeleteProject(projectViewModel)
-                                            projectsManager.refreshProjects()
                                         } else {
                                             showDeleteAlert = true
                                         }

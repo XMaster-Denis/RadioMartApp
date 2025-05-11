@@ -14,12 +14,11 @@ class ItemProjectViewModel: ObservableObject, Identifiable {
     
     let id: UUID
     @ObservedObject var item: ItemProject
-
+    
     var name: String {
         get { item.name }
         set {
             item.name = newValue
-            objectWillChange.send()
             markModified()
         }
     }
@@ -28,7 +27,6 @@ class ItemProjectViewModel: ObservableObject, Identifiable {
         get { item.count }
         set {
             item.count = newValue
-            objectWillChange.send()
             markModified()
         }
     }
@@ -37,7 +35,6 @@ class ItemProjectViewModel: ObservableObject, Identifiable {
         get { item.price }
         set {
             item.price = newValue
-            objectWillChange.send()
             markModified()
         }
     }
@@ -46,7 +43,6 @@ class ItemProjectViewModel: ObservableObject, Identifiable {
         get { item.idProductRM }
         set {
             item.idProductRM = newValue
-            objectWillChange.send()
             markModified()
         }
     }
