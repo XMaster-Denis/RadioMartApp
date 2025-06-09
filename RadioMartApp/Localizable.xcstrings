@@ -767,6 +767,9 @@
         }
       }
     },
+    "label" : {
+
+    },
     "loading-string" : {
       "localizations" : {
         "de" : {
@@ -1366,6 +1369,7 @@
       }
     },
     "sign.in.with.apple:string" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

@@ -2,10 +2,12 @@ import SwiftUI
 import AuthenticationServices
 import FirebaseAuth
 import FirebaseCore
+import GoogleSignInSwift
 
 
 struct SignInView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) private var colorScheme
     @State var signInModel = SignInModel()
     @ObservedObject var authManager =  AuthManager.shared
     @State private var showSignInForm = false
@@ -23,9 +25,10 @@ struct SignInView: View {
                 })
                 .frame(height: 300)
             
-            VStack(spacing: 6) {
+            VStack(spacing: 12) {
 
                 SignInWithAppleButton(
+                   
                     onRequest: { request in
                         AppleSignInManager.shared.requestAppleAuthorization(request)
                     },
@@ -33,12 +36,16 @@ struct SignInView: View {
                         handleAppleID(result)
                     }
                 )
-                .signInWithAppleButtonStyle(.white)
+                
+                
+            
+                .signInWithAppleButtonStyle(colorScheme == .dark ? .black : .white)
                 .frame(width: 250, height: 50, alignment: .center)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray, lineWidth: 2)
+                        .stroke(colorScheme == .dark ? Color.white.opacity(0.6) : Color.gray, lineWidth: 2)
                 )
+                
                 
                 
                 SignInWithGoogleButtonView {
