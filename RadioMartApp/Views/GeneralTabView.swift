@@ -12,24 +12,24 @@ struct GeneralTabView: View {
     @StateObject var settings = SettingsManager.shared
     var body: some View {
         
-        VStack {
+        VStack (spacing: 0) {
 
             TabView (selection: settings.currentTab) {
                 CatalogNavigationView()
                     .tabItem {
-                        Label("catalog-string", systemImage: "square.grid.3x3.topleft.filled")
+                        Label("catalog:string", systemImage: "square.grid.3x3.topleft.filled")
                     }
                     .tag(0)
                 
                 ProjectsView()
                     .tabItem {
-                        Label("projects-string", systemImage: "bag")
+                        Label("projects:string", systemImage: "bag")
                     }
                     .tag(1)
                 
                 AICameraView()
                     .tabItem {
-                    Label("aicamera-string", systemImage: "sparkle.magnifyingglass")
+                    Label("aicamera:string", systemImage: "sparkle.magnifyingglass")
                 }
                     .tag(2)
                 
@@ -43,9 +43,9 @@ struct GeneralTabView: View {
     }
 }
 
-#Preview {
-    GeneralTabView()
-        .environment(\.locale, Locale(identifier: "en"))
-}
+//#Preview {
+//    GeneralTabView()
+//        .environment(\.locale, Locale(identifier: "en"))
+//}
 
 

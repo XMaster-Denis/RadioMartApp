@@ -22,7 +22,7 @@ struct ProjectsView: View {
             ZStack {
                 VStack {
                     HStack {
-                        Text("allprojects-string")
+                        Text("allprojects:string")
                             .font(.title)
                         Spacer()
                         Button(action: {
@@ -51,7 +51,7 @@ struct ProjectsView: View {
                                             showDeleteAlert = true
                                         }
                                     } label: {
-                                        Label("delete-string", systemImage: "trash")
+                                        Label("delete:string", systemImage: "trash")
                                     }
                                     .tint(.red)
                                     
@@ -61,7 +61,7 @@ struct ProjectsView: View {
                                             isEditProjectName.toggle()
                                         }
                                     } label: {
-                                        Label("rename-string", systemImage: "pencil")
+                                        Label("rename:string", systemImage: "pencil")
                                     }
                                     
                                 }
@@ -77,13 +77,26 @@ struct ProjectsView: View {
                 }
                 .navigationDestination(for: ProjectViewModel.self) { project in
                     ProjectDetailView(projectViewModel: project)
+                        .navigationBarBackButtonHidden(true)
+                        .toolbar {
+                            ToolbarItem (placement: .topBarLeading) {
+                                Button {
+                                    path.projectsPath.removeLast()
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "chevron.backward")
+                                        Text("allprojects:string")
+                                    }
+                                }
+                            }
+                        }
                 }
                 .disabled(isEditProjectName)
                 
                 if isEditProjectName {
                     if let selectedProjectViewModel = selectedProjectViewModel {
                         let inputStr = selectedProjectViewModel.name
-                        IconTextFieldModalView("enter.a.new.project.name-string", isShow: $isEditProjectName, succesButton: "rename-string", inputStr: inputStr) {
+                        IconTextFieldModalView("enter.a.new.project.name:string", isShow: $isEditProjectName, succesButton: "rename:string", inputStr: inputStr) {
                             selectedProjectViewModel.updateName($0)
                         }
                     }
@@ -108,5 +121,4 @@ struct ProjectsView: View {
 //    
 //    return ProjectsView()
 //        .modelContainer(container)
-//    
 //}

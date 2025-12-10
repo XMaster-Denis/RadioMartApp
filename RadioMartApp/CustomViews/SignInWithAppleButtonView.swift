@@ -10,51 +10,51 @@ import SwiftUI
 import AuthenticationServices
 
 
-struct CustomAppleButton: View {
-//    var label: String
-    var onRequest: (ASAuthorizationAppleIDRequest) -> Void
-    var onCompletion: (Result<ASAuthorization, Error>) -> Void
-
-    @Environment(\.colorScheme) private var colorScheme
-
-    var body: some View {
-        ZStack {
-            // 1) Ваша стилизация
-            
-            // 2) Невидимая нативная кнопка
-      
-            
-            
-            HStack {
-                Image(systemName: "applelogo")
-                Text("label")
-                    .fontWeight(.semibold)
-            }
-            .padding()
-            .frame(width: 250, height: 50)
-            .background(colorScheme == .dark ? Color.black : Color.white)
-            .foregroundColor(colorScheme == .dark ? .white : .black)
-            .cornerRadius(10)
-            .overlay(RoundedRectangle(cornerRadius: 10)
-                        .stroke(colorScheme == .dark ? .white : .gray, lineWidth: 1))
-            .allowsHitTesting(false)
-            
-            
-            SignInWithAppleButton(
-                onRequest: onRequest,
-                onCompletion: onCompletion
-            )
-            .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
-            .opacity(0.01)
-            .contentShape(Rectangle())      // весь прямоугольник кликабелен
-            .allowsHitTesting(true)
-
-            .frame(width: 250, height: 50)
-     
-        }
-        .frame(width: 250, height: 50)
-    }
-}
+//struct CustomAppleButton1: View {
+////    var label: String
+//    var onRequest: (ASAuthorizationAppleIDRequest) -> Void
+//    var onCompletion: (Result<ASAuthorization, Error>) -> Void
+//
+//    @Environment(\.colorScheme) private var colorScheme
+//
+//    var body: some View {
+//        ZStack {
+//            // 1) Ваша стилизация
+//            
+//            // 2) Невидимая нативная кнопка
+//      
+//            
+//            
+//            HStack {
+//                Image(systemName: "applelogo")
+//                Text("label")
+//                    .fontWeight(.semibold)
+//            }
+//            .padding()
+//            .frame(width: 250, height: 50)
+//            .background(colorScheme == .dark ? Color.black : Color.white)
+//            .foregroundColor(colorScheme == .dark ? .white : .black)
+//            .cornerRadius(10)
+//            .overlay(RoundedRectangle(cornerRadius: 10)
+//                        .stroke(colorScheme == .dark ? .white : .gray, lineWidth: 1))
+//            .allowsHitTesting(false)
+//            
+//            
+//            SignInWithAppleButton(
+//                onRequest: onRequest,
+//                onCompletion: onCompletion
+//            )
+//            .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
+//            .opacity(0.01)
+//            .contentShape(Rectangle())      // весь прямоугольник кликабелен
+//            .allowsHitTesting(true)
+//
+//            .frame(width: 250, height: 50)
+//     
+//        }
+//        .frame(width: 250, height: 50)
+//    }
+//}
 
 //struct SignInWithAppleButtonView: View {
 //    @Environment(\.colorScheme) private var colorScheme

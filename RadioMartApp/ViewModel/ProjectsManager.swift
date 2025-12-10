@@ -56,7 +56,6 @@ final class ProjectsManager: ObservableObject {
     
     
     private func fetchProjects() {
-        print("fetchProjects")
         let projects = getAllProjectsSorted()
         projectViewModelsAll = projects.map { ProjectViewModel($0) }
     }
@@ -130,7 +129,6 @@ final class ProjectsManager: ObservableObject {
             $0.isMarkDeleted == true
         }
         
-        print(localProjectsForDeleting)
         
     }
     

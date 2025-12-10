@@ -21,13 +21,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         
-        Installations.installations().installationID { id, error in
-            if let error = error {
-                print("Ошибка получения Installation ID: \(error)")
-            } else if let id = id {
-                print("Installation ID: \(id)")
-            }
-        }
+//        Installations.installations().installationID { id, error in
+//            if let error = error {
+//                print("Ошибка получения Installation ID: \(error)")
+//            } else if let id = id {
+//                print("Installation ID: \(id)")
+//            }
+//        }
         
         return true
     }

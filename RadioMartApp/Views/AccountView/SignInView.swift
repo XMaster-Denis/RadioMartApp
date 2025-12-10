@@ -17,7 +17,7 @@ struct SignInView: View {
         
         VStack {
   
-            Image("imag16")
+            Image("logo_auth")
                 .resizable()
                 .scaledToFill()
                 .overlay(content: {

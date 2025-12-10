@@ -40,7 +40,7 @@ class PSServer {
     
     static func getBaseURL() -> String {baseURL}
     
-    static func getProductsBy(idCategory:Int, fields: Field) async -> ProductsModel {
+    static func getProductsBy(idCategory: Int, fields: Field) async -> ProductsModel {
         let result = ProductsModel()
         do {
             

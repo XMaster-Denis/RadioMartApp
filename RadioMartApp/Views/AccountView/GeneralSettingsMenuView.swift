@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GeneralSettingsMenuView: View {
     @ObservedObject var authManager = AuthManager.shared
-    
+    @Environment(\.locale) var locale
     @State private var showAuthForm: Bool = false
     
     var body: some View {
@@ -64,6 +64,7 @@ struct GeneralSettingsMenuView: View {
                 SignInView()
             }
         }
+        .id(locale.identifier)
     }
     
     func signOut() {

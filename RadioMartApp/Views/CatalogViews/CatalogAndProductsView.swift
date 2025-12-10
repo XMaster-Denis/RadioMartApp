@@ -28,7 +28,7 @@ struct CatalogAndProductsView: View {
             if isLoadingDone {
                 List {
                     if (categoriesModel.categories.count != 0) {
-                        Section("caregories-string"){
+                        Section("caregories:string"){
                             ForEach(categoriesModel.categories){ category in
                                 Button(action: {
                                     Router.shared.catalogPath.append(category)
@@ -43,7 +43,7 @@ struct CatalogAndProductsView: View {
                     
                     if (productsModel.products.count != 0) {
                         
-                        Section("products-string"){
+                        Section("products:string"){
                             ForEach(productsModel.products){ product in
                                 Button(action: {
                                     Router.shared.catalogPath.append(product)
@@ -55,11 +55,11 @@ struct CatalogAndProductsView: View {
                                         HStack {
                                             VStack (alignment: .leading) {
                                                 HStack {
-                                                    Text("reference:-string")
+                                                    Text("reference::string")
                                                     Text(product.reference)
                                                 }
                                                 HStack {
-                                                    Text("price:-string \(product.priceDecimal.toLocateCurrencyString())")
+                                                    Text("price::string \(product.priceDecimal.toLocateCurrencyString())")
                                                 }
                                             }
                                             Spacer()
@@ -77,14 +77,14 @@ struct CatalogAndProductsView: View {
                                 })
                             }
                         }
-                        .navigationTitle(categoriesModel.nameCategory)
-                        //  .navigationBarTitleDisplayMode(.inline)
+//
                     }
+                       
                 }
                 .listStyle(.plain)
                 
             } else  {
-                ProgressView("loading-string")
+                ProgressView("loading:string")
                     .onAppear {
                         isLoadingDone = false
                         Task {
@@ -101,6 +101,8 @@ struct CatalogAndProductsView: View {
                     }
             }
         }
+        .navigationTitle(categoriesModel.nameCategory)
+        .navigationBarTitleDisplayMode(.inline)
         .onChange(of: localizationManager.currentLanguage) {
             isLoadingDone = false
             Task{

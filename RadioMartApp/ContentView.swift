@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  RadioMartApp
 //
-//  Created by XMaster on 09.09.2023.
+//  Created by XMaster on 09.09.2023..
 //
 
 import SwiftUI
@@ -27,12 +27,12 @@ struct ContentView: View {
 //            }
         }
         
-        .alert("Объединить локальные проекты с облаком?", isPresented: $projectSyncManager.showMergePrompt) {
-            Button("Да") {
+        .alert("sync.merge.prompt:string", isPresented: $projectSyncManager.showMergePrompt) {
+            Button("sync.merge.yes:string") {
                 projectSyncManager.pendingSyncContinuation?.resume(returning: true)
                 projectSyncManager.pendingSyncContinuation = nil
             }
-            Button("Нет", role: .cancel) {
+            Button("sync.merge.no:string", role: .cancel) {
                 projectSyncManager.pendingSyncContinuation?.resume(returning: false)
                 projectSyncManager.pendingSyncContinuation = nil
             }

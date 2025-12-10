@@ -15,14 +15,14 @@ struct ProjectLineView: View {
             HStack {
                 VStack {
                     Text(viewModel.project.name)
-                    Text(viewModel.project.userId)
-                        .font(.caption)
-                    HStack {
-                        Text("\(viewModel.project.isMarkDeleted)")
-                            .font(.caption)
-                        Text("\(viewModel.project.isSyncedWithCloud)")
-                            .font(.caption)
-                    }
+//                    Text(viewModel.project.userId)
+//                        .font(.caption)
+//                    HStack {
+//                        Text("\(viewModel.project.isMarkDeleted)")
+//                            .font(.caption)
+//                        Text("\(viewModel.project.isSyncedWithCloud)")
+//                            .font(.caption)
+//                    }
                  
                     
                 }

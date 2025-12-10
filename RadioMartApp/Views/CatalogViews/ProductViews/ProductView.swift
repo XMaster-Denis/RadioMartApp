@@ -31,7 +31,7 @@ struct ProductView: View {
         GeometryReader { geometryScreen in
             let screenSize = geometryScreen.size
             ScrollView(.vertical) {
-                Text(product.name)
+//                Text(product.name)
                 TabView(selection: $selectedImage) {
                     ForEach(productImagesURL, id: \.absoluteString){ productURL in
                         GeometryReader { imageGeometry in
@@ -124,6 +124,8 @@ struct ProductView: View {
                     
             }
         }
+        .navigationTitle(product.name)
+        .navigationBarTitleDisplayMode(.inline)
         .onChange(of: localizationManager.currentLanguage) {
             isDescriptionReceived = false
         }

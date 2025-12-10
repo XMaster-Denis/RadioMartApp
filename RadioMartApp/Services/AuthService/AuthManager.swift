@@ -56,7 +56,6 @@ class AuthManager: ObservableObject {
 
     func configureAuthStateChanges() {
         authStateHandle = Auth.auth().addStateDidChangeListener { auth, user in
-            print("Auth changed: \(user != nil)")
             self.updateState(user: user)
         }
     }

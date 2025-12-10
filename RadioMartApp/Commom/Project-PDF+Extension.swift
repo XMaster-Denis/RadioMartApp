@@ -29,7 +29,7 @@ extension Project: ReportPDFProtocol {
         
         
         let widthCollumns: [CGFloat] = [5, 12, 53, 10, 10, 10]
-        let headers = ["№".l, "reference.report-string".l, "name.report-string".l, "price.report-string".l, "count.report-string".l, "sum.report-string".l]
+        let headers = ["№".l, "reference.report:string".l, "name.report:string".l, "price.report:string".l, "count.report:string".l, "sum.report:string".l]
         var index: Int = 0
         let contentForTable: [[String]] = itemsProject.reduce([]) {
             index += 1
@@ -37,7 +37,7 @@ extension Project: ReportPDFProtocol {
         }
         
         
-        let table = FlowPDFTable(headers, widthCollumns: widthCollumns, newFont: .boldSystemFont(ofSize: 12))
+        let table = FlowPDFTable(headers, widthCollumns: widthCollumns, newFont: .boldSystemFont(ofSize: 10))
         table.marginTop = 20
         table.marginRight = 5
         table.marginLeft = 5
@@ -51,7 +51,7 @@ extension Project: ReportPDFProtocol {
         pdfGenerator.insertItem(table)
         
         contentForTable.forEach { row in
-            let tableRow = FlowPDFTable(row, widthCollumns: widthCollumns, newFont: .boldSystemFont(ofSize: 10))
+            let tableRow = FlowPDFTable(row, widthCollumns: widthCollumns, newFont: .systemFont(ofSize: 10))
             tableRow.marginRight = 5
             tableRow.marginLeft = 5
             tableRow.setLineWidth = 1.5
