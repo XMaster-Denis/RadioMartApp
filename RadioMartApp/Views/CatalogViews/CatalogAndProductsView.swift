@@ -13,8 +13,6 @@ struct CatalogAndProductsView: View {
     @StateObject var categoriesModel = CategoryModel()
     @StateObject var productsModel = ProductsModel()
     @ObservedObject var localizationManager = LM.shared
-//    @EnvironmentObject var settings: SettingsManager
-//    @EnvironmentObject var activeProject: ProjectViewModel
     
     init(id: Int) {
         currentCategory = id
@@ -73,12 +71,6 @@ struct CatalogAndProductsView: View {
                                             } else {
                                                 ProgressView()
                                             }
-                                            
-//                                            ImageProductView(product.defaultImageUrl!)
-//                                                .scaledToFill()
-//                                                .frame(width: 160, height: 120)
-//                                                .clipShape(.rect(cornerRadius: 10))
-//                                                .padding(0)
                                         }
                                     }
                                     .overlay {
@@ -88,7 +80,6 @@ struct CatalogAndProductsView: View {
                                 })
                             }
                         }
-//
                     }
                        
                 }
@@ -105,20 +96,6 @@ struct CatalogAndProductsView: View {
                         isLoadingDone = true
                     }
                 
-//                    .onAppear {
-//                        isLoadingDone = false
-//                        Task {
-//                            await withTaskGroup(of: Void.self) { group in
-//                                group.addTask {
-//                                    await categoriesModel.loadCategoryBy(id: currentCategory)
-//                                }
-//                                group.addTask {
-//                                    await productsModel.reload(idCategory: currentCategory)
-//                                }
-//                            }
-//                            isLoadingDone = true
-//                        }
-//                    }
             }
         }
         .navigationTitle(categoriesModel.nameCategory)

@@ -21,6 +21,7 @@ struct ProjectDetailView: View {
     @State private var showModalPDF = false
     @State private var isExporting = false
     @State private var pdfURL: URL?
+    @State private var pdfData: Data?
     
     init(projectViewModel: ProjectViewModel) {
         project = projectViewModel
@@ -175,7 +176,7 @@ struct ProjectDetailView: View {
             }
             .sheet(isPresented: $showModalPDF) {
                 VStack {
-                    if let pdfDocument = PDFDocument(data: project.project.PDFdata) {
+                    if let data = pdfData, let pdfDocument = PDFDocument(data: data) {
                         let wrapper = PDFDocumentWrapper(pdfDocument: pdfDocument, fileName: project.name)
                         
 
@@ -185,15 +186,25 @@ struct ProjectDetailView: View {
                             }
                             .padding()
                         }
-                        
-
-
                     }
 
-                    PDFSwiftUIView(PDFdata: project.project.PDFdata)
+                    if let data = pdfData {
+                        PDFSwiftUIView(PDFdata: data)
+                    } else {
+                        VStack{
+                            ProgressView().padding()
+                        }
+                    }
+                }
+                .task {
+                    let companyName = SettingsManager.shared.companyNameValue
+                    let snapshot = project.project.makePDFSnapshot(companyName: companyName)
+                    pdfData = await Task.detached(priority: .userInitiated) {
+                        Project.createPDF(context: snapshot)
+                    }.value
                 }
             }
-            
+
         }
         
     }

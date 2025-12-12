@@ -1,13 +1,5 @@
 //
-//  AccountView 2.swift
-//  RadioMartApp
-//
-//  Created by XMaster on 15.12.24.
-//
-
-
-//
-//  AccountView.swift
+//  UserSettingsView.swift
 //  RadioMartApp
 //
 //  Created by XMaster on 05.03.2024.

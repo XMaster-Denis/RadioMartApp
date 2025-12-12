@@ -15,17 +15,36 @@ struct GeneralSettingsMenuView: View {
     var body: some View {
         NavigationStack {
             VStack (alignment: .leading) {
-                NavigationLink { UserSettingsView() } label: {
-                    MenuSettingsItem(image: "person", title: "user:string", description: "username.and.account.settings:string")
+                NavigationLink {
+                    UserSettingsView()
+                } label: {
+                    MenuSettingsItem(
+                        image: "person",
+                        title: "user:string",
+                        description: "username.and.account.settings:string")
                 }
+                
                 Divider()
-                NavigationLink { ContentSettingsView() } label: {
-                    MenuSettingsItem(image: "doc.plaintext", title: "content:string", description: "translation.settings:string")
+                
+                NavigationLink { ContentSettingsView()
+                } label: {
+                    MenuSettingsItem(
+                        image: "doc.plaintext",
+                        title: "content:string",
+                        description: "translation.settings:string")
                 }
+                
                 Divider()
-                NavigationLink { ProjectsSettingsView() } label: {
-                    MenuSettingsItem(image: "shippingbox", title: "projects:string", description: "company.settings:string")
+                
+                NavigationLink {
+                    ProjectsSettingsView()
+                } label: {
+                    MenuSettingsItem(
+                        image: "shippingbox",
+                        title: "projects:string",
+                        description: "company.settings:string")
                 }
+                
                 Divider()
 
                 Spacer()
@@ -96,6 +115,9 @@ struct MenuSettingsItem: View {
                     .font(.caption)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 8)
+        .contentShape(Rectangle())
     }
 }
 

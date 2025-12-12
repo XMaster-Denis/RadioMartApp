@@ -11,16 +11,36 @@ import PDFKit
 import FlowPDF
 import SwiftData
 
-extension Project: ReportPDFProtocol {
-    var pdfDocument: PDFDocument? {
-        PDFDocument(data: PDFdata)
+extension Project {
+    
+    
+    
+    @MainActor
+    func makePDFSnapshot(companyName: String) -> ProjectPDFSnapshot{
+        var index: Int = 0
+        let rowsFromProject:[[String]] = itemsProject.reduce([]) {
+            index += 1
+            return $0 + [["\(index)", "\($1.idProductRM)", "\($1.name)", "\($1.price)", "\($1.count)", "\($1.price * Decimal($1.count))"]]
+        }
+        
+        return ProjectPDFSnapshot(
+            
+            companyName: companyName,
+            projectName: name,
+            rows: rowsFromProject
+        )
     }
 
-    var PDFdata: Data {createPDF()}
-    
-    func createPDF() -> Data {
+    static func createPDF(context: ProjectPDFSnapshot) -> Data{
+
         let pdfGenerator = FlowPDF(paper: .A4_portrait)
-        let title = FlowPDFText(name)
+        let companyName = FlowPDFText(context.companyName)
+        
+        companyName.paragraphStyle.alignment = .right
+        companyName.fontOfText = .init(name: "Arial", size: 14)!
+        pdfGenerator.insertItem(companyName)
+        
+        let title = FlowPDFText(context.projectName)
         title.paragraphStyle.alignment = .center
         title.fontOfText = .init(name: "Arial", size: 16)!
         pdfGenerator.insertItem(title)
@@ -30,11 +50,7 @@ extension Project: ReportPDFProtocol {
         
         let widthCollumns: [CGFloat] = [5, 12, 53, 10, 10, 10]
         let headers = ["№".l, "reference.report:string".l, "name.report:string".l, "price.report:string".l, "count.report:string".l, "sum.report:string".l]
-        var index: Int = 0
-        let contentForTable: [[String]] = itemsProject.reduce([]) {
-            index += 1
-            return $0 + [["\(index)", "\($1.idProductRM)", "\($1.name)", "\($1.price)", "\($1.count)", "\($1.price + Decimal($1.count))"]]
-        }
+        let contentForTable = context.rows
         
         
         let table = FlowPDFTable(headers, widthCollumns: widthCollumns, newFont: .boldSystemFont(ofSize: 10))
@@ -58,56 +74,15 @@ extension Project: ReportPDFProtocol {
             pdfGenerator.insertItem(tableRow)
         }
         
-        
-        let pdfData = pdfGenerator.create()
-        
-        return pdfData
+        return pdfGenerator.create()
     }
 
 }
 
+struct ProjectPDFSnapshot: Sendable {
+    let companyName: String
+    let projectName: String
+    let rows: [[String]]
+}
 
-//
-//#Preview {
-//    
-//    
-//    struct PreviewProjectPDF: UIViewRepresentable {
-//        
-//        let project: Project
-//        
-//        func makeUIView(context: Context) -> PDFView {
-//            
-//            let pdfView = PDFView()
-//            pdfView.document = PDFDocument(data: project.PDFdata)
-//            pdfView.autoScales = true
-//            return pdfView
-//        }
-//        
-//        func updateUIView(_ pdfView: PDFView, context: Context) {
-//            
-//        }
-//    }
-//    
-//    
-//    
-//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//    let schema = Schema([
-//        Project.self,
-//        ItemProject.self,
-//        SettingsModel.self
-//    ])
-//    let container = try! ModelContainer(for: schema, configurations: config)
-//    let context = container.mainContext
-//    
-//    
-//    let IP1 = ItemProject(name: "Led Electron PCB component Led Electron component ", count: 99, price: 15.0, idProductRM: "10117")
-//    let IP2 = ItemProject(name: "PCB", count: 4, price: 300000.0, idProductRM: "14254-12")
-//    let IP3 = ItemProject(name: "Capasitor 220 uf 12 v. Arduino", count: 5, price: 370.0, idProductRM: "14234")
-//    let project = Project(name: "Test Project", itemsProject: [IP1, IP2, IP3])
-//    context.insert(project)
-//    
-//    return PreviewProjectPDF(project: project)
-//        .modelContainer(container)
-//        .environment(\.locale, Locale(identifier: "ru"))
-//}
 

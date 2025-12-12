@@ -11,7 +11,7 @@ struct SignInView: View {
     @State var signInModel = SignInModel()
     @ObservedObject var authManager =  AuthManager.shared
     @State private var showSignInForm = false
-    @ObservedObject var projectSyncManager = ProjectSyncManager.shared
+
     
     var body: some View {
         

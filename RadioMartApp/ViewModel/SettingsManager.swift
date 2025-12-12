@@ -59,6 +59,10 @@ final class SettingsManager: ObservableObject {
         )
     }
     
+    var companyNameValue: String {
+        self.settingsModel.companyName
+    }
+    
     var companyName: Binding<String> {
         Binding(
             get: { self.settingsModel.companyName },

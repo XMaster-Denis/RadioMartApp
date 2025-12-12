@@ -17,7 +17,7 @@ class LocalizationManager: ObservableObject {
     static var bundle: Bundle {
         guard let path = Bundle.main.path(forResource: LM.shared.currentLanguage.code, ofType: "lproj"),
               let bundle = Bundle(path: path) else {
-            return .main // fallback
+            return .main
         }
         return bundle
     }
