@@ -63,11 +63,22 @@ struct CatalogAndProductsView: View {
                                                 }
                                             }
                                             Spacer()
-                                            ImageProductView(product.defaultImageUrl!)
-                                                .scaledToFill()
-                                                .frame(width: 160, height: 120)
-                                                .clipShape(.rect(cornerRadius: 10))
-                                                .padding(0)
+                                            
+                                            if let url = product.defaultImageUrl {
+                                                ImageProductView(url)
+                                                    .scaledToFill()
+                                                    .frame(width: 160, height: 120)
+                                                    .clipShape(.rect(cornerRadius: 10))
+                                                    .padding(0)
+                                            } else {
+                                                ProgressView()
+                                            }
+                                            
+//                                            ImageProductView(product.defaultImageUrl!)
+//                                                .scaledToFill()
+//                                                .frame(width: 160, height: 120)
+//                                                .clipShape(.rect(cornerRadius: 10))
+//                                                .padding(0)
                                         }
                                     }
                                     .overlay {
@@ -85,20 +96,29 @@ struct CatalogAndProductsView: View {
                 
             } else  {
                 ProgressView("loading:string")
-                    .onAppear {
+                    .task(id: localizationManager.currentLanguage) {
                         isLoadingDone = false
-                        Task {
-                            await withTaskGroup(of: Void.self) { group in
-                                group.addTask {
-                                    await categoriesModel.loadCategoryBy(id: currentCategory)
-                                }
-                                group.addTask {
-                                    await productsModel.reload(idCategory: currentCategory)
-                                }
-                            }
-                            isLoadingDone = true
+                        await withTaskGroup(of: Void.self) { group in
+                            group.addTask { await categoriesModel.loadCategoryBy(id: currentCategory) }
+                            group.addTask { await productsModel.reload(idCategory: currentCategory) }
                         }
+                        isLoadingDone = true
                     }
+                
+//                    .onAppear {
+//                        isLoadingDone = false
+//                        Task {
+//                            await withTaskGroup(of: Void.self) { group in
+//                                group.addTask {
+//                                    await categoriesModel.loadCategoryBy(id: currentCategory)
+//                                }
+//                                group.addTask {
+//                                    await productsModel.reload(idCategory: currentCategory)
+//                                }
+//                            }
+//                            isLoadingDone = true
+//                        }
+//                    }
             }
         }
         .navigationTitle(categoriesModel.nameCategory)

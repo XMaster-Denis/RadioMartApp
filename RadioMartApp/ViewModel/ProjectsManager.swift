@@ -125,7 +125,7 @@ final class ProjectsManager: ObservableObject {
         try? modelContext.save()
         
         
-        let localProjectsForDeleting = projectViewModelsAll.filter{
+        _ = projectViewModelsAll.filter{
             $0.isMarkDeleted == true
         }
         

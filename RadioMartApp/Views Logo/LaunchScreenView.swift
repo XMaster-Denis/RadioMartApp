@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LaunchScreenView: View {
     @State var rotation = 0.0
-    @State var delay = 3.0 //5.0
+    @State var delay = 5.0
     @State var showLogo = true
     @State var opacityLogo = 1.0
     

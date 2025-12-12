@@ -1,12 +1,4 @@
 //
-//  AccountView 2.swift
-//  RadioMartApp
-//
-//  Created by XMaster on 15.12.24.
-//
-
-
-//
 //  AccountView.swift
 //  RadioMartApp
 //
@@ -17,9 +9,6 @@ import SwiftUI
 
 struct ContentSettingsView: View {
     @ObservedObject var settingsManager = SettingsManager.shared
-    @ObservedObject var authManager = AuthManager.shared
-
-    @State private var showAuthForm: Bool = false
     
     var body: some View {
         

@@ -37,7 +37,7 @@ struct ProjectDetailView: View {
                     HStack (spacing: 0) {
                         if isEditingTitle {
                             ValidationForm { valid in
-                                IconTextField("enter.a.new.project.name-string", text: $newTitleProject, modField: {
+                                IconTextField("enter.a.new.project.name:string", text: $newTitleProject, modField: {
                                     $0.textFieldStyle(.roundedBorder)
                                 }, modIcon: {
                                     $0.hidden()

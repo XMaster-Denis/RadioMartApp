@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -597,7 +597,6 @@
 				};
 			};
 			buildConfigurationList = E27066012AAC591200C58C1B /* Build configuration list for PBXProject "RadioMartApp" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -617,6 +616,7 @@
 				E2A0EDFA2C8C7386006B08B4 /* XCRemoteSwiftPackageReference "SwiftOpenAI" */,
 				E2523E8A2D0F11290048EB59 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
+			preferredProjectObjectVersion = 77;
 			productRefGroup = E27066072AAC591200C58C1B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -953,7 +953,7 @@
 				E27066132AAC591300C58C1B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		E27066142AAC591300C58C1B /* Build configuration list for PBXNativeTarget "RadioMartApp" */ = {
 			isa = XCConfigurationList;
@@ -962,7 +962,7 @@
 				E27066162AAC591300C58C1B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

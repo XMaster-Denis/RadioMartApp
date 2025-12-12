@@ -23,7 +23,7 @@ struct SignInView: View {
                 .overlay(content: {
                     LinearGradient(colors: [.white, .clear], startPoint: .bottom, endPoint: .top)
                 })
-                .frame(height: 300)
+                .frame(width: 250, height: 300, alignment: .center)
             
             VStack(spacing: 12) {
 
@@ -68,7 +68,7 @@ struct SignInView: View {
 
             if showSignInForm {
                 VStack {
-
+#if DEBUG
                     HStack {
                         Spacer()
                         Button("User 1") {
@@ -87,6 +87,7 @@ struct SignInView: View {
                         }
                         Spacer()
                     }
+#endif
                     
                     SignInFieldView(placeHolder: "email:string", text: $signInModel.email)
                     SignInSecureFieldView(placeHolder: "password:string", showPassword: $signInModel.showPassword, text: $signInModel.password)
@@ -149,7 +150,6 @@ struct SignInView: View {
             
             Spacer()
         }
-        .ignoresSafeArea()
         
         .sheet(isPresented: $signInModel.showRegistrationView) {
             RegistrationView()
@@ -212,3 +212,6 @@ struct SignInView: View {
 }
 
 
+#Preview {
+    SignInView()
+}

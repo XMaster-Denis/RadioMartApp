@@ -47,6 +47,7 @@ class SettingsSyncManager {
     
     
     func startSettingsAutoSync(interval: TimeInterval = 5) {
+        print("startSettingsAutoSync")
         stopSettingsAutoSync()
         syncTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { _ in
             Task {

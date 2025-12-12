@@ -13,6 +13,8 @@ import FirebaseAppCheck
 
 import FirebaseInstallations
 
+import Kingfisher
+
 
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -47,13 +49,15 @@ struct RadioMartAppApp: App {
 //        let providerFactory = AppCheckDebugProviderFactory()
 //        AppCheck.setAppCheckProviderFactory(providerFactory)
 //    #endif
-
+        KingfisherManager.shared.downloader.sessionConfiguration.httpMaximumConnectionsPerHost = 4
+        KingfisherManager.shared.downloader.downloadTimeout = 20
         FirebaseApp.configure()
     }
     
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .id(localizationManager.currentLanguage.code) // force full UI refresh when app language changes
                 .environmentObject(localizationManager)
                 .environment(\.locale, Locale(identifier: localizationManager.currentLanguage.code))
                 .environmentObject(SettingsManager.shared)

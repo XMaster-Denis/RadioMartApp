@@ -18,9 +18,9 @@ import SwiftUI
 struct ProjectsSettingsView: View {
 //    @ObservedObject var userFB = UserSettingsFireBaseViewModel.shared
     @ObservedObject var settingsManager = SettingsManager.shared
-    @ObservedObject var authManager = AuthManager.shared
-
-    @State private var showAuthForm: Bool = false
+//    @ObservedObject var authManager = AuthManager.shared
+//
+//    @State private var showAuthForm: Bool = false
     
     var body: some View {
         

@@ -18,7 +18,6 @@ import SwiftUI
 struct UserSettingsView: View {
     @ObservedObject var authManager = AuthManager.shared
 
-    @State private var showAuthForm: Bool = false
     
     var body: some View {
         

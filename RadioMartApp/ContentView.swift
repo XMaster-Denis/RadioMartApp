@@ -14,8 +14,9 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                
-         //   LaunchScreenView()
+#if !DEBUG
+            LaunchScreenView()
+#endif
             GeneralTabView()
                 .zIndex(0.9)
             

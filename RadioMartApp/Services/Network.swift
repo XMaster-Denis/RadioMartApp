@@ -21,8 +21,6 @@ class PSServer {
     private static let baseURL = "https://radiomart.kz/"
     private static let baseURLAPI = baseURL+"api/"
     
-    
-    
     static let shared = PSServer()
     
     static let requestModifier = AnyModifier { request in
@@ -78,9 +76,13 @@ class PSServer {
     static func getImagesURLBy(idProduct:Int) async -> [URL] {
         var result: [URL] = []
         do {
-            let data = try await AF.request(baseURLAPI + "images/products/\(idProduct)")
-                .authenticate(username: privateAPIKey, password: passwordAPIKey)
-                .serializingData().value
+            let data = try await AF.request(
+                baseURLAPI + "images/products/\(idProduct)",
+                requestModifier: { $0.timeoutInterval = 15 }
+            )
+            .validate()
+            .authenticate(username: privateAPIKey, password: passwordAPIKey)
+            .serializingData().value
             let xml = XMLHash.parse(data)
             for elem in xml["prestashop"]["image"]["declination"].all {
                 guard let stringURL = elem.element?.attribute(by: "xlink:href")?.text,
@@ -94,24 +96,24 @@ class PSServer {
     }
     
     
-    // https://radiomart.kz/api/images/products/\(idProduct)?output_format=JSON
-    static func getImagesURLBy2(idProduct:Int) async -> [URL] {
-        var result: [URL] = []
-        do {
-            let data = try await AF.request(baseURLAPI + "images/products/\(idProduct)")
-                .authenticate(username: privateAPIKey, password: passwordAPIKey)
-                .serializingData().value
-            let xml = XMLHash.parse(data)
-            for elem in xml["prestashop"]["image"]["declination"].all {
-                guard let stringURL = elem.element?.attribute(by: "xlink:href")?.text,
-                      let url = URL(string: stringURL )  else {continue}
-                result.append(url)
-            }
-        } catch {
-            
-        }
-        return result
-    }
+//    // https://radiomart.kz/api/images/products/\(idProduct)?output_format=JSON
+//    static func getImagesURLBy2(idProduct:Int) async -> [URL] {
+//        var result: [URL] = []
+//        do {
+//            let data = try await AF.request(baseURLAPI + "images/products/\(idProduct)")
+//                .authenticate(username: privateAPIKey, password: passwordAPIKey)
+//                .serializingData().value
+//            let xml = XMLHash.parse(data)
+//            for elem in xml["prestashop"]["image"]["declination"].all {
+//                guard let stringURL = elem.element?.attribute(by: "xlink:href")?.text,
+//                      let url = URL(string: stringURL )  else {continue}
+//                result.append(url)
+//            }
+//        } catch {
+//
+//        }
+//        return result
+//    }
     
     
     static func getDataCategoryBy(idCategory:Int) async -> CategoryModel {

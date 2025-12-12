@@ -25,7 +25,8 @@ struct ImageProductView: View {
             }
             .requestModifier(PSServer.requestModifier)
             .loadDiskFileSynchronously()
-            .cacheMemoryOnly()
+            .cancelOnDisappear(true)
+//            .cacheMemoryOnly()
             .fade(duration: 0.25)
             .onProgress { receivedSize, totalSize in  }
             .onSuccess { result in
