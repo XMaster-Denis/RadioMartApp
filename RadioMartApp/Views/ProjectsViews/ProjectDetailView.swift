@@ -14,6 +14,7 @@ struct ProjectDetailView: View {
     @ObservedObject var project: ProjectViewModel
     @State var currentItem: ItemProject?
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @EnvironmentObject var settings: SettingsManager
     @State var isEditingItem: Bool = false
     @State var isEditingTitle: Bool = false
     @State var anchor: UnitPoint = .center
@@ -88,10 +89,10 @@ struct ProjectDetailView: View {
                     {
                         Table(project.itemsProject)
                         {
-                            
+                        
                             TableColumn("name-string"){ item in
                                 if horizontalSizeClass == .compact {
-                                    ItemRowDetailForIPhoneView(item: item)
+                                    ItemRowDetailForIPhoneView(project: project, item: item)
                                         .onTapGesture {
                                             withAnimation(.linear(duration: 0.4)) {
                                                 currentItem = item
@@ -99,7 +100,24 @@ struct ProjectDetailView: View {
                                             }
                                         }
                                 } else {
-                                    Text(String(item.name))
+                                    HStack (spacing: 1) {
+                                        Button(action: {
+                                            withAnimation(.linear(duration: 0.4)) {
+                                                project.project.itemsProject.removeAll(where: { $0.id == item.id })
+                                            }
+                                        }) {
+                                            Image(systemName: "xmark.circle")
+                                                .bold()
+                                                .imageScale(.large)
+                                                .foregroundStyle(.red)
+                                                .background {
+                                                    Circle()
+                                                        .foregroundStyle(.white)
+                                                }
+                                        }
+                                        Text(String(item.name))
+                                            .font(.caption)
+                                    }
                                 }
                             }
                             

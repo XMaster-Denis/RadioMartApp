@@ -17,11 +17,22 @@ struct CatalogAndProductsView: View {
     init(id: Int) {
         currentCategory = id
     }
+
+    @MainActor
+    private func reloadData() async {
+        isLoadingDone = false
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask { await categoriesModel.loadCategoryBy(id: currentCategory) }
+            group.addTask { await productsModel.reload(idCategory: currentCategory) }
+        }
+        isLoadingDone = true
+    }
     
     var body: some View {
         
         
         ZStack {
+            
             
             if isLoadingDone {
                 List {
@@ -88,31 +99,37 @@ struct CatalogAndProductsView: View {
             } else  {
                 ProgressView("loading:string")
                     .task(id: localizationManager.currentLanguage) {
-                        isLoadingDone = false
-                        await withTaskGroup(of: Void.self) { group in
-                            group.addTask { await categoriesModel.loadCategoryBy(id: currentCategory) }
-                            group.addTask { await productsModel.reload(idCategory: currentCategory) }
-                        }
-                        isLoadingDone = true
+                        await reloadData()
                     }
-                
+            }
+            if categoriesModel.categories.isEmpty && productsModel.products.isEmpty && isLoadingDone {
+                VStack(spacing: 12) {
+                    Image(systemName: "wifi.exclamationmark")
+                        .font(.system(size: 40))
+                        .foregroundStyle(.secondary)
+
+                    Text("products.not.loaded:string")
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
+
+                    Button {
+                        Task { await reloadData() }
+                    } label: {
+                        Label("reload:string", systemImage: "arrow.clockwise")
+                            .font(.headline)
+                            .padding(.horizontal, 24)
+                            .padding(.vertical, 12)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.orange)
+                }
+                .padding()
             }
         }
         .navigationTitle(categoriesModel.nameCategory)
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: localizationManager.currentLanguage) {
-            isLoadingDone = false
-            Task{
-                await withTaskGroup(of: Void.self) { group in
-                    group.addTask {
-                        await categoriesModel.loadCategoryBy(id: currentCategory)
-                    }
-                    group.addTask {
-                        await productsModel.reload(idCategory: currentCategory)
-                    }
-                }
-                isLoadingDone = true
-            }
+            Task { await reloadData() }
         }
     }
 }

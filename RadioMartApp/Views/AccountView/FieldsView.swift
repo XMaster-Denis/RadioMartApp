@@ -19,7 +19,7 @@ struct SignInFieldView: View {
             .textInputAutocapitalization(.never)
             .padding()
             .frame(height: 50 )
-            .foregroundStyle(Color("baseBlue"))
+          //  .foregroundStyle(Color("baseBlue"))
             .background {
                 RoundedRectangle(cornerRadius: 20)
                     .fill(.ultraThinMaterial)
@@ -62,7 +62,7 @@ struct SignInSecureFieldView: View {
                 .textInputAutocapitalization(.never)
                 .padding()
                 .frame(height: 50 )
-                .foregroundStyle(Color("baseBlue"))
+               // .foregroundStyle(Color("baseBlue"))
                 .background {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(.ultraThinMaterial)

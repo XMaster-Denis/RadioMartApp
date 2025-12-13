@@ -9,14 +9,29 @@ import SwiftUI
 import SwiftData
 
 struct ItemRowDetailForIPhoneView: View {
+    @ObservedObject var project: ProjectViewModel
     @StateObject var item: ItemProject
     var body: some View {
-        HStack {
-            
+        HStack (spacing: 1) {
+            Button(action: {
+                withAnimation(.linear(duration: 0.4)) {
+                    project.project.itemsProject.removeAll(where: { $0.id == item.id })
+                }
+            }) {
+                Image(systemName: "xmark.circle")
+                    .bold()
+                    .imageScale(.large)
+                    .foregroundStyle(.red)
+                    .background {
+                        Circle()
+                            .foregroundStyle(.white)
+                    }
+            }
             Text(String(item.name ))
                 .multilineTextAlignment(.leading)
                 .bold()
                 .font(.caption)
+            
             Spacer()
             VStack(alignment: .trailing) {
                 HStack(spacing: 3) {
@@ -53,14 +68,14 @@ struct ItemRowDetailForIPhoneView: View {
 //    ])
 //    let container = try! ModelContainer(for: schema, configurations: config)
 //    let context = container.mainContext
-//    
-//    
+//
+//
 //    let IP1 = ItemProject(name: "Led Electron PCB component Led Electron component ", count: 2, price: 15.0, idProductRM: "10117")
 //    let IP2 = ItemProject(name: "PCB", count: 1, price: 300.0, idProductRM: "14254")
 //    let IP3 = ItemProject(name: "Capasitor 220 uf 12 v. Arduino", count: 5, price: 370.0, idProductRM: "14234")
 //    let project = Project(name: "Test Project", itemsProject: [IP1, IP2, IP3])
 //    context.insert(project)
-//    
+//
 //    return ProjectDetailView(project: project)
 //        .modelContainer(container)
 //}

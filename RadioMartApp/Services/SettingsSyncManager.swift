@@ -20,7 +20,11 @@ class SettingsSyncManager {
     
     var settingsManager = SettingsManager.shared
     
-    
+    func ensureSettingsExists() async {
+        guard AuthManager.shared.userId != nil else { return }
+
+        await saveSettings()
+    }
     
     
     func saveSettings() async {

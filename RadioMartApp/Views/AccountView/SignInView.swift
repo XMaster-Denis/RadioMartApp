@@ -89,12 +89,13 @@ struct SignInView: View {
                     }
 #endif
                     
-                    SignInFieldView(placeHolder: "email:string", text: $signInModel.email)
-                    SignInSecureFieldView(placeHolder: "password:string", showPassword: $signInModel.showPassword, text: $signInModel.password)
+                    SignInFieldView(placeHolder: "email:string".l, text: $signInModel.email)
+                    SignInSecureFieldView(placeHolder: "password:string".l, showPassword: $signInModel.showPassword, text: $signInModel.password)
                     Button("forgot.password:string") {
                         signInModel.showResetPasswordView = true
                     }
                     .bold()
+                    .padding(3)
                     
                     Button {
                         signInModel.signWithEmail(){ success, error in
@@ -113,15 +114,19 @@ struct SignInView: View {
                             .bold()
                             .foregroundStyle(.white)
                             .padding()
-                            .frame(height: 55)
+                            .frame(height: 50)
                             .frame(maxWidth: .infinity)
                             .background {
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(Color.orange)
                             }
                     }
-                    if signInModel.errorMessage != "" {
+                    if !signInModel.errorMessage.isEmpty {
                         Text(signInModel.errorMessage)
+                            .foregroundStyle(.red)
+                            .font(.footnote)
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                     
                     Spacer()
@@ -134,7 +139,7 @@ struct SignInView: View {
                             .bold()
                             .foregroundStyle(.white)
                             .padding()
-                            .frame(height: 55)
+                            .frame(height: 50)
                             .frame(maxWidth: .infinity)
                             .background {
                                 RoundedRectangle(cornerRadius: 20)
@@ -150,6 +155,7 @@ struct SignInView: View {
             
             Spacer()
         }
+
         
         .sheet(isPresented: $signInModel.showRegistrationView) {
             RegistrationView()
@@ -160,7 +166,12 @@ struct SignInView: View {
             ForgotPasswordView(viewModel: signInModel)
                 .presentationDetents([.fraction(0.4)])
         })
-        
+        .onChange(of: authManager.authState) { _, newState in
+            if newState == .signedIn {
+
+                DispatchQueue.main.async { dismiss() }
+            }
+        }
 
     }
 

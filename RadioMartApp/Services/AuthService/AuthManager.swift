@@ -11,22 +11,24 @@ import FirebaseCore
 import GoogleSignIn
 
 enum AuthState {
-
+    
     case signedIn
     case signedOut
 }
 
 enum AppAuthError: String, LocalizedError {
-    case invalidEmail = "Invalid email. Check and try again."
-    case invalidPasswordLength = "Password too short (min 6 chars)."
-    case passwordsDoNotMatch = "Passwords don't match."
-    case emailAlreadyInUse = "Email already in use. Log in instead."
-    case wrongPassword = "Wrong password. Try again."
-    case tooManyRequests = "Too many attempts. Try later."
-    case networkError = "Network error. Check connection."
+    case invalidEmail = "auth.error.invalidEmail"
+    case invalidPasswordLength = "auth.error.invalidPasswordLength"
+    case passwordsDoNotMatch = "auth.error.passwordsDoNotMatch"
+    case emailAlreadyInUse = "auth.error.emailAlreadyInUse"
+    case wrongPassword = "auth.error.wrongPassword"
+    case userNotFound = "auth.error.userNotFound"
+    case tooManyRequests = "auth.error.tooManyRequests"
+    case networkError = "auth.error.networkError"
+    case unknown = "auth.error.unknown"
     
     var errorDescription: String? {
-        self.rawValue
+        NSLocalizedString(self.rawValue, bundle: LocalizationManager.bundle, comment: "")
     }
 }
 
@@ -47,25 +49,25 @@ class AuthManager: ObservableObject {
     
     init() {
         configureAuthStateChanges()
-
+        
         if let user = Auth.auth().currentUser {
             updateState(user: user)
         }
     }
-
-
+    
+    
     func configureAuthStateChanges() {
         authStateHandle = Auth.auth().addStateDidChangeListener { auth, user in
             self.updateState(user: user)
         }
     }
     
-
+    
     func removeAuthStateListener() {
         Auth.auth().removeStateDidChangeListener(authStateHandle)
     }
-
-
+    
+    
     func updateState(user: User?) {
         self.user = user
         let isAuthenticatedUser = user != nil
@@ -77,6 +79,7 @@ class AuthManager: ObservableObject {
                 
                 await SettingsSyncManager.shared.fetchSettings()
                 SettingsSyncManager.shared.startSettingsAutoSync()
+                
             }
             
             displayName = getDisplayName()
@@ -109,13 +112,14 @@ class AuthManager: ObservableObject {
     
     func getDisplayName() -> String {
         guard let user else { return "User" }
-        return user.displayName ?? "***"
+        return user.displayName ?? "User"
     }
     
     func updateDisplayName(newDisplayName: String) {
         if let user = user {
             let changeRequest = user.createProfileChangeRequest()
             changeRequest.displayName = newDisplayName
+            displayName = newDisplayName
             changeRequest.commitChanges { error in
                 if let error = error {
                     print(error.localizedDescription)
@@ -126,57 +130,49 @@ class AuthManager: ObservableObject {
         }
     }
     
+    private func mapAuthError(_ error: Error) -> AppAuthError {
+        let nsError = error as NSError
+        guard nsError.domain == AuthErrorDomain else {
+            return .unknown
+        }
+        
+        // FirebaseAuth in recent versions often returns .invalidCredential for wrong password.
+        let code = AuthErrorCode(rawValue: nsError.code)
+        switch code {
+        case .invalidEmail:
+            return .invalidEmail
+        case .emailAlreadyInUse:
+            return .emailAlreadyInUse
+        case .wrongPassword:
+            return .wrongPassword
+        case .userNotFound:
+            return .userNotFound
+        case .tooManyRequests:
+            return .tooManyRequests
+        case .networkError:
+            return .networkError
+        case .invalidCredential:
+            return .wrongPassword
+        default:
+            return .unknown
+        }
+    }
+    
     func registerWithEmail(email: String, password: String) async throws {
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             user = result.user
         } catch {
-            if let nsError = error as NSError? {
-                        let errorCode = AuthErrorCode(rawValue: nsError.code)
-                        switch errorCode {
-                        case .emailAlreadyInUse:
-                            throw AppAuthError.emailAlreadyInUse
-                        case .invalidEmail:
-                            throw AppAuthError.invalidEmail
-                        case .wrongPassword:
-                            throw AppAuthError.wrongPassword
-                        case .tooManyRequests:
-                            throw AppAuthError.tooManyRequests
-                        case .networkError:
-                            throw AppAuthError.networkError
-                        default:
-                            throw AppAuthError.networkError
-                        }
-                    } else {
-                        throw AppAuthError.networkError
-                    }
+            throw mapAuthError(error)
         }
     }
-        
+    
     func signWithEmail(email: String, password: String) async throws {
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             user = result.user
         } catch {
-            if let nsError = error as NSError? {
-                        let errorCode = AuthErrorCode(rawValue: nsError.code)
-                        switch errorCode {
-                        case .emailAlreadyInUse:
-                            throw AppAuthError.emailAlreadyInUse
-                        case .invalidEmail:
-                            throw AppAuthError.invalidEmail
-                        case .wrongPassword:
-                            throw AppAuthError.wrongPassword
-                        case .tooManyRequests:
-                            throw AppAuthError.tooManyRequests
-                        case .networkError:
-                            throw AppAuthError.networkError
-                        default:
-                            throw AppAuthError.networkError
-                        }
-                    } else {
-                        throw AppAuthError.networkError
-                    }
+            throw mapAuthError(error)
         }
     }
     
@@ -185,9 +181,9 @@ class AuthManager: ObservableObject {
         try await Auth.auth().sendPasswordReset(withEmail: email)
     }
     
-
     
-
+    
+    
     private func authenticateUser(credentials: AuthCredential) async throws -> AuthDataResult? {
         if Auth.auth().currentUser != nil {
             return try await authLink(credentials: credentials)
@@ -195,8 +191,8 @@ class AuthManager: ObservableObject {
             return try await authSignIn(credentials: credentials)
         }
     }
-
-
+    
+    
     private func authSignIn(credentials: AuthCredential) async throws -> AuthDataResult? {
         do {
             let result = try await Auth.auth().signIn(with: credentials)
@@ -208,8 +204,8 @@ class AuthManager: ObservableObject {
             throw error
         }
     }
-
-   
+    
+    
     private func authLink(credentials: AuthCredential) async throws -> AuthDataResult? {
         do {
             guard let user = Auth.auth().currentUser else { return nil }
@@ -227,13 +223,13 @@ class AuthManager: ObservableObject {
     func googleAuth(_ user: GIDGoogleUser) async throws -> AuthDataResult? {
         guard let idToken = user.idToken?.tokenString else { return nil }
         
-     
+        
         let credentials = GoogleAuthProvider.credential(
             withIDToken: idToken,
             accessToken: user.accessToken.tokenString
         )
         do {
-           
+            
             return try await authenticateUser(credentials: credentials)
         }
         catch {
@@ -250,23 +246,23 @@ class AuthManager: ObservableObject {
         guard let nonce = nonce else {
             fatalError("Invalid state: A login callback was received, but no login request was sent.")
         }
-
+        
         guard let appleIDToken = appleIDCredential.identityToken else {
             print("Unable to fetch identity token")
             return nil
         }
-
+        
         guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
             print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             return nil
         }
-
-      
+        
+        
         let credentials = OAuthProvider.appleCredential(withIDToken: idTokenString,
-                                                       rawNonce: nonce,
-                                                       fullName: appleIDCredential.fullName)
-
-        do { 
+                                                        rawNonce: nonce,
+                                                        fullName: appleIDCredential.fullName)
+        
+        do {
             return try await authenticateUser(credentials: credentials)
         }
         catch {

@@ -48,7 +48,7 @@ class SignInModel {
                 complection(false, error)
             } catch {
                 print(error.localizedDescription)
-                complection(false, AppAuthError.networkError)
+                complection(false, AppAuthError.unknown)
             }
             
         }
@@ -62,8 +62,10 @@ class SignInModel {
                 try validateForgotPasswordForm()
                 try await AuthManager.shared.resetPassword(email: resetPasswordEmail)
                 showResetPasswordView = false
+            } catch let error as AppAuthError {
+                self.errorMessage = error.localizedDescription
             } catch {
-                print(error.localizedDescription)
+                self.errorMessage = AppAuthError.unknown.localizedDescription
             }
             
         }

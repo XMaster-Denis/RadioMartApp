@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 @Observable
 class RegisterViewModel {
     var email: String = ""
@@ -15,15 +16,34 @@ class RegisterViewModel {
     var showPassword: Bool = false
     var showPasswordCheck: Bool = false
     
+    var isLoading: Bool = false
+    var errorMessage: String = ""
+    var showErrorAlert: Bool = false
+    var isRegistered: Bool = false
+    
     func registarionWithEmail() {
+        // Reset state before starting
+        errorMessage = ""
+        showErrorAlert = false
+        isRegistered = false
+
         Task {
             do {
+                isLoading = true
                 try validateForm()
                 try await AuthManager.shared.registerWithEmail(email: email, password: password)
+                AuthManager.shared.updateDisplayName(newDisplayName: email)
+                await SettingsSyncManager.shared.ensureSettingsExists()
+
+                isRegistered = true
+            } catch let error as AppAuthError {
+                errorMessage = error.localizedDescription
+                showErrorAlert = true
             } catch {
-                print(error.localizedDescription)
+                errorMessage = AppAuthError.unknown.localizedDescription
+                showErrorAlert = true
             }
-            
+            isLoading = false
         }
     }
     

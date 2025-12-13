@@ -29,7 +29,7 @@ struct GeneralTabView: View {
                 
                 AICameraView()
                     .tabItem {
-                    Label("aicamera:string", systemImage: "sparkle.magnifyingglass")
+                        Label("aicamera:string", systemImage: "sparkle.magnifyingglass")
                 }
                     .tag(2)
                 

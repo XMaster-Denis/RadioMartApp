@@ -290,6 +290,213 @@
         }
       }
     },
+    "auth.error.emailAlreadyInUse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diese E-Mail-Adresse wird bereits verwendet. Bitte melden Sie sich an."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This email is already in use. Please sign in instead."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Этот адрес электронной почты уже используется. Войдите в систему."
+          }
+        }
+      }
+    },
+    "auth.error.invalidEmail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ungültige E-Mail-Adresse. Bitte überprüfen Sie Ihre Eingabe."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invalid email address. Please check and try again."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неверный адрес электронной почты. Проверьте и попробуйте снова."
+          }
+        }
+      }
+    },
+    "auth.error.invalidPasswordLength" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Das Passwort ist zu kurz. Mindestens 6 Zeichen erforderlich."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Password is too short. Minimum 6 characters required."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароль слишком короткий. Минимум 6 символов."
+          }
+        }
+      }
+    },
+    "auth.error.networkError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network error. Please check your internet connection."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка сети. Проверьте подключение к интернету."
+          }
+        }
+      }
+    },
+    "auth.error.passwordsDoNotMatch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Passwörter stimmen nicht überein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passwords do not match."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пароли не совпадают."
+          }
+        }
+      }
+    },
+    "auth.error.tooManyRequests" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zu viele Versuche. Bitte versuchen Sie es später erneut."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Too many attempts. Please try again later."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Слишком много попыток. Попробуйте позже."
+          }
+        }
+      }
+    },
+    "auth.error.unknown" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An unknown error occurred. Please try again."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Произошла неизвестная ошибка. Попробуйте ещё раз."
+          }
+        }
+      }
+    },
+    "auth.error.userNotFound" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein Benutzer mit dieser E-Mail-Adresse gefunden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No user found with this email address."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользователь с таким адресом электронной почты не найден."
+          }
+        }
+      }
+    },
+    "auth.error.wrongPassword" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Falsches Passwort. Bitte versuchen Sie es erneut."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Incorrect password. Please try again."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неверный пароль. Попробуйте ещё раз."
+          }
+        }
+      }
+    },
     "camera.telephoto:string" : {
       "localizations" : {
         "de" : {
@@ -417,7 +624,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Email"
+            "value" : "Отмена"
           }
         }
       }
@@ -695,6 +902,29 @@
         }
       }
     },
+    "email.address:string" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E-Mail-Adresse"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email address"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Адрес электронной почты"
+          }
+        }
+      }
+    },
     "enter.a.new.project.name:string" : {
       "comment" : "Title of an alert that appears when the user tries to rename a project and there is only one project left.",
       "isCommentAutoGenerated" : true,
@@ -943,6 +1173,29 @@
         }
       }
     },
+    "please.enter.your.email:string" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bitte geben Sie Ihre E-Mail-Adresse ein."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please enter your email address."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пожалуйста, введите адрес электронной почты."
+          }
+        }
+      }
+    },
     "price-string" : {
       "localizations" : {
         "de" : {
@@ -1098,6 +1351,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Товары"
+          }
+        }
+      }
+    },
+    "products.not.loaded:string" : {
+      "comment" : "A message displayed when there are no products to show.",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Produkte konnten nicht geladen werden. Bitte überprüfen Sie Ihre Internetverbindung."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Products could not be loaded. Please check your internet connection."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось загрузить товары. Проверьте подключение к интернету."
           }
         }
       }
@@ -1282,6 +1559,54 @@
         }
       }
     },
+    "registration.error.title:string" : {
+      "comment" : "The title of an alert that shows when registration fails.",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrierung fehlgeschlagen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registration Failed"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка регистрации"
+          }
+        }
+      }
+    },
+    "reload:string" : {
+      "comment" : "A button label that says \"reload\".",
+      "isCommentAutoGenerated" : true,
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Neu laden"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reload"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Обновить"
+          }
+        }
+      }
+    },
     "rename:string" : {
       "comment" : "A button that allows the user to rename a project.",
       "isCommentAutoGenerated" : true,
@@ -1302,6 +1627,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Переименовать"
+          }
+        }
+      }
+    },
+    "repeat.password:string" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Passwort wiederholen"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repeat password"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Адрес электронной почты"
           }
         }
       }
@@ -1735,12 +2083,11 @@
       }
     },
     "User 1" : {
-      "comment" : "A button that, when pressed, sets the email and password of the sign-in model to those of a test user.",
+      "comment" : "A user with the email `user1@test.com` and password `123123`.",
       "isCommentAutoGenerated" : true
     },
     "User 2" : {
-      "comment" : "A user option to sign in with the second test user.",
-      "isCommentAutoGenerated" : true
+
     },
     "User 3" : {
       "comment" : "A button to sign in with the credentials of a third user.",
@@ -1831,6 +2178,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Название вашей компании"
+          }
+        }
+      }
+    },
+    "your.password:string" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ihr Passwort"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your password"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш пароль"
           }
         }
       }

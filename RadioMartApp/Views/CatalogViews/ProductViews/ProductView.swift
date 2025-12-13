@@ -24,14 +24,12 @@ struct ProductView: View {
     
     init(product: Product) {
         self.product = product
-        print("ProductView")
     }
     
     var body: some View {
         GeometryReader { geometryScreen in
             let screenSize = geometryScreen.size
             ScrollView(.vertical) {
-//                Text(product.name)
                 TabView(selection: $selectedImage) {
                     ForEach(productImagesURL, id: \.absoluteString){ productURL in
                         GeometryReader { imageGeometry in

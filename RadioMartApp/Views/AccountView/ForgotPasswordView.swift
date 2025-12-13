@@ -30,7 +30,7 @@ struct ForgotPasswordView: View {
                 }
                 
             }
-            SignInFieldView(placeHolder: "please.enter.your.email:string", text: $viewModel.resetPasswordEmail)
+            SignInFieldView(placeHolder: "please.enter.your.email:string".l, text: $viewModel.resetPasswordEmail)
             Button {
                 viewModel.resetPassword()
             } label: {
