@@ -25,6 +25,7 @@ enum AppAuthError: String, LocalizedError {
     case userNotFound = "auth.error.userNotFound"
     case tooManyRequests = "auth.error.tooManyRequests"
     case networkError = "auth.error.networkError"
+    case requiresRecentLogin = "auth.error.requiresRecentLogin"
     case unknown = "auth.error.unknown"
     
     var errorDescription: String? {
@@ -153,6 +154,8 @@ class AuthManager: ObservableObject {
             return .networkError
         case .invalidCredential:
             return .wrongPassword
+        case .requiresRecentLogin:
+            return .requiresRecentLogin
         default:
             return .unknown
         }
@@ -270,4 +273,60 @@ class AuthManager: ObservableObject {
             throw error
         }
     }
+    
+    
+    private func deleteAllProjectsFromCloud(for userId: String) async {
+        let db = FirebaseManager.shared.db
+        do {
+            let snapshot = try await db.collection("projects")
+                .whereField("userId", isEqualTo: userId)
+                .getDocuments()
+            
+            let docs = snapshot.documents
+            guard !docs.isEmpty else { return }
+            
+            var index = 0
+            while index < docs.count {
+                let end = min(index + 500, docs.count)
+                let batch = db.batch()
+                for doc in docs[index..<end] {
+                    batch.deleteDocument(doc.reference)
+                }
+                try await batch.commit()
+                index = end
+            }
+        } catch {
+            print("Delete projects error: \(error.localizedDescription)")
+        }
+    }
+    
+    func deleteAccount() async throws {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        
+        
+        ProjectSyncManager.shared.stopAutoSync()
+        SettingsSyncManager.shared.stopSettingsAutoSync()
+        
+        let uid = currentUser.uid
+        await deleteAllProjectsFromCloud(for: uid)
+
+        do {
+            let db = FirebaseManager.shared.db
+            try await db.collection("user_settings").document(uid).delete()
+        } catch {
+            print("Delete settings error: \(error.localizedDescription)")
+        }
+        
+        do {
+            try await currentUser.delete()
+        } catch {
+            throw mapAuthError(error)
+        }
+        
+        self.user = nil
+        self.authState = .signedOut
+        ProjectsManager.shared.restart()
+    }
+    
+    
 }

@@ -10,8 +10,18 @@ import Foundation
 class LocalizationManager: ObservableObject {
     static let shared = LocalizationManager()
     
-    @Published  var currentLanguage: ContentLanguages = .de
+    @Published  var currentLanguage: ContentLanguages
     
+    init () {
+
+        let systemCode = Locale.preferredLanguages.first?
+            .prefix(2)
+            .lowercased()
+
+        let detected = ContentLanguages(code: systemCode)
+            ?? .en
+        self.currentLanguage = detected
+    }
     
     
     static var bundle: Bundle {

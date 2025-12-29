@@ -50,7 +50,7 @@ struct IconTextFieldModalView: View {
                                 isShow.toggle()
                             }
                         }, label: {
-                            Text("cancel-string")
+                            Text("cancel:string")
                                 .frame(maxWidth: 150)
                         })
                         .buttonStyle(.borderedProminent)

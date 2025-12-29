@@ -11,6 +11,9 @@ struct GeneralSettingsMenuView: View {
     @ObservedObject var authManager = AuthManager.shared
     @Environment(\.locale) var locale
     @State private var showAuthForm: Bool = false
+    @State private var showDeleteConfirm = false
+    @State private var showDeleteError = false
+    @State private var deleteErrorMessage: String = ""
     
     var body: some View {
         NavigationStack {
@@ -54,23 +57,43 @@ struct GeneralSettingsMenuView: View {
             
             
             HStack {
-                Text("account: :string")
+                
                 if AuthManager.shared.authState == .signedIn {
-                    Text(AuthManager.shared.displayName)
-                    
-                    Button(action: { signOut() }) {
-                        Text("sign.out:string")
-                            .padding()
-                            .background {
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(.white)
-                                    .stroke(.blue, lineWidth: 2)
+                    VStack {
+                        HStack {
+                            Text("account: :string")
+                            Text(AuthManager.shared.displayName)
+
+                            Button(action: { signOut() }) {
+                                Text("sign.out:string")
+                                    .padding(5)
+                                    .background {
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .fill(.white)
+                                            .stroke(.blue, lineWidth: 2)
+                                    }
                             }
+                        }
+                        Button(role: .destructive) {
+                            showDeleteConfirm = true
+                        } label: {
+                            Text("delete.account:string")
+                                .padding(5)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(.white)
+                                        .stroke(.red, lineWidth: 2)
+                                }
+                        }
+                        
                     }
+                    
+
+
                 } else {
                     Button(action: { showAuthForm.toggle() }) {
                         Text("sign.in:string")
-                            .padding()
+                            .padding(10)
                             .background {
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(.white)
@@ -81,6 +104,29 @@ struct GeneralSettingsMenuView: View {
             }
             .sheet(isPresented: $showAuthForm) {
                 SignInView()
+            }
+            .alert("delete.account.title:string".l, isPresented: $showDeleteConfirm) {
+                Button("cancel:string".l, role: .cancel) {}
+                Button("delete:string".l, role: .destructive) {
+                    Task {
+                        do {
+                            try await AuthManager.shared.deleteAccount()
+                        } catch let error as AppAuthError {
+                            deleteErrorMessage = error.localizedDescription
+                            showDeleteError = true
+                        } catch {
+                            deleteErrorMessage = AppAuthError.unknown.localizedDescription
+                            showDeleteError = true
+                        }
+                    }
+                }
+            } message: {
+                Text("delete.account.message:string".l)
+            }
+            .alert("delete.account.error.title:string".l, isPresented: $showDeleteError) {
+                Button("ok:string".l, role: .cancel) {}
+            } message: {
+                Text(deleteErrorMessage)
             }
         }
         .id(locale.identifier)
@@ -100,7 +146,7 @@ struct GeneralSettingsMenuView: View {
 
 struct MenuSettingsItem: View {
     let image: String
-    let title: LocalizedStringKey  
+    let title: LocalizedStringKey
     let description: LocalizedStringKey
     var body: some View {
         HStack {

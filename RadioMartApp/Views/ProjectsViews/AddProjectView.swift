@@ -27,7 +27,7 @@ struct AddProjectView: View {
                     !newNameProject.isEmpty
                 }
                 HStack {
-                    Button("cancel-string", role: .destructive) {
+                    Button("cancel:string", role: .destructive) {
                         dismiss()
                     }
                     .buttonStyle(.borderedProminent)

@@ -14,7 +14,7 @@ import SwiftData
 final class ProjectsManager: ObservableObject {
     static let shared = ProjectsManager()
     
-    static let firstProjectName: String = "First project"
+    static let firstProjectName: String = "first.project:string".l
     let modelContext = DataBase.shared.modelContext
     
     @Published var projectViewModelsAll: [ProjectViewModel] = []

@@ -14,4 +14,14 @@ enum ContentLanguages: String, CaseIterable, Identifiable, Codable {
     
     var id: Self { self }
     var code: String {"\(self)"}
+
+    init?(code: String?) {
+        guard let code else { return nil }
+        switch code.lowercased() {
+        case "de": self = .de
+        case "en": self = .en
+        case "ru": self = .ru
+        default: return nil
+        }
+    }
 }

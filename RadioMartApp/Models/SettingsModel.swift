@@ -18,13 +18,12 @@ final class SettingsModel {
 
     
     @MainActor
-    init( contentLanguage: ContentLanguages = .de) {
-        print("*set")
-        self.contentLanguage = contentLanguage
+    init() {
+        self.contentLanguage = LocalizationManager.shared.currentLanguage
         self.currentTab = 0
         let firstInstance = Project(name: ProjectsManager.firstProjectName,userId: AuthManager.shared.userId)
         activProject = firstInstance
-        companyName = "My Company"
+        companyName = "start.company.name:string".l
     }
     
     @MainActor
